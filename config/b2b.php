@@ -83,6 +83,13 @@ return [
                 'show', 'edit',
             ],
         ],
+        'posts' => [
+            'name' => 'Новости',
+            'slug' => 'posts',
+            'permissions' => [
+                'show', 'create', 'edit', 'delete',
+            ],
+        ],
     ],
 
     'permissions_site' => [

@@ -138,6 +138,15 @@
             <i class="fa fa-circle-o"></i>Создать тикет
           </router-link>
         </li>
+
+        <li>
+          <router-link
+              v-if="this.$root.profile.permissions.users.show"
+              :to="{ name: 'posts' }"
+          >
+            <i class="fa fa-circle-o"></i>Новости
+          </router-link>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

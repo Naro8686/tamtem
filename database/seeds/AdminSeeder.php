@@ -15,15 +15,18 @@ class AdminSeeder extends Seeder
     {
         $permissions = config('b2b.permissions');
         $userPermissions = [];
+        $user = App\Models\User::where(['email' => 'admin@admin.com'])->first();
+        if (null === $user) {
+            $user = new App\Models\User();
+            $user->name = 'admin';
+            $user->password = Hash::make('admin');
+            $user->email = 'admin@admin.com';
+            $user->role = \App\Models\User::ROLE_ADMINISTRATOR;
+            $user->status = \App\Models\User::USER_STATUS_APPROVE;
+            $user->unique_id = UsersController::generateUniqueUserIdNumber();
+            $user->save();
+        }
 
-        $user = new App\Models\User();
-        $user->name = 'admin';
-        $user->password = Hash::make('admin');
-        $user->email = 'admin@admin.com';
-        $user->role = \App\Models\User::ROLE_ADMINISTRATOR;
-        $user->status = \App\Models\User::USER_STATUS_APPROVE;
-        $user->unique_id = UsersController::generateUniqueUserIdNumber();
-        $user->save();
 
         foreach ($permissions as $category) {
             $slug = $category['slug'];

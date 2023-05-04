@@ -25,6 +25,10 @@ import ModerationResponses from "../views/Deals/ModerationResponses";
 import ModerationResponsesList from "../views/Deals/ModerationResponsesList";
 import ModerationResponseShow from "../views/Deals/ModerationResponseView";
 
+import Posts from "../views/Posts/Index.vue";
+import PostsCreate from "../views/Posts/Create.vue";
+import PostsEdit from "../views/Posts/Edit.vue";
+
 import SendTicket from "../views/Users/SendTicket";
 const routes = [
   {
@@ -284,6 +288,46 @@ const routes = [
       permission: "publications.show"
     },
     component: ModerationDealsView
+  },
+
+  {
+    path: "/admin/posts",
+    name: "posts",
+    meta: {
+      title: "Новости",
+      breadcrumbs: [{ name: "Новости" }],
+      permission: "posts.show"
+    },
+    props: route => ({
+      ...route.query
+    }),
+    component: Posts
+  },
+  {
+    path: "/admin/posts/create",
+    name: "posts.create",
+    meta: {
+      title: "Новый новость",
+      breadcrumbs: [
+        { name: "Новости", path: "posts" },
+        { name: "Новый новость" }
+      ],
+      permission: "posts.create"
+    },
+    component: PostsCreate
+  },
+  {
+    path: "/admin/posts/edit/:id",
+    name: "posts.edit",
+    meta: {
+      title: "Редактирование новости",
+      breadcrumbs: [
+        { name: "Новости", path: "posts" },
+        { name: "Редактирование новости" }
+      ],
+      permission: "posts.edit"
+    },
+    component: PostsEdit
   },
 
   // 404
