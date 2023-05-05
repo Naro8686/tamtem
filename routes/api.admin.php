@@ -3,6 +3,9 @@
 // ToDo - fixmi add routes group
 // ToDo - Please REFACTOR controllers and add API Trait =)
 
+use App\Http\Controllers\Admin\PostsController;
+use Illuminate\Support\Facades\Route;
+
 Route::middleware(['auth'])->group(function () {
     Route::get('profile', 'Admin\ProfileController@profile')->name('profile');
     Route::get('sysinfo', 'Admin\AdminController@systemInfo')->name('sys.info');
@@ -201,5 +204,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('store', 'Admin\TagsController@create')->name('create');
         Route::post('{id}', 'Admin\TagsController@update')->name('update');
         Route::delete('{id}', 'Admin\TagsController@delete')->name('delete');
+    });
+
+    Route::prefix('posts')->group(function() {
+        Route::get('', 'Admin\PostsController@index')->name('posts.index');
+        Route::post('store', 'Admin\PostsController@store')->name('posts.store')->middleware('permission:posts.create');
+        Route::get('{id}', 'Admin\PostsController@get')->name('posts.get')->name('permission:posts.show');
+        Route::patch('{id}', 'Admin\PostsController@update')->name('posts.update')->middleware('permission:posts.edit');
+        Route::delete('{id}', 'Admin\PostsController@delete')->name('posts.delete')->middleware('permission:posts.delete');
     });
 });
