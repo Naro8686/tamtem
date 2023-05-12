@@ -2,7 +2,8 @@ import BidsList from '../views/Catalog/views/BidsList.vue'
 import BidDetail from '../views/Catalog/views/BidDetail.vue'
 
 const routes = [{
-		path: '/',
+		// path: '/',
+		path: '/optovyye-obyavleniya/bids/:parentSlug?/:slug?',
 		name: 'bids.list',
 		component: BidsList,
 		meta: {
@@ -13,7 +14,8 @@ const routes = [{
 		},
 	},
 	{
-		path: '/bids/:id',
+		// path: '/bids/:id',
+		path: '/optovyye-obyavleniya/bids/:id/detail',
 		name: 'bids.detail',
 		component: BidDetail,
 		meta: {
@@ -23,7 +25,8 @@ const routes = [{
 		},
 	},
 	{
-		path: '/!sales/:id',
+		// path: '/!sales/:id',
+		path: '/optovyye-obyavleniya/sales/:id/detail',
 		name: 'sells.detail',
 		component: BidDetail,
 		meta: {
@@ -32,7 +35,8 @@ const routes = [{
 		},
 	},
 	{
-		path: '/!sales',
+		//path: '/!sales',
+		path: '/optovyye-obyavleniya/sales/:parentSlug?/:slug?',
 		name: 'sells.list',
 		component: BidsList,
 		meta: {
