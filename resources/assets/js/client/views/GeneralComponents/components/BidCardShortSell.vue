@@ -36,14 +36,16 @@ export default {
 	},
 	filters: {
 		dateTransform(rawData) {
-			const data = rawData.split(" ")[0];
-			if (data) {
-				const [year, month, day] = data.split("-");
-				return `${day}.${month}.${year}`;
-			} else {
-				const [year, month, day] = rawData.split("-");
-				return `${day}.${month}.${year}`;
-			}
+      if(typeof rawData !== 'undefined') {
+        const data = rawData.split(" ")[0];
+        if (data) {
+          const [year, month, day] = data.split("-");
+          return `${day}.${month}.${year}`;
+        } else {
+          const [year, month, day] = rawData.split("-");
+          return `${day}.${month}.${year}`;
+        }
+      }
 		}
 	},
 	props: {

@@ -5,9 +5,9 @@ section#panel(v-if="profile")
       .panel__tabs
         ul.panel__tabs-list
           li.panel__tabs-item
-            a.panel__tabs-item-link(href="/bids" :class="{'panel__tabs-item-link_active' : activeType == 'buy'}") Заказы
+            a.panel__tabs-item-link(href="/optovyye-obyavleniya/bids" :class="{'panel__tabs-item-link_active' : activeType == 'buy'}") Заказы
           li.panel__tabs-item
-            a.panel__tabs-item-link(href="/!sales" :class="{'panel__tabs-item-link_active' : activeType == 'sell'}") Предложения
+            a.panel__tabs-item-link(href="/optovyye-obyavleniya/sales" :class="{'panel__tabs-item-link_active' : activeType == 'sell'}") Предложения
       .panel__widgets(v-if="!isMobile && $root.isAuth", :class="{'custom-dropdown_open': dropDownPanel}")
         .panel__favorites
           router-link(:to="{ name: 'lk.favorites' }")

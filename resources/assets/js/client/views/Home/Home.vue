@@ -4,7 +4,7 @@ section.homepage
 		div.container
 			div.homepage-firstscreen__inner
 				div.pagetype-switch.homepage__pageswitch
-					a(href="/").pagetype-switch__btn.is-active Для покупателей
+					a(href="/buyers").pagetype-switch__btn.is-active Для покупателей
 					a(href="/postavschic").pagetype-switch__btn Для поставщиков
 			div.homepage-firstscreen__inner
 				div.homepage-firstscreen__box
@@ -243,7 +243,7 @@ section.homepage
 								p Краудсо́рсинг — мобилизация ресурсов людей посредством информационных технологий.
 								
 			
-			section.news
+			section.news(v-if='news.length')
 					ul.news__list
 						li.news__item.news-item
 							div.news-item__head 

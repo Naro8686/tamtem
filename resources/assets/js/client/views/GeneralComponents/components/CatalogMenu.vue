@@ -40,7 +40,7 @@ export default {
 	computed: {
 		...mapState(["service"]),
 		...mapGetters(["getDefaultValue", "getCurrentValue"]),
-		...mapGetters("categories", ["getCategoryById", "getBidCatState", "getCatMenuState"]),
+		...mapGetters("categories", ["getCategoryById", "getCategoryBySlug", "getBidCatState", "getCatMenuState"]),
 		isMobile() {
 			return this.service.width <= 640;
 		}
@@ -67,25 +67,38 @@ export default {
 			this.changeRoute();
 		},
 		setCategory(category) {
-			this.categoryString = category.name;
+      // console.log('CatalogMenu setCategory');
+      // console.log(category);
+      this.categoryString = category.name;
 
 			const currentVal = Object.assign({}, this.getCurrentValue);
 			if (category.id) {
-				this.$set(currentVal, "category", category.id);
+				this.$set(currentVal, "category", category.slug);
+        if (category.parent_id) {
+          this.$set(currentVal, "parentSlug", category.parent_slug);
+          this.$set(currentVal, "slug", category.slug);
+        } else {
+          this.$set(currentVal, "parentSlug", category.slug);
+        }
 			} else {
 				this.$delete(currentVal, "category");
+				this.$delete(currentVal, "parentSlug");
+				this.$delete(currentVal, "slug");
 			}
 			let bidcatstate = {
 				open: true,
 				name: category.name,
 				id: category.id,
+				slug: category.slug,
 			}
 			if(category.name == "Все категории") {
 				bidcatstate.open = false
 			}
-			if(category.parent_id) {
+			if(category.parent_slug) {
 				bidcatstate.pId = category.parent_id;
-				bidcatstate.currSub = category.id;
+				bidcatstate.pSlug = category.parent_slug;
+        bidcatstate.currSub = category.id;
+				bidcatstate.currSubSlug = category.slug;
 			}
 			this.$set(currentVal, "page", 1);
 
@@ -138,7 +151,10 @@ export default {
 		},
 		changeRoute() {
 			const currentVal = Object.assign({}, this.getCurrentValue);
-			if (this.type == 'buy' && this.isBidsListPage) {
+      // console.log('CaralogMenu changeRoute');
+      // console.log(currentVal);
+
+      if (this.type == 'buy' && this.isBidsListPage) {
 				this.$router.push({
 					name: "bids.list",
 					query: currentVal

@@ -11,7 +11,7 @@ section#slider-categories(v-if="categoriesArray.length")
         template(v-for='category in categoriesArray')
           .item 
            .lolclass
-            a.sliders-categories__link(@click='routeToCategory(category.id)') {{category.name}}
+            a.sliders-categories__link(@click='routeToCategory(category.slug)') {{category.name}}
         template(slot="next")
           span(class="next")
             button.owl-button
@@ -22,7 +22,7 @@ section#slider-categories(v-if="categoriesArray.length")
             
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 import carousel from 'vue-owl-carousel'
 export default {
   
@@ -36,13 +36,27 @@ export default {
   },
   mounted() {
   },
-	methods: {		
-		routeToCategory(categoryItem) {  
-      this.$router.push('/bids?page=1&category=' + categoryItem)
+	methods: {
+    ...mapActions(["setNewVal"]),
+		routeToCategory(categoryItem) {
+      const currentVal = Object.assign({}, this.getCurrentValue);
+      this.$set(currentVal, "category", categoryItem);
+      this.$set(currentVal, "parentSlug", categoryItem);
+      this.$set(currentVal, "slug", null);
+      this.setNewVal(currentVal);
+      // this.$router.push('/bids?page=1&category=' + categoryItem)
+      // this.$router.push({
+      //   name: this.$router.currentRoute.name,
+      //   params: {
+      //     parentSlug: categoryItem,
+      //     slug: null
+      //   }
+      // }).catch(err => {});
     }
   },
   computed: {
     ...mapState("categories", ["categoriesArray"]),
+    ...mapGetters(["getDefaultValue", "getCurrentValue"]),
   }
 };
 </script>

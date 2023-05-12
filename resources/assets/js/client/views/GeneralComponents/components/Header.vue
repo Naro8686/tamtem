@@ -13,7 +13,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				li.mainmenu__item
 					a(href="/").mainmenu__link.animation-link-underline О нас
 				li.mainmenu__item
-					a(href="/!sales").mainmenu__link.animation-link-underline Оптовые объявления
+					a(href="/optovyye-obyavleniya/sales").mainmenu__link.animation-link-underline Оптовые объявления
 				li.mainmenu__item
 					a(href="/faq").mainmenu__link.animation-link-underline Помощь
 			section.modalmenu(
@@ -32,7 +32,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				nav.modalmenu__navigation
 					ul.modalmenu__menu-list
 						li.modalmenu__menu-item
-							a(@click="hideModalmenu()" href="/!sales" v-if="!isSellsPage").modalmenu__menu-link Оптовые объявления
+							a(@click="hideModalmenu()" href="/optovyye-obyavleniya/sales" v-if="!isSellsPage").modalmenu__menu-link Оптовые объявления
 							//a(@click="hideModalmenu()" href="/bids" v-else).modalmenu__menu-link Заказы
 						li.modalmenu__menu-item
 							a(href="/faq" @click="tofaq();").modalmenu__menu-link Помощь

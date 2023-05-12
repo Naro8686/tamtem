@@ -24,7 +24,7 @@ header(v-if="profile")
             li.header__nav-item
               a.header__nav-item-link.header__nav-item-link_active(href="/contact") О нас
             li.header__nav-item
-              a.header__nav-item-link(href="/!sales") Оптовые объявления
+              a.header__nav-item-link(href="/optovyye-obyavleniya/sales") Оптовые объявления
             li.header__nav-item
               a.header__nav-item-link(href="/faq", @click="tofaq()") Помощь
           .header__nav-info
