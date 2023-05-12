@@ -7,6 +7,7 @@
 namespace App\Repositories\Filters;
 
 
+use App\Models\Category;
 use App\Models\Org\Organization;
 use App\Models\Org\OrganizationDeal;
 use App\Models\User;
@@ -198,7 +199,11 @@ class FilterDealsRepository
 
         if (!empty($city)) $query->where('organizations_deals_cities.city_id', $city);  
    //     if (!empty($category)) $query->where('organizations_deals_categories.category_id', $category);  
-        if (!empty($category)) $query->whereIn('organizations_deals_categories.category_id', CategoryRepository::getIncludedTree(array($category)));  // покажем и все подкатегории
+//        if (!empty($category)) $query->whereIn('organizations_deals_categories.category_id', CategoryRepository::getIncludedTree(array($category)));  // покажем и все подкатегории
+        if (!empty($category)) {
+            $parentCategory = Category::where(['slug' => $category])->first();
+            $query->whereIn('organizations_deals_categories.category_id', CategoryRepository::getIncludedTree(array($parentCategory->id)));
+        }
         if (!empty($inDealName)) $query->where('organizations_deals.name', 'like', '%' . $inDealName . '%');  
 
 

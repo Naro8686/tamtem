@@ -157,7 +157,8 @@ class FilterController extends Controller
             'payment_status'    => 'sometimes|in:' . OrganizationDeal::DEAL_STATUS_PAYMENT_NOT_PAID . ','. OrganizationDeal::DEAL_STATUS_PAYMENT_FREE . ','. OrganizationDeal::DEAL_STATUS_PAYMENT_PAID,
             'region'            => 'sometimes|exists:regions,id',
             'city'              => 'sometimes|exists:cities,id',
-            'category'          => 'sometimes|exists:categories,id',
+//            'category'          => 'sometimes|exists:categories,id',
+            'category'          => 'sometimes|exists:categories,slug',
             'date_created'      => 'sometimes|in:ASC,DESC,asc,desc',
             'date_deadline'     => 'sometimes|in:ASC,DESC,asc,desc',
             'date_published'    => 'sometimes|in:ASC,DESC,asc,desc',
@@ -198,6 +199,7 @@ class FilterController extends Controller
         
         $region             = $input['region'] ?? null;
         $category           = $input['category'] ?? null;
+//        $parentSlug         = $input['parentSlug'] ?? null;
         $city               = $input['city'] ?? false;
         $datePublishedDeal  = (empty( $input['date_published'])) ? 'DESC' : $input['date_published'];
         $dateCreateDeal     = (empty( $input['date_created'])) ? 'DESC' : $input['date_created'];
