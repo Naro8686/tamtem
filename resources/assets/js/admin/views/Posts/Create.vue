@@ -97,6 +97,7 @@ export default {
       axios
           .post("/admin/api/posts/store", params)
           .then((resp) => {
+            this.$router.push({ name: "posts" });
             this.messageCreated();
           })
           .catch(this.handleErrorResponse);

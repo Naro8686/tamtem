@@ -243,7 +243,7 @@ section.homepage
 								p Краудсо́рсинг — мобилизация ресурсов людей посредством информационных технологий.
 								
 			
-			section.news(v-if='news.length')
+			section.news
 					ul.news__list
 						li.news__item.news-item
 							div.news-item__head 
@@ -536,9 +536,7 @@ export default {
       let newsItems = document.querySelectorAll('.news-item__head');
       let newsToggle = this.toggleNews
       for(let i=0;i<newsItems.length;i++) {
-        console.log(newsItems[i]);
         newsItems[i].addEventListener("click", function(){
-          console.log(newsItems[i].parentNode);
           newsToggle(newsItems[i].parentNode);
         })
       }
@@ -560,9 +558,9 @@ export default {
 		this.getData();
 	},
 	mounted() {
+    this.getNews()
 		this.getAllItems()
 		this.getAllNewsItems()
-		this.getNews()
 	},
 };
 </script>
