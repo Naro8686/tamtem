@@ -66,8 +66,8 @@ export default {
 			this.searchString = this.getCurrentValue.search || null;
 
 			if (this.getCurrentValue.category) {
-				const categoryId = this.getCurrentValue.category;
-				const category = this.getCategoryById(categoryId);
+				const categorySlug = this.getCurrentValue.category;
+				const category = this.getCategoryBySlug(categorySlug);
 				this.categoryString = category ? category.name : null;
 			} else {
 				this.categoryString = null;
@@ -172,7 +172,7 @@ export default {
 	computed: {
 		...mapState(["service"]),
 		...mapGetters(["getDefaultValue", "getCurrentValue"]),
-		...mapGetters("categories", ["getCategoryById", "getBidCatState", "getCatMenuState"]),
+		...mapGetters("categories", ["getCategoryById", "getCategoryBySlug", "getBidCatState", "getCatMenuState"]),
 		...mapGetters("regions", ["getRegionById"]),
 		isTablet() {
 			return this.service.width > 768;
@@ -181,9 +181,9 @@ export default {
 			return this.service.width > 992;
 		},
 		categoryName() {
-			if (this.getCurrentValue.category) {
-				const categoryId = this.getCurrentValue.category;
-				const category = this.getCategoryById(categoryId);
+      if (this.getCurrentValue.category) {
+				const categorySlug = this.getCurrentValue.category;
+				const category = this.getCategoryBySlug(categorySlug);
 				this.categoryString = category ? category.name : null;
 			} else {
 				this.categoryString = null;

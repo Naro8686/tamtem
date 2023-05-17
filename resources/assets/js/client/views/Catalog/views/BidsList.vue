@@ -116,7 +116,8 @@ export default {
 			type: '',
 			catAsideOpen: false,
 			// activeCategoryName: "Все категории",
-			activeCatId: null
+			activeCatId: null,
+			activeCatSlug: null
 			// subcategories: []
 		};
 	},
@@ -125,7 +126,9 @@ export default {
 		...mapGetters(["getDefaultValue", "getCurrentValue", "getLoadingState"]),
 		...mapGetters("categories", [
 			"getSubCategoriesByParentId",
+			"getSubCategoriesByParentSlug",
 			"getCategoryById",
+			"getCategoryBySlug",
 			"getBidCatState"
 		]),
 		paramsChange: {
@@ -140,10 +143,10 @@ export default {
 			return "/api/v1/filter/deals";
 		},
 		subCategories() {
-			if(this.getBidCatState.pId) {
-				return this.getSubCategoriesByParentId(this.getBidCatState.pId);
+			if(this.getBidCatState.pSlug) {
+				return this.getSubCategoriesByParentSlug(this.getBidCatState.pSlug);
 			}
-			return this.getSubCategoriesByParentId(this.getBidCatState.id || this.getCurrentValue.category);
+			return this.getSubCategoriesByParentSlug(this.getBidCatState.slug || this.getCurrentValue.category);
 		},
 	},
 	methods: {
@@ -151,8 +154,10 @@ export default {
 		...mapActions("categories", ["bidCategoryAct"]),
 		// этот метод нужен, чтобы установить новое текущее состояние в хранилище
 		getParamsfromRoute() {
-			const currentVal = Object.assign({}, this.getDefaultValue);
-
+      // console.log('Bilds List getParamsfromRoute ');
+      // console.log(this.getDefaultValue);
+      const currentVal = Object.assign({}, this.getDefaultValue);
+      const currentParams = this.$router.currentRoute.params;
 			// берет либо параметр из роута, либо стандартное значение
 			currentVal.page = this.$route.query.page || 1;
 			currentVal.per_page = this.$route.query.per_page || 12;
@@ -168,9 +173,14 @@ export default {
 			if (this.$route.query.search) {
 				this.$set(currentVal, "search", this.$route.query.search);
 			}
-			if (this.$route.query.category) {
-				this.$set(currentVal, "category", this.$route.query.category);
-			}
+      if (currentParams.parentSlug && currentParams.slug) {
+        this.$set(currentVal, "category", currentParams.slug);
+        this.$set(currentVal, "parentSlug", currentParams.parentSlug);
+        this.$set(currentVal, "slug", currentParams.slug);
+      } else if (currentParams.parentSlug && !currentParams.slug) {
+        this.$set(currentVal, "category", currentParams.parentSlug);
+        this.$set(currentVal, "parentSlug", currentParams.parentSlug);
+      }
 			if (this.$route.query.region) {
 				this.$set(currentVal, "region", this.$route.query.region);
 			}
@@ -235,21 +245,34 @@ export default {
 		setCategory(category) {
 			// this.categoryString = category.name;
 			this.activeCatId = category.id;
+			this.activeCatClug = category.slug;
 			const currentVal = Object.assign({}, this.getCurrentValue);
 			let bidcatstate = {
 				open: true,
 				name: category.name,
 				id: category.id,
+				slug: category.slug,
 			}
-			if (category.id) {
-				this.$set(currentVal, "category", category.id);
+			if (category.slug) {
+				this.$set(currentVal, "category", category.slug);
+        if (category.parent_slug) {
+          this.$set(currentVal, "parentSlug", category.parent_slug);
+          this.$set(currentVal, "slug", category.slug);
+        } else {
+          this.$set(currentVal, "parentSlug", category.slug);
+          this.$set(currentVal, "slug", null);
+        }
 			} else {
 				this.$delete(currentVal, "category");
+				this.$delete(currentVal, "parentSlug");
+				this.$delete(currentVal, "slug");
 			}
 			this.$set(currentVal, "page", 1);
-			if(category.parent_id) {
+			if(category.parent_slug) {
 				bidcatstate.pId = category.parent_id;
+				bidcatstate.pSlug = category.parent_slug;
 				bidcatstate.currSub = this.activeCatId;
+				bidcatstate.currSubSlug = this.activeCatSlug;
 			}
 			// вызов метода, объявленного через mapActions (вызывает action хранилища)
 			this.bidCategoryAct(bidcatstate);
@@ -266,7 +289,8 @@ export default {
 			}
 		},
 		changeRoute() {
-			const currentVal = Object.assign({}, this.getCurrentValue);
+      // console.log('Bilds List change route');
+      const currentVal = Object.assign({}, this.getCurrentValue);
 			if (this.type == 'buy' && this.isBidsListPage) {
 				this.$router.push({
 					name: "bids.list",
@@ -284,20 +308,70 @@ export default {
 	},
 	watch: {
 		$route(to, from) {
-			this.type = to.meta.type;
+      // console.log('BidsList watch route');
+      // console.log(this.getCurrentValue);
+      this.type = to.meta.type;
 			this.getParamsfromRoute();
 			this.getData();
 		},
 		getCurrentValue: {
 			handler(newVal) {
-				const path = this.$router.history.current.path;
-				this.$router.push( { path: `${path}?${Api.serializeQueryParams(this.getCurrentValue)}`} ).catch(err => {});
+        //TO DO changes here
+        // console.log('BidsList watch getCurrentValue handler');
+        // console.log(this.getCurrentValue);
+        const params = {}
+        const queryParams = {}
+
+        if (this.getCurrentValue.parentSlug) {
+          params.parentSlug = this.getCurrentValue.parentSlug;
+        }
+
+        if (this.getCurrentValue.slug) {
+          params.slug = this.getCurrentValue.slug;
+        }
+
+        if (this.getCurrentValue.page) {
+          queryParams.page = this.getCurrentValue.page;
+        }
+
+        if (this.getCurrentValue.region) {
+          queryParams.region = this.getCurrentValue.region;
+        }
+
+        if (this.getCurrentValue.search) {
+          queryParams.search = this.getCurrentValue.search;
+        }
+
+        this.$router.push({
+          name: this.$router.currentRoute.name,
+          params: params,
+          query: queryParams
+        }).catch(err => {
+        });
+        // const path = this.$router.history.current.path;
+				// this.$router.push(
+				// `${path}?${Api.serializeQueryParams(this.getCurrentValue)}`
+				// ).catch(err => {});
 			},
 			deep: true
 		},
+    subCategories(newVal) {
+    },
 	},
 	created() {
-		this.type = this.$route.meta.type
+    const currentParams = this.$router.currentRoute.params;
+    const currentVal = Object.assign({}, this.getDefaultValue);
+    if (currentParams.parentSlug && currentParams.slug) {
+      this.$set(currentVal, "category", currentParams.slug);
+      this.$set(currentVal, "parentSlug", currentParams.parentSlug);
+      this.$set(currentVal, "slug", currentParams.slug);
+    } else if (currentParams.parentSlug && !currentParams.slug) {
+      this.$set(currentVal, "category", currentParams.parentSlug);
+      this.$set(currentVal, "parentSlug", currentParams.parentSlug);
+    }
+    this.setNewVal(currentVal);
+
+    this.type = this.$route.meta.type
 		this.getParamsfromRoute();
 
 		const path = this.$router.history.current.path;

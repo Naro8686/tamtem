@@ -13,7 +13,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				li.mainmenu__item
 					a(href="/" @click.prevent="goToUrlWithReachGoal('onas', '/')" :class="{ 'active' : $route.name === 'homepage' }").mainmenu__link.animation-link-underline О нас
 				li.mainmenu__item
-					a(href="/!sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/!sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
+					a(href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
 				li.mainmenu__item
 					a(href="/faq").mainmenu__link.animation-link-underline Помощь
 			section.modalmenu(
@@ -32,7 +32,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				nav.modalmenu__navigation
 					ul.modalmenu__menu-list
 						li.modalmenu__menu-item
-							a(@click="hideModalmenu()" href="/!sales" v-if="!isSellsPage").modalmenu__menu-link Оптовые объявления
+							a(@click="hideModalmenu()" href="/optovyye-obyavleniya/sales" v-if="!isSellsPage").modalmenu__menu-link Оптовые объявления
 							//a(@click="hideModalmenu()" href="/bids" v-else).modalmenu__menu-link Заказы
 						li.modalmenu__menu-item
 							a(href="/faq" @click="tofaq();").modalmenu__menu-link Помощь
@@ -47,7 +47,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 		section.curr(v-if="!isHomePage")
 			div.curr__main
 				p.curr__main-icon
-					img(src="images/icon-ru.svg" alt="")
+					img(src="/images/icon-ru.svg" alt="")
 				p.curr__main-symb ₽
 				button(@click.prevent="toggleCurrModal").curr__main-arrow
 					<svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,12 +58,12 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				ul.curr__modal-list
 					li.curr__modal-item
 						p.curr__modal-icon
-							img(src="images/icon-ru.svg" alt="")
+							img(src="/images/icon-ru.svg" alt="")
 						p.curr__modal-symb ₽
 						p.curr__modal-name Russia (Россия)
 					li.curr__modal-item
 						p.curr__modal-icon
-							img(src="images/icon-br.svg" alt="")
+							img(src="/images/icon-br.svg" alt="")
 						p.curr__modal-symb Br
 						p.curr__modal-name Belarus (Беларусь)
 		section.createorder.mainheader__createorder(v-if="!isHomePage")
@@ -84,7 +84,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 			div.profile__section(v-if="!$root.isAuth")
 					a(href="/lk/profile").profile__box-homepage
 						div.profile__box-homepage-pic
-							img(src="images/home/log-in.png" alt="log in")
+							img(src="/images/home/log-in.png" alt="log in")
 						p.profile__box-homepage-txt Войти
 				
 			div.head-acc__logged(v-else)
@@ -106,10 +106,10 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				div.head-acc__modal(v-if="logMenuShow" v-click-outside="hideProfileModal")
 					div.head-acc__modal-inner
 						router-link(:to="{name: 'lk.deals'}").head-acc__modal-link
-							img(src="images/icon-account.svg" alt="")
+							img(src="/images/icon-account.svg" alt="")
 							span Личный кабинет
 						a(href="logout" @click.prevent="logout").head-acc__modal-link
-							img(src="images/icon-exit.svg" alt="")
+							img(src="/images/icon-exit.svg" alt="")
 							span Выход
 </template>
 <script>

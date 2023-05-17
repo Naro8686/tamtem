@@ -47,7 +47,7 @@ class CategoryRepository
     public static function getCategoryTree()
     {
         return Cache::remember('api.category.tree', config('b2b.cache_time'), function () {
-            return self::makeNested(Category::all(['id', 'parent_id', 'name', 'description', 'cl_icon', 'cl_background'])->keyBy('id')->toArray());
+            return self::makeNested(Category::all(['id','slug', 'parent_slug', 'parent_id', 'name', 'description', 'cl_icon', 'cl_background'])->keyBy('id')->toArray());
         });
     }
 

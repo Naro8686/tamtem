@@ -8,6 +8,7 @@ const categoriesModule = {
 		bidCategory: {
 			open: false,
 			id: null,
+			slug: null,
 			name: "Все категории"
 		},
 		catMenu: {
@@ -38,9 +39,20 @@ const categoriesModule = {
 			});
 			return result ? result.items : [];
 		},
+		getSubCategoriesByParentSlug: state => slug => {
+			const result = state.categoriesArray.find(item => {
+				return item.slug === slug;
+			});
+			return result ? result.items : [];
+		},
 		getCategoryById: state => id => {
 			return state.flatCategoriesArray.find(item => {
 				return item.id == id;
+			});
+		},
+		getCategoryBySlug: state => slug => {
+			return state.flatCategoriesArray.find(item => {
+				return item.slug == slug;
 			});
 		},
 		getBidCatState(state) {

@@ -84,7 +84,8 @@ export default {
 		return {
 			activeCategory: {
 				id: null,
-				name: null
+				name: null,
+        slug: null
 			},
 			subMobileShow: false
 		};
@@ -97,10 +98,13 @@ export default {
 			this.clickHandler(event);
 		});
 
-		const currentCategoryId = this.getCurrentValuePropertyByKey("category");
-		if (currentCategoryId) {
-			const parentId = this.getCategoryById(currentCategoryId).parent_id;
-			this.activeCategory = this.getCategoryById(parentId || currentCategoryId);
+		const currentCategorySlug = this.getCurrentValuePropertyByKey("category");
+    // console.log('categories component created');
+    // console.log(currentCategorySlug);
+    if (currentCategorySlug) {
+      // console.log(this.getCategoryBySlug(currentCategorySlug));
+      const parentSlug = this.getCategoryBySlug(currentCategorySlug).parent_slug;
+			this.activeCategory = this.getCategoryBySlug(parentSlug || currentCategorySlug);
 		}
 	},
 	destroyed() {
@@ -109,7 +113,9 @@ export default {
 	methods: {
 		selectCategory(category) {
 			const result = category.id == -1 ? this.activeCategory : category;
-			this.$emit("selectCategory", result);
+      // console.log('categories component selectCategory');
+      // console.log(result);
+      this.$emit("selectCategory", result);
 		},
 		clickHandler(event) {
 			event.target.classList.contains("body-overlay--transparent") ?
@@ -125,7 +131,8 @@ export default {
 			} else {
 				this.activeCategory = {
 					id: null,
-					name: null
+					name: null,
+          slug: null
 				};
 			}
 		},
@@ -145,12 +152,14 @@ export default {
 		...mapState("categories", ["categoriesArray"]),
 		...mapGetters("categories", [
 			"getSubCategoriesByParentId",
+			"getSubCategoriesByParentSlug",
 			"getCategoryById",
+			"getCategoryBySlug",
 			"getBidCatState"
 		]),
 		...mapGetters(["getCurrentValuePropertyByKey"]),
 		subCategories() {
-			return this.getSubCategoriesByParentId(this.activeCategory.id);
+			return this.getSubCategoriesByParentSlug(this.activeCategory.slug);
 		},
 		isDesktop() {
 			return this.service.width > 992;

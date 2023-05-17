@@ -3,8 +3,8 @@
 		div.container.subheader__container
 			div.subheader__inner
 				nav.subheader__types
-					a(href="/bids" :class="{'is-active' : activeType == 'buy'}").subheader__type Заказы
-					a(href="/!sales" :class="{'is-active' : activeType == 'sell'}").subheader__type Предложения
+					a(href="/optovyye-obyavleniya/bids" :class="{'is-active' : activeType == 'buy'}").subheader__type Заказы
+					a(href="/optovyye-obyavleniya/sales" :class="{'is-active' : activeType == 'sell'}").subheader__type Предложения
 				section.subheader__profile
 					div.subheader__autorize(v-if="!$root.isAuth")
 						a(
