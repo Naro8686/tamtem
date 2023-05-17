@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client\Api\v1;
 
 use App\Models\News;
+use App\Models\Post;
 use App\Traits\ApiControllerTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,11 @@ class NewsController extends Controller
         return $this->successResponse(
             NewsItemFormatter::format($news)
         );
+    }
+
+    public function adminNews()
+    {
+        return $this->successResponse(Post::all());
     }
 
 }

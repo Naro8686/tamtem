@@ -241,6 +241,26 @@ section.homepage
 										feather(type="minus")
 							div.answer__text
 								p Краудсо́рсинг — мобилизация ресурсов людей посредством информационных технологий.
+
+
+			section.news
+					ul.news__list
+						li.news__item.news-item
+							div.news-item__head
+								p.news-item__name Текстовой блог
+								span.news-item__icon
+									i.news-item__icon-closed
+										feather(type="plus")
+									i.news-item__icon-opened
+										feather(type="minus")
+							div.news-item__text
+								div.post(v-for='(newsItem,key) in news')
+									div.post-data(v-if='key<1')
+										h1 {{newsItem.title}}
+										p.post-body(v-html='newsItem.body')
+									div.post-data(v-else)
+										h2 {{newsItem.title}}
+										p.post-body(v-html='newsItem.body')
 			div.homepage-faq__questions
 				h3.homepage-faq__questions-title Остались вопросы?
 				p.homepage-faq__questions-here #[a(href="/faq" @click.prevent="goToUrlWithReachGoal('zdesvopros', '/faq')") Здесь] Вы найдете больше информации.
@@ -423,7 +443,9 @@ export default {
   },
   computed: {
 		...mapGetters("createBid", ["getStep"]),
-
+    ...mapGetters({
+      news: 'news/getAdminNews',
+    }),
   },
   methods: {
     ...mapActions("createBid", ["saveStep"]),
@@ -509,12 +531,35 @@ export default {
 			el.classList.toggle('opened');
 			this.currentItem = el
 		},
+    getAllNewsItems() {
+      let newsItems = document.querySelectorAll('.news-item__head');
+      let newsToggle = this.toggleNews
+      for(let i=0;i<newsItems.length;i++) {
+        newsItems[i].addEventListener("click", function(){
+          newsToggle(newsItems[i].parentNode);
+        })
+      }
+    },
+    toggleNews(el) {
+      if(this.currentItem && this.currentItem !== el) {
+        this.currentItem.classList.remove('opened')
+        this.currentItem = el
+      }
+      el.classList.toggle('opened');
+      this.currentItem = el
+    },
+
+    async getNews() {
+      await this.$store.dispatch('news/loadAdminNews');
+    },
   },
 	created() {
 		this.getData();
 	},
 	mounted() {
-		this.getAllItems();
+    this.getNews()
+		this.getAllItems()
+		this.getAllNewsItems()
 	},
 };
 </script>
@@ -1527,6 +1572,170 @@ $color-prim: #3393FF;
 			color: #11141A;
 		}
 	}
+
+  .news {
+    @include contentbox;
+    margin-bottom: 58px;
+    padding: 0px;
+    overflow: hidden;
+    &__title {
+      font-size: 26px;
+      font-weight: 500;
+      color: $color-base-accent;
+      margin: 60px 60px 60px 60px;
+      @media(max-width: 768px) {
+        margin: 41px 31px;
+      }
+      @media(max-width: 425px) {
+        font-size: 20px;
+        margin: 36px 17px;
+      }
+    }
+    &__item {
+      cursor: pointer;
+      list-style: none;
+    }
+  }
+  .news-item {
+    a {
+      color: #000;
+      text-decoration: underline;
+    }
+    &__head {
+      padding: 0 60px;
+      display: flex;
+      // justify-content: space-between;
+      position: relative;
+      @media(max-width: 768px) {
+        padding: 0 31px;
+      }
+      @media(max-width: 425px) {
+        padding: 0 17px;
+      }
+    }
+    &__name {
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 500;
+      padding: 45px 0;
+      width: 100%;
+      border-top: 1px solid $color-border-gray;
+      padding-right: 25px;
+      @media(max-width: 768px) {
+        font-size: 17px;
+        padding: 32px 0;
+        padding-right: 25px;
+      }
+      @media(max-width: 425px) {
+        font-size: 15px;
+        padding: 28px 0;
+        padding-right: 25px;
+      }
+    }
+    &__icon {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      right: 60px;
+      top: calc(50% - 12px);
+      @media(max-width: 768px) {
+        right: 31px;
+      }
+      @media(max-width: 425px) {
+        right: 17px;
+      }
+      & /deep/ svg {
+        stroke: $color-base-accent;
+        stroke-width: 3px;
+        @media(max-width: 425px) {
+          stroke-width: 2px;
+        }
+      }
+      &-opened {
+        display: none;
+      }
+    }
+    &__text {
+      color: #fff;
+      background-color: $color-base-accent;
+      font-size: 18px;
+      line-height: 28px;
+      @media(max-width: 768px) {
+        font-size: 17px;
+      }
+      @media(max-width: 425px) {
+        font-size: 15px;
+      }
+      div {
+        padding-bottom: 14px;
+      }
+      a {
+        color: #fff;
+        text-decoration: underline;
+      }
+      p, ul, ol {
+        width: 60%;
+        @media(max-width: 768px) {
+          width: 90%;
+        }
+        @media(max-width: 425px) {
+          width: 100%;
+          padding-right: 10px;
+        }
+      }
+      p:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      ul {
+        margin-bottom: 15px;
+        margin-left: 20px;
+        li {
+          list-style-type: disc;
+        }
+      }
+      ol {
+        margin-bottom: 15px;
+        margin-left: 20px;
+      }
+      // unactive
+      height: 0;
+      overflow: hidden;
+      padding: 0;
+      transition: 0.3s;
+    }
+    &.opened {
+      a {
+        color: #fff;
+      }
+      .news-item__head {
+        background: $color-base-accent;
+        color: #fff;
+      }
+      .news-item__name {
+        border: none;
+      }
+      .news-item__icon-closed {
+        display: none;
+      }
+      .news-item__icon-opened {
+        display: block;
+        & /deep/ svg {
+          stroke: #fff;
+        }
+      }
+      .news-item__text {
+        height: auto;
+        padding: 45px 60px;
+        @media(max-width: 768px) {
+          padding: 34px 31px;
+        }
+        @media(max-width: 425px) {
+          padding: 32px 17px;
+        }
+      }
+    }
+  }
 }
 .homepage-tarifs {
   background-color: $color-cold-soft;

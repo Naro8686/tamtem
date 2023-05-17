@@ -59,6 +59,7 @@ Route::prefix('kladr')->group(function () {
 
 // Site news by category
 Route::get('news', 'Client\Api\v1\NewsController@news');
+Route::get('admin-news', 'Client\Api\v1\NewsController@adminNews');
 Route::get('news/{id}', 'Client\Api\v1\NewsController@newsShow');
 
 // Categories

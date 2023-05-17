@@ -7,6 +7,7 @@ import categoriesModule from "./categories-module";
 import regionsModule from "./regions-module";
 import createBidModule from "./createBid-module";
 import favouritesModule from "./favourites-module";
+import newsModule from "./news-module"
 
 Vue.use(Vuex);
 
@@ -18,6 +19,6 @@ export const store = new Vuex.Store({
         categories: categoriesModule,
         regions: regionsModule,
         createBid: createBidModule,
-        favourites: favouritesModule
+        news: newsModule,
     }
 });
