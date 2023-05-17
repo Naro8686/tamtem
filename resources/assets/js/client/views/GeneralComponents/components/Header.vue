@@ -23,7 +23,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 					router-link.modalmenu__logo(:to="{name: 'homepage'}")
 						logoheader(variant="modalmenu")
 					.modalmenu__close
-						a(href="close").modalmenu__logo(@click.prevent="hideModalmenu()")
+						a.modalmenu__logo(href="close", @click.prevent="hideModalmenu()")
 							svg(xmlns="http://www.w3.org/2000/svg" width="15.557" height="15.556" viewBox="0 0 15.557 15.556")
 								g(fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2")
 									path(d="M14.142 1.414L1.414 14.1419")
@@ -47,7 +47,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 		section.curr(v-if="!isHomePage")
 			div.curr__main
 				p.curr__main-icon
-					img(src="images/icon-ru.svg" alt="")
+					img(src="/images/icon-ru.svg" alt="")
 				p.curr__main-symb ₽
 				button(@click.prevent="toggleCurrModal").curr__main-arrow
 					<svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,12 +58,12 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				ul.curr__modal-list
 					li.curr__modal-item
 						p.curr__modal-icon
-							img(src="images/icon-ru.svg" alt="")
+							img(src="/images/icon-ru.svg" alt="")
 						p.curr__modal-symb ₽
 						p.curr__modal-name Russia (Россия)
 					li.curr__modal-item
 						p.curr__modal-icon
-							img(src="images/icon-br.svg" alt="")
+							img(src="/images/icon-br.svg" alt="")
 						p.curr__modal-symb Br
 						p.curr__modal-name Belarus (Беларусь)
 		section.createorder.mainheader__createorder(v-if="!isHomePage")
@@ -84,7 +84,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 			div.profile__section(v-if="!$root.isAuth")
 					a(href="/lk/profile").profile__box-homepage
 						div.profile__box-homepage-pic
-							img(src="images/home/log-in.png" alt="log in")
+							img(src="/images/home/log-in.png" alt="log in")
 						p.profile__box-homepage-txt Войти
 				
 			div.head-acc__logged(v-else)
@@ -103,10 +103,10 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 				div.head-acc__modal(v-if="logMenuShow" v-click-outside="hideProfileModal")
 					div.head-acc__modal-inner
 						router-link(:to="{name: 'lk.deals'}").head-acc__modal-link 
-							img(src="images/icon-account.svg" alt="")
+							img(src="/images/icon-account.svg" alt="")
 							span Личный кабинет
 						a(href="logout" @click.prevent="logout").head-acc__modal-link 
-							img(src="images/icon-exit.svg" alt="")
+							img(src="/images/icon-exit.svg" alt="")
 							span Выход
 </template>
 <script>

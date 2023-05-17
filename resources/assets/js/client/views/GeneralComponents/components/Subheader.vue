@@ -29,10 +29,10 @@
 							div.s-p-log__modal(v-if="logMenuShow" v-click-outside="hideProfileModal")
 								div.s-p-log__modal-inner
 									router-link(:to="{name: 'lk.profile'}").s-p-log__modal-link
-										img(src="images/icon-account.svg" alt="")
+										img(src="/images/icon-account.svg" alt="")
 										span Личный кабинет
 									a(href="logout" @click.prevent="logout").s-p-log__modal-link
-										img(src="images/icon-exit.svg" alt="")
+										img(src="/images/icon-exit.svg" alt="")
 										span Выход
 		div.subheader__categories
 			category-carousel

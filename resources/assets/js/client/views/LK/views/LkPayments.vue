@@ -109,7 +109,7 @@ main
         .sidebar
           .name_card
             p.name_card_name Олег Иванов
-            img(src="images/logo.png")
+            img(src="/images/logo.png")
             .name_card_info
               p.name_card_info_bold_text Восток-М
               p.name_card_info_default_text Нижний Новгород
@@ -118,34 +118,34 @@ main
             ul
               li.active
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Мои объявления
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Отклики
                 .sidebar_circle 2
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Закладки
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Сообщения
                 .sidebar_circle 2
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Кошелёк
                 .sidebar_money 0 ₽
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Платные услуги
               li
                 .sidebar_text
-                  img(src="images/paid services.png")
+                  img(src="/images/paid services.png")
                   span Настройки
         .main-content
           .tabs
