@@ -348,6 +348,7 @@ export default {
           query: queryParams
         }).catch(err => {
         });
+        console.log(this.getBidCatState);
         // const path = this.$router.history.current.path;
 				// this.$router.push(
 				// `${path}?${Api.serializeQueryParams(this.getCurrentValue)}`

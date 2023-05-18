@@ -79,6 +79,7 @@ export default {
           this.$set(currentVal, "slug", category.slug);
         } else {
           this.$set(currentVal, "parentSlug", category.slug);
+          this.$set(currentVal, "slug", null);
         }
 			} else {
 				this.$delete(currentVal, "category");

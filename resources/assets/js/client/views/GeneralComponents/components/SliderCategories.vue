@@ -11,7 +11,7 @@ section#slider-categories(v-if="categoriesArray.length")
         template(v-for='category in categoriesArray')
           .item 
            .lolclass
-            a.sliders-categories__link(@click='routeToCategory(category.slug)') {{category.name}}
+            a.sliders-categories__link(@click='routeToCategory(category)') {{category.name}}
         template(slot="next")
           span(class="next")
             button.owl-button
@@ -38,12 +38,27 @@ export default {
   },
 	methods: {
     ...mapActions(["setNewVal"]),
+    ...mapActions("categories", ["bidCategoryAct"]),
 		routeToCategory(categoryItem) {
       const currentVal = Object.assign({}, this.getCurrentValue);
-      this.$set(currentVal, "category", categoryItem);
-      this.$set(currentVal, "parentSlug", categoryItem);
+      this.$set(currentVal, "category", categoryItem.slug);
+      this.$set(currentVal, "parentSlug", categoryItem.slug);
       this.$set(currentVal, "slug", null);
+      this.$set(currentVal, "page", 1);
       this.setNewVal(currentVal);
+
+      let bidcatstate = {
+        open: true,
+        name: categoryItem.name,
+        id: categoryItem.id,
+        slug: categoryItem.slug,
+      }
+      bidcatstate.pId = null;
+      bidcatstate.pSlug = null;
+      bidcatstate.currSub = null;
+      bidcatstate.currSubSlug = null;
+      this.bidCategoryAct(bidcatstate);
+
       // this.$router.push('/bids?page=1&category=' + categoryItem)
       // this.$router.push({
       //   name: this.$router.currentRoute.name,

@@ -50,8 +50,8 @@
 							</g>
 						</svg></a>
 					<ul class="mainmenu__list notablet">
-						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/bids">Заказы</a></li>
-						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/!sales">Оптовые объявления</a></li>
+						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/optovyye-obyavleniya/bids">Заказы</a></li>
+						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/optovyye-obyavleniya/sales">Оптовые объявления</a></li>
 						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/faq">С чего
 								начать?</a></li>
 						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline"
@@ -79,8 +79,8 @@
 							<ul class="modalmenu__menu-list">
 								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/lk/bids#actived">Личный кабинет</a>
 								</li>
-								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/bids">Заказы</a></li>
-								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/!sales">Оптовые объявления</a></li>
+								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/optovyye-obyavleniya/bids">Заказы</a></li>
+								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/optovyye-obyavleniya/sales">Оптовые объявления</a></li>
 								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="/faq">FAQ</a></li>
 								<li class="modalmenu__menu-item"><a class="modalmenu__menu-link" href="http://blog.tamtem.ru/">Блог</a>
 								</li>

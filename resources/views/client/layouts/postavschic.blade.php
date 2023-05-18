@@ -51,7 +51,7 @@
 					<ul class="mainmenu__list notablet">
 						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline"
 								href="/postavschic" onclick="ym(76387882,'reachGoal','onas')">О нас</a></li> <!-- TODO change link -->
-						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/!sales" onclick="ym(76387882,'reachGoal','optovieob')">Оптовые заявления</a></li>
+						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline" href="/optovyye-obyavleniya/sales" onclick="ym(76387882,'reachGoal','optovieob')">Оптовые заявления</a></li>
 						<li class="mainmenu__item"><a class="mainmenu__link animation-link-underline"
 								href="/faq">Помощь</a></li>
 					</ul>

@@ -20,5 +20,6 @@ export const store = new Vuex.Store({
         regions: regionsModule,
         createBid: createBidModule,
         news: newsModule,
+        favourites: favouritesModule
     }
 });
