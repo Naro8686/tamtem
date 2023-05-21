@@ -3,11 +3,11 @@
   template(v-if="dealList && dealList.items && dealList.items.length")
     .order_block_outside(v-for="(bid, ind) in dealList.items", :key="bid.id")
       BidCardShortNew(:bid="bid", :index="ind", type="edit")
-  .order_empty(v-else-if="this.typeDeal === 'bids'")
+  .order_empty(v-else-if="this.typeDeal === 'sell'")
     img(src="/images/icon no ads.png")
     p
       | Разместите&nbsp;
-      router-link(:to="{name : 'new.bid'}") Новое Предложение
+      router-link(:to="{name : 'new.sell'}") Новое Предложение
       | , чтобы получать отклики от поставщиков
   .order_empty(v-else)
     img(src="/images/icon no ads.png")
@@ -58,6 +58,8 @@ export default {
   },
   watch: {
     typeDeal() {
+      console.log('BidsListNew watch typeDeal');
+      console.log(this.typeDeal);
       this.load()
     }
   },
