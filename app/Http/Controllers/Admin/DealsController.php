@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Notifications\SendEmailModerate;
 use App\Notifications\SendEmailModerateResponse;
 use App\Notifications\SendEmailModerateNewResponse;
+use App\Notifications\SendStatusChangeNotification;
 use App\Traits\ApiControllerTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -547,6 +548,9 @@ class DealsController extends Controller
 
 
         $deals->notify(new SendEmailModerate('Модерация отклонена', 'Ваша заявка отклонена администратором.',  url('bids/' . $deals->id)));
+
+        $user = $deals->user()->first();
+        $deals->notify(new SendStatusChangeNotification('Ваша заявка отклонена администратором.', $user, $deals));
 
         return $this->successResponse();
 
