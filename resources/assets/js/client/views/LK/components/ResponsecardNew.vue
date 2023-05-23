@@ -15,7 +15,7 @@ article(:class="[cardStatus, {'responsecard--folded' : folded}, {'responsecard--
             span.response_span_type Отклик:
             span.response_span_date 20.06.2020
           p.price_p
-            span.response_span_price {{response.priceOffer}} ₽
+            span.response_span_price {{response.priceOffer}} {{response.priceCurrency}}
             span
               svg(width="22", height="16", viewBox="0 0 22 16", fill="none", xmlns="http://www.w3.org/2000/svg")
                 path(

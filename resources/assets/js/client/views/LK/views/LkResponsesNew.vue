@@ -20,7 +20,11 @@ export default {
   data() {
     return {
       loading: false,
-      responsesList: null
+      responsesList: null,
+      currencies: {
+        rur: '₽',
+        br: 'Br'
+      }
     }
   },
   beforeMount() {
@@ -143,6 +147,7 @@ export default {
           budget_from: item.deal.budget_from,
           budget_with_nds: item.deal.budget_with_nds,
           priceOffer: item.price_offer,
+          priceCurrency: this.currencies[item.price_currency],
           is_shipping_included: item.is_shipping_included,
           dealPeriod: item.deal.date_of_event,
           isPayed: item.deal.is_payed,

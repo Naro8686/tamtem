@@ -45,7 +45,7 @@ class DealsResponsesCurrentUserItemFormatter extends Formatter
                 'id' => $item->id,
                 'trading_status' => $item->trading_status,
                 'price_offer' => $item->price_offer,
-                'trading_status' => $item->trading_status,
+                'price_currency' => $item->price_currency,
                 'is_shipping_included' => $item->is_shipping_included,
                 'notice' => $item->notice,
                 'files' => $item->files->map(function ($itm, $key) {

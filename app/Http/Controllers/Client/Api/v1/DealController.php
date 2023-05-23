@@ -413,14 +413,14 @@ class DealController extends Controller
 			// ==============================END  Платность услуги рассылки оповещений по эмайл ============================================================
 
 			$deal->notify(new DealCreate()); // письмо , что юзер создал новый заказ и он проходит модерацию
-			if ($deal->type_deal === 'sell')
-			{
-				$deal->notify(new SendSlackNewDealSell);
-			}	
-			else 
-			{
-				$deal->notify(new SendSlackNewDealCreate);
-			}	
+//			if ($deal->type_deal === 'sell')
+//			{
+//				$deal->notify(new SendSlackNewDealSell);
+//			}
+//			else
+//			{
+//				$deal->notify(new SendSlackNewDealCreate);
+//			}
 		// перенесено в App\Http\Controllers\Admin\DealsController    moderateSuccess()
 		//	$deal->notify(new UserNewDealBuyMessage('added', $user, $deal)); // отправит по сокетам оповещения для юзеров
 
@@ -911,7 +911,7 @@ class DealController extends Controller
 
 		// Если всё хорошо - фиксируем
 		DB::commit();
-		$deal->notify(new SendSlackNewResponseForManager);
+//		$deal->notify(new SendSlackNewResponseForManager);
 		return $this->successResponse(['response_id' => $memberId]);
 	}
 
@@ -1029,7 +1029,7 @@ class DealController extends Controller
 
 		// нотификация продавцу, что выбран такой -то победитель
 	 	$deal->notify(new DealSetWinner());
-		$deal->notify(new SendSlackChooseWinner);
+//		$deal->notify(new SendSlackChooseWinner);
 		return $this->successResponse();
 	}
 

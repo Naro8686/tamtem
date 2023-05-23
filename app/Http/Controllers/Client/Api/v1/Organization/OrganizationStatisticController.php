@@ -55,7 +55,7 @@ class OrganizationStatisticController extends Controller
                      // проверить ,чтобы заказ не был завершен
                      if($deal = OrganizationDeal::where('id','=', $query['bid'])->where('status', '=', OrganizationDeal::DEAL_STATUS_APPROVE)->where('finish', '<>', 1)->first()){
                         Cookie::queue( 'tamtem-ref-bid-id', $query['bid'], $date_expire_ref, null, null, false, false);
-												$deal->notify(new SendSlackReferal); 
+//												$deal->notify(new SendSlackReferal);
 												return redirect("/bids/" . $query['bid']);
                      }
                 }
