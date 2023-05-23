@@ -78,13 +78,13 @@
 						h3.bids-layout__help-title Помощь
 						ul.bids-layout__help-links
 							li
-								a(href="#") Как понять, что меня выбрали на роль поставщика?
+								a(href="/faq") Как понять, что меня выбрали на роль поставщика?
 							li
-								a(href="#") Что делать, если сделка не состоялась по вине заказчика?
+								a(href="/faq") Что делать, если сделка не состоялась по вине заказчика?
 							li
-								a(href="#") Как пополнить кошелёк и оплатить контакт?
+								a(href="/faq") Как пополнить кошелёк и оплатить контакт?
 						p.bids-layout__help-note Не нашли ответ? Напишите нам
-						a(href="#").bids-layout__help-ask Задать вопрос
+						a(href="/faq").bids-layout__help-ask Задать вопрос
 
 
 </template>
@@ -348,7 +348,7 @@ export default {
           query: queryParams
         }).catch(err => {
         });
-        console.log(this.getBidCatState);
+        // console.log(this.getBidCatState);
         // const path = this.$router.history.current.path;
 				// this.$router.push(
 				// `${path}?${Api.serializeQueryParams(this.getCurrentValue)}`

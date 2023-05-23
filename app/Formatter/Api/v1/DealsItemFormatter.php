@@ -190,6 +190,7 @@ class DealsItemFormatter extends Formatter
                         $arToCollect['my_answers'] = $member['answers'];
                         
                         $arToCollect['price_offer'] = $member['price_offer'];
+                        $arToCollect['price_currency'] = $member['price_currency'];
                         $arToCollect['is_shipping_included'] = $member['is_shipping_included'];
                         $arToCollect['notice'] = $member['notice'];
                     }

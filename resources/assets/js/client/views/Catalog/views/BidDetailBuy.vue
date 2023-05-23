@@ -85,12 +85,28 @@ section.bid-detail(v-if='data.id')
 											)
 												p.conditions__cap Предложение
 												div.conditions__offer.offer(:class="{'errors':errors.has('offer')}")
-													label.offer__label
-														input(type="text" :readonly="bidState>2"	data-vv-as='предложение' data-vv-name="offer" v-validate="'required|price'" v-model="data.price_offer" id="offer-budget" name="offer-budget").offer__input
-														div.offer__icon(v-show="data.is_shipping_included == true")
-															deliverycar
-													span.errors(v-if="errors.has('offer')")
-														|{{errors.first('offer')}}
+													div.offer-inputs
+														div.offer-price-input
+															label.offer__label
+															input(type="text" :readonly="bidState>2"	data-vv-as='предложение' data-vv-name="offer" v-validate="'required|price'" v-model="data.price_offer" id="offer-budget" name="offer-budget").offer__input
+															div.offer__icon(v-show="data.is_shipping_included == true")
+																deliverycar
+															span.errors(v-if="errors.has('offer')")
+															|{{errors.first('offer')}}
+														div.offer-currency
+															v-select(
+																v-model='selectedCurrency'
+																:items='currencies'
+																:readonly="bidState>2"
+																item-text="label"
+																item-value="code"
+																data-vv-as='Валюта'
+																placeholder='Валюта' 
+																title='Выберите валюту'
+																appendIcon='expand_more'
+																:light='true'
+																solo
+															)
 													div.offer-delivery
 														div.offer-delivery__field
 															input(
@@ -416,7 +432,18 @@ export default {
 				"dqh_doc_confirm_quality",
 				"dqh_payment_method",
 				"dqh_payment_term"
-			]
+			],
+      currencies: [
+        {
+          code: 'rur',
+          label: '₽',
+        },
+        {
+          code: 'br',
+          label: 'Br'
+        }
+      ],
+      selectedCurrency: 'rur',
 		};
 	},
 	created() {
@@ -433,7 +460,10 @@ export default {
 				.reduce((res, key) => ((res[key] = obj[key]), res), {});
 	},
 	mounted() {
-		this.data = this.bidData;
+    this.data = this.bidData;
+    if (this.data.price_currency) {
+      this.selectedCurrency = this.data.price_currency
+    }
 		this.activeMemberId =
 			this.data.winner_id ||
 			(this.bidData.members.length > 0 ? this.bidData.members[0].id : null);
@@ -715,6 +745,7 @@ export default {
 			let data = new FormData();
 			let arr = {
 				price_offer: this.data.price_offer,
+        price_currency: this.selectedCurrency,
 				notice: this.data.notice,
 				is_shipping_included: this.data.is_shipping_included,
 				questions: this.data.questions,
@@ -1391,7 +1422,7 @@ export default {
 		&__label {
 			position: relative;
 			&::after {
-				content: " ₽";
+				//content: " ₽";
 				color: #000000;
 				font-size: 17px;
 				margin-left: 5px;
@@ -1418,6 +1449,12 @@ export default {
 				width: 200px;
 			}
 		}
+    &-inputs {
+      display: flex;
+    }
+    &-currency {
+      width: 80px;
+    }
 		&-delivery {
 			display: flex;
 			&__field {

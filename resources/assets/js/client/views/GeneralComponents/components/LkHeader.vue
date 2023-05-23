@@ -32,6 +32,23 @@ header(v-if="profile")
             a.header__nav-dd-link(href="tel:8 800 700 14 76") 8 800 700 14 76
             span.header__nav-dd-tel-info Бесплатно по России
             a.header__nav-dd-link(href="mailto:team@tamtem.ru") team@tamtem.ru
+        section.curr
+          div.curr__main
+            p.curr__main-icon
+              img(:src="currentCurr.icon" alt="")
+            p.curr__main-symb {{currentCurr.symbol}}
+            button(@click.prevent="toggleCurrModal").curr__main-arrow
+              <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.67063 5.8272C3.70733 5.88049 3.75644 5.92407 3.81372 5.95417C3.871 5.98427 3.93475 6 3.99946 6C4.06417 6 4.12791 5.98427 4.1852 5.95417C4.24248 5.92407 4.29158 5.88049 4.32828 5.8272L7.92857 0.627557C7.97024 0.567584 7.99468 0.497339 7.99923 0.424453C8.00377 0.351568 7.98826 0.27883 7.95436 0.214143C7.92047 0.149456 7.86949 0.0952928 7.80697 0.0575393C7.74445 0.0197859 7.67278 -0.00011453 7.59974 4.95827e-07H0.399176C0.326308 0.000301439 0.2549 0.0204577 0.192632 0.0583016C0.130364 0.0961456 0.079592 0.150245 0.0457757 0.214783C0.0119594 0.279321 -0.00362155 0.351854 0.000708374 0.424584C0.0050383 0.497313 0.0291153 0.567486 0.0703501 0.627557L3.67063 5.8272Z" fill="white"/>
+              </svg>
+
+          div(v-if="currModalView" v-click-outside="hideCurrModal").curr__modal
+            ul.curr__modal-list
+              li(v-for='currency in currencies' @click.prevent='changeCurrency(currency.code)').curr__modal-item
+                p.curr__modal-icon
+                  img(:src="currency.icon" alt="")
+                p.curr__modal-symb {{currency.symbol}}
+                p.curr__modal-name {{currency.country}}
         .header__btnNew
           a.custom-btn.header__btnNew(@click="toSellCreate()", href="/newsell")
             span +
@@ -67,13 +84,16 @@ export default {
   data() {
     return {
       burgerMenu: false,
-      profile: null
+      profile: null,
+      currModalView: false,
     }
   },
   mounted() {
-    this.loadProfile()
+    this.loadProfile();
+    this.getCurrency();
   },
   methods: {
+    ...mapActions(["getCurrency", "setCurrency"]),
     async loadProfile() {
       this.profile = this.getProfileState
       this.$root.profile = this.profile
@@ -96,10 +116,24 @@ export default {
       } else {
         this.$root.$emit("resetFormCreate")
       }
-    }
+    },
+    toggleCurrModal() {
+      this.currModalView = !this.currModalView;
+    },
+    hideCurrModal() {
+      this.currModalView = false;
+    },
+    changeCurrency(currency) {
+      this.setCurrency(currency);
+      this.hideCurrModal();
+    },
   },
   computed: {
     ...mapGetters(["getProfileState"]),
+    ...mapGetters({
+      currentCurr: 'getSelectedCurrency',
+      currencies: 'getCurrencies'
+    }),
     hasNotifications() {
       if (this.profile.unreadMsg > 0 || (this.profile.notifications && (this.profile.notifications.unreaded_owner_deal > 0 || this.profile.notifications.unreaded_owner_response > 0))) {
         this.countNot = this.profile.unreadMsg || 0 + this.profile.notifications.unreaded_owner_deal || 0 + this.profile.notifications.unreaded_owner_response || 0
@@ -109,3 +143,57 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "~styleguide";
+
+.header {
+  .curr {
+    margin-left: auto;
+    @media(max-width: 640px) {
+      margin-left: 15px;
+    }
+    &__main {
+      display: flex;
+      align-items: center;
+      padding-right: 16px;
+    }
+    &__main-symb {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 22px;
+      color: #FFFFFF;
+      margin-left: 7px;
+    }
+    &__main-arrow {
+      outline: none;
+      cursor: pointer;
+      margin-left: 7px;
+    }
+    &__modal {
+      position: absolute;
+      top: calc(100% + 17px);
+      right: calc(1.4rem / 2);
+      z-index: 10;
+      width: 350px;
+    }
+    &__modal-item {
+      display: flex;
+      align-items: center;
+      padding: 11px 9px;
+      background: #fff;
+      &.is-active {
+        background: #F2F2F2;
+      }
+    }
+    &__modal-symb {
+      margin-left: 7px;
+      color: #2E3647;
+    }
+    &__modal-name {
+      margin-left: 7px;
+      color: #2E3647;
+    }
+  }
+}
+</style>

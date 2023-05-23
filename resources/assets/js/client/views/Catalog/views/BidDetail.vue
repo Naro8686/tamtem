@@ -95,6 +95,7 @@ export default {
 					is_shipping_included: data.is_shipping_included || 0,
 					trading_status: data.trading_status,
 					price_offer: data.price_offer || null,
+					price_currency: data.price_currency || 'rur',
 					notice: data.notice || "",
 					winnerIdReal: data.winner_id
 				}

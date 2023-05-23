@@ -837,6 +837,7 @@ class DealController extends Controller
 			$deal->members()->attach($user->organization_id, [
 				'trading_status' => OrganizationDeal::DEAL_TRADING_STATUS_MODERATION,
 				'price_offer' => $request->get('price_offer', 0),
+                'price_currency' => $request->get('price_currency', 'rur'),
 				'is_shipping_included' => $request->get('is_shipping_included', false),
 				'notice' => $request->get('notice') ?? "",
 				]);

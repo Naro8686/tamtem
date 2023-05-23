@@ -207,7 +207,7 @@ class OrganizationDeal extends Model
     public function members()
     {
         $members = $this->belongsToMany(\App\Models\Org\Organization::class, 'organizations_deals_members', 'deal_id', 'organization_id')->
-                withPivot('trading_status', 'price_offer', 'is_shipping_included', 'notice', 'is_readed_owner_deal', 'is_readed_owner_response', 'created_at');
+                withPivot('trading_status', 'price_offer', 'price_currency', 'is_shipping_included', 'notice', 'is_readed_owner_deal', 'is_readed_owner_response', 'created_at');
         
         return $members;
     }
@@ -394,6 +394,7 @@ class OrganizationDeal extends Model
                 'trading_status' => $memberWithAnswers->trading_status,
                 'files' => $memberWithAnswers->files,
                 'price_offer' => $memberWithAnswers->price_offer,
+                'price_currency' => $memberWithAnswers->price_currency,
                 'is_shipping_included' => $memberWithAnswers->is_shipping_included,
                 'notice' => $memberWithAnswers->notice,
                 'is_readed_owner_response' => $memberWithAnswers->is_readed_owner_response,

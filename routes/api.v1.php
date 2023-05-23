@@ -67,6 +67,12 @@ Route::prefix('category')->group(function () {
     Route::get('tree', 'Client\Api\v1\CategoriesController@categoryTree');
 });
 
+// Currencies
+Route::prefix('currency')->group(function () {
+    Route::get('get', 'Client\Api\v1\CurrencyController@getCurrency');
+    Route::post('set', 'Client\Api\v1\CurrencyController@setCurrency');
+});
+
 // Filter Фильтры
 Route::prefix('filter')->group(function () {
     Route::get('organization', 'Client\Api\v1\FilterController@organization'); // получить организации по фильтрам

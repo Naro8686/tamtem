@@ -15,7 +15,7 @@ const routes = [{
 	},
 	{
 		// path: '/bids/:id',
-		path: '/optovyye-obyavleniya/bids/:id/detail',
+		path: '/optovyye-obyavleniya/bid/:id/detail',
 		name: 'bids.detail',
 		component: BidDetail,
 		meta: {
@@ -26,7 +26,7 @@ const routes = [{
 	},
 	{
 		// path: '/!sales/:id',
-		path: '/optovyye-obyavleniya/sales/:id/detail',
+		path: '/optovyye-obyavleniya/sale/:id/detail',
 		name: 'sells.detail',
 		component: BidDetail,
 		meta: {
