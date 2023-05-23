@@ -22,7 +22,7 @@ section.filters
 					input.search__input(
 						v-model="searchString"
 						placeholder="Что вы хотите найти..."
-						@keyup.enter="setSearch"
+						@keyup="debounceInput"
 					)
 			//- btn search
 			button.filters__btn(@click="setSearch()") 
@@ -31,6 +31,7 @@ section.filters
 <script>
 // import categoriesList from "../../GeneralComponents/components/categories";
 import regionsList from "../../GeneralComponents/components/regions";
+import debounce from "lodash/debounce";
 import {
 	mapGetters,
 	mapState,
@@ -82,7 +83,9 @@ export default {
 				this.regionString = null;
 			}
 		},
-
+    debounceInput: debounce(function (e) {
+      this.setSearch();
+    }, 500),
 		setRegion(region) {
 			this.regionString = region.name;
 
