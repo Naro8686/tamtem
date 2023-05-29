@@ -330,7 +330,7 @@ export default {
           params.slug = this.getCurrentValue.slug;
         }
 
-        if (this.getCurrentValue.page) {
+        if (this.getCurrentValue.page && this.getCurrentValue.page > 1) {
           queryParams.page = this.getCurrentValue.page;
         }
 
