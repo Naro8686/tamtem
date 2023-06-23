@@ -1,0 +1,20 @@
+.animation-link-underline {
+	position: relative;
+	&::before {
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 2px;
+		background-color: #fff;
+		top: calc(100% + 2px);
+		opacity: 0;
+		left: 0;
+		transition: width 0.3s;
+	}
+	&:hover {
+		&::before {
+			opacity: 1;
+			width: 100%;
+		}
+	}
+}

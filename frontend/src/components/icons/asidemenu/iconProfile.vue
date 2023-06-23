@@ -1,0 +1,18 @@
+<template functional>
+	<svg xmlns="http://www.w3.org/2000/svg" width="17" height="20" viewBox="0 0 17 20">
+		<g id="Group_15067" data-name="Group 15067" transform="translate(7272 1165)">
+			<path id="Shape" d="M15,6V4a4,4,0,0,0-4-4H4A4,4,0,0,0,0,4V6" transform="translate(-7271 -1152)" fill="none" :stroke="props.color" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+			<circle id="Oval" cx="4" cy="4" r="4" stroke-width="2" transform="translate(-7267.5 -1164)" :stroke="props.color" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+		</g>
+	</svg>
+</template>
+<script>
+export default {
+	props: {
+		color: String
+	}
+}
+</script>
+<style lang="scss" scoped>
+
+</style>

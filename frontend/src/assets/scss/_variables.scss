@@ -1,0 +1,128 @@
+// TEMPLATE
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1340px
+);
+
+$container-max-widths: (
+    xs: 0px,
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1130px
+) !default;
+
+// Style Guide for new design
+
+// colors
+$color-hamster-cold: #0079b2;
+//
+$color-btn-hover: #0079b2;
+$color-hover-button: #218663;
+//
+$color-base-dark: #001d85;
+$color-second-dark: #082caf;
+// $color-base-accent: #27d066;
+$color-base-accent: #2fc06e;
+$color-base-prim: #4ba6de;
+$color-base-light: #ffffff;
+$color-base-attention: #ff564b;
+$color-base-gray-light: #f6f6f6;
+$color-base-gray: #f1f1f1;
+$color-gray-dark: rgba(112, 112, 112, 0.4);
+$color-gray-overlay: #b7b7b7;
+$color-text-dark: #010101;
+$color-text-light: #ffffff;
+$color-text-gray: #707070;
+$color-text-bright: #001d85;
+$color-text-bright-faded: #001d8580;
+$color-border-gray: #ececec;
+$color-pale-green: #d4f5de;
+$color-sub-pale: #d2f3ec;
+$color-shadow: rgba(0, 0, 0, 0.16);
+$color-shadow-light: rgba(0, 0, 0, 0.08);
+$color-green-elements: #2acc5a;
+$color-voply-card-header: #f6c748;
+$black: #000;
+$gray: #c1c1c1;
+$old-primary: #0071bc;
+$success: #85db4b;
+$info: #b2daf5;
+$warning: #f7ac56;
+$danger: #ff564b;
+$light: #cfcccc;
+$body-color: #0b0c0c;
+$color-grey: #ececec;
+$color-viewed-bid: #f4f5f7;
+$color-profile-border-line: #aec5d1;
+$color-company-img-background: #f2f2f2;
+$light-gray: #e6e9ec;
+$closebutton-background: #68686852;
+$form-links-color: #001689;
+// borders
+$border-radius-standart: 10px;
+$border-radius-small: 6px;
+$border-radius-big: 32px;
+$border-card: solid 1px $color-border-gray;
+$border-btn-accent: solid 1px $color-base-accent;
+$border-btn-green-elements: solid 1px $color-green-elements;
+
+// Transitions
+$transition-base: all 0.2s ease-in-out;
+$transition-fade: opacity 0.15s linear;
+$transition-collapse: height 0.35s ease;
+$transition-card: box-shadow 0.35s ease, transform 0.25s ease;
+
+// Shadows
+$box-shadow-standart: 0 2px 6px 0 rgba(69, 91, 99, 0.18);
+$box-shadow-aside: 0 4px 16px 0 rgba(69, 91, 99, 0.08);
+$box-shadow-fx: rgba(45, 45, 45, 0.05) 0px 2px 2px,
+    rgba(49, 49, 49, 0.05) 0px 4px 4px, rgba(42, 42, 42, 0.05) 0px 8px 8px,
+    rgba(32, 32, 32, 0.05) 0px 16px 16px, rgba(49, 49, 49, 0.05) 0px 32px 32px,
+    rgba(35, 35, 35, 0.05) 0px 64px 64px;
+
+$box-shadow-sm: 0 0.2rem 0.4rem 0 rgba($black, 0.1);
+$box-shadow: 0 0.3rem 0.6rem 0 rgba($black, 0.1);
+$box-shadow-lg: 0 0.4rem 0.8rem 0 rgba($black, 0.1);
+
+// fonts
+// @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap&subset=cyrillic");
+$font-family: "Montserrat", sans-serif;
+$fontsize-base: 14px;
+$fontsize-smaller: 12px;
+$fontsize-phone-header: 26px;
+$fontsize-desk-header: 32px;
+// для свойства font
+// переопределить размер шрифта при необходимости
+$font-light: 300 1rem "Montserrat", sans-serif;
+$font-regular: 400 1rem "Montserrat", sans-serif;
+$font-medium: 500 1rem "Montserrat", sans-serif;
+$font-semibold: 600 1rem "Montserrat", sans-serif;
+$font-bold: 700 1rem "Montserrat", sans-serif;
+
+// just green button
+@mixin big-rounded-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $border-radius-big;
+    font-weight: $font-semibold;
+    color: $color-base-light;
+    font-size: 12px;
+    padding: 0 42px;
+    height: 44px;
+    background-color: $color-base-accent;
+    border: none;
+    text-transform: uppercase;
+		text-decoration: none;
+}
+
+$check-background: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4LjgiIGhlaWdodD0iNi41NTgiIHZpZXdCb3g9IjAgMCA4LjggNi41NTgiPiAgICA8ZGVmcz4gICAgICAgIDxzdHlsZT4gICAgICAgICAgICAuY2xzLTF7ZmlsbDpub25lO3N0cm9rZTojZmZmO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDtzdHJva2Utd2lkdGg6MnB4fSAgICAgICAgPC9zdHlsZT4gICAgPC9kZWZzPiAgICA8ZyBpZD0iY2hlY2stc3F1YXJlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxIDEpIj4gICAgICAgIDxwYXRoIGlkPSJTaGFwZSIgZD0iTS0xLjUyNSAyLjM3OGwyLjA1MyAyLjE4IDIuNzMxLTIuNjIyTDUuMjc1IDAiIGNsYXNzPSJjbHMtMSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMS41MjUpIi8+ICAgIDwvZz48L3N2Zz4=";
+$eye-active: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOSIgaGVpZ2h0PSIxMS4wODMiIHZpZXdCb3g9IjAgMCAxOSAxMS4wODMiPiAgPHBhdGggaWQ9ImV5ZS01IiBkPSJNOS41MTIsNi41ODNhMTAuMzMsMTAuMzMsMCwwLDEsNy41MjQsMy42N0MxNS45MjcsMTEuNzA4LDEzLjMsMTQuNSw5LjUxMiwxNC41Yy0zLjUsMC02LjI3OC0yLjgtNy41LTQuMjgxQTEwLjQzMSwxMC40MzEsMCwwLDEsOS41MTIsNi41ODNaTTkuNTEyLDVDMy41Miw1LDAsMTAuMTg2LDAsMTAuMTg2czMuODI4LDUuOSw5LjUxMiw1LjljNi4xMjIsMCw5LjQ4OC01LjksOS40ODgtNS45UzE1LjYsNSw5LjUxMiw1Wk05LjUsNy4zNzVhMy4xNjcsMy4xNjcsMCwxLDAsMy4xNjcsMy4xNjdBMy4xNjcsMy4xNjcsMCwwLDAsOS41LDcuMzc1WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAtNSkiIGZpbGw9IiMyZmMwNmUiLz48L3N2Zz4=";
+$eye-inactive: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOSIgaGVpZ2h0PSIxNC42MDUiIHZpZXdCb3g9IjAgMCAxOSAxNC42MDUiPiAgPHBhdGggaWQ9ImV5ZS04IiBkPSJNMTUuNTIsMi41NjMsMTIuODcyLDUuMDQ2YTEwLjQ2OSwxMC40NjksMCwwLDAtMy4zNi0uNTUzQzMuNTIsNC40OTIsMCw5LjY3OSwwLDkuNjc5YTE2LjM4NSwxNi4zODUsMCwwLDAsNC4wNzMsNC4wNjhsLTIuMywyLjMsMS4xMTksMS4xMTlMMTYuNjQsMy42ODJaTTEwLjc1Nyw3LjEzN2EzLjE1NiwzLjE1NiwwLDAsMC00LjE2OCw0LjEyMUw1LjIyMywxMi42MDlhMTQuMzg4LDE0LjM4OCwwLDAsMS0zLjIxNC0yLjksMTAuNDMyLDEwLjQzMiwwLDAsMSw3LjUtMy42MzYsOC44LDguOCwwLDAsMSwyLjA2Ni4yNDlaTTguNDc1LDEzLjAyLDEyLjUsOS4wNjdBMy4xNTksMy4xNTksMCwwLDEsOC40NzUsMTMuMDJaTTE5LDkuNjc5cy0zLjM2Niw1LjktOS40ODgsNS45YTguNjQxLDguNjQxLDAsMCwxLTMuMDQ5LS41ODNMNy43NDEsMTMuNzRhNi44LDYuOCwwLDAsMCwxLjc3MS4yNTNjMy43OTMsMCw2LjQxNS0yLjc5Miw3LjUyNC00LjI0N0ExMi4xMiwxMi4xMiwwLDAsMCwxNC4yLDcuNDA5bDEuMTc4LTEuMTU2QTEzLjE1NCwxMy4xNTQsMCwwLDEsMTksOS42NzlaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIC0yLjU2MykiIGZpbGw9IiNhNWE1YTUiLz48L3N2Zz4=";
+
+$grid-gutter-width: 1.4rem;

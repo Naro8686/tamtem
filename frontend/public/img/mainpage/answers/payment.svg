@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="59.583" height="63.136" viewBox="0 0 59.583 63.136">
+  <g id="Group_22054" data-name="Group 22054" transform="translate(-983.5 -822)">
+    <g id="Group_22052" data-name="Group 22052">
+      <g id="Group_22051" data-name="Group 22051" transform="translate(984 760.76)">
+        <path id="Path_21589" data-name="Path 21589" d="M1.831,84.668H56.752A1.83,1.83,0,0,1,58.583,86.5v35.546a1.83,1.83,0,0,1-1.831,1.831H1.831A1.83,1.83,0,0,1,0,122.045V86.5A1.83,1.83,0,0,1,1.831,84.668Z" transform="translate(0 0)" fill="#fff" stroke="#0a5f87" stroke-width="1"/>
+        <rect id="Rectangle_6496" data-name="Rectangle 6496" width="58.582" height="9.154" transform="translate(0 90.753)" fill="#0a5f87"/>
+        <rect id="Rectangle_6497" data-name="Rectangle 6497" width="20.886" height="1.831" transform="translate(6.503 106.878)" fill="#0a5f87"/>
+        <rect id="Rectangle_6498" data-name="Rectangle 6498" width="12.574" height="1.831" transform="translate(6.503 112.036)" fill="#0a5f87"/>
+        <circle id="Ellipse_1869" data-name="Ellipse 1869" cx="6.245" cy="6.245" r="6.245" transform="translate(32.48 105.55)" fill="#2099c6"/>
+        <circle id="Ellipse_1870" data-name="Ellipse 1870" cx="6.245" cy="6.245" r="6.245" transform="translate(40.085 105.55)" fill="#2fc06e"/>
+      </g>
+      <path id="Path_21590" data-name="Path 21590" d="M201.262,0V8.58h4.687l-7.61,10.475L190.729,8.58h4.687V0Z" transform="translate(815.271 822)" fill="#2fc06e"/>
+    </g>
+  </g>
+</svg>

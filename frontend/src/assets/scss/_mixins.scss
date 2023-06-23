@@ -1,0 +1,124 @@
+@mixin contentbox {
+    border: 1px solid $color-border-gray;
+    background-color: $color-base-gray-light;
+    border-radius: 10px;
+    padding: 25px 20px;
+}
+@mixin blocktitle {
+    font-size: 26px;
+    line-height: 42px;
+    color: #000;
+    font-weight: 500;
+    margin-bottom: 44px;
+    @media (max-width: 425px) {
+        margin-bottom: 34px;
+    }
+}
+// скругленные узкие блоки - статус и баланс из личного кабинета
+@mixin statebar {
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    border: 1px solid $color-border-gray;
+    border-radius: 32px;
+    background: $color-base-light;
+    font-size: 14px;
+    min-height: 43px;
+    @media (max-width: 768px) {
+        min-height: 40px;
+    }
+    @media (max-width: 425px) {
+        min-height: auto;
+        padding: 5px 16px;
+    }
+    img {
+        @media (max-width: 425px) {
+            width: 17px;
+            height: auto;
+        }
+    }
+    p {
+        margin-left: 10px;
+        min-width: 54px;
+        @media (max-width: 425px) {
+            min-width: 45px;
+            font-size: 12px;
+        }
+    }
+    b {
+        color: $color-base-accent;
+        font-weight: 600;
+        margin-left: 10px;
+        @media (max-width: 425px) {
+            font-size: 12px;
+        }
+    }
+}
+
+// Попробуем так - здесь будут элементы, которые много где используются в этом же проекте. Не очень хочется сразу же городить бэм-компоненты, миксинов, вероятно, будет для этого достаточно. Если чо, то впоследствии на основе этих миксинов можно будет сделать библиотеку из бэм-блоков.
+@mixin hamster-field {
+    background: $color-base-light;
+    border-radius: 4px;
+    border: 1px solid $color-border-gray;
+    padding: 12px;
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+}
+@mixin hamster-label {
+    text-transform: uppercase;
+    color: $color-text-gray;
+    margin-bottom: 7px;
+    font-size: 12px;
+    @media (max-width: 425px) {
+        font-size: 11px;
+    }
+}
+@mixin hamster-field-error {
+    margin-top: 5px;
+    color: $danger;
+    font: $font-regular;
+    font-size: 10px;
+}
+@mixin hamster-inputbox {
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 425px) {
+        font-size: 13px;
+    }
+}
+@mixin hamster-submit {
+    display: flex;
+    border: none;
+    border-radius: 22px;
+    padding: 10px 15px;
+    text-align: center;
+    justify-content: center;
+    background-color: $color-base-accent;
+    color: $color-text-light;
+    font-weight: 600;
+    cursor: pointer;
+    @media (max-width: 425px) {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
+
+// некоторые универсальные миксины для удобства.
+@mixin w-h($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+@mixin flex-centerizer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin btnHov($color) {
+	transition: background-color 0.2s;
+	cursor: pointer;
+	&:hover {
+		background-color: $color;
+	}
+}

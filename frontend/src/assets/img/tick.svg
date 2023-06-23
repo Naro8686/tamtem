@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.758" height="9.211" viewBox="0 0 12.758 9.211">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="check-square" transform="translate(1 .999)">
+        <path id="Shape" d="M-1.525 3.763l3.248 3.448 4.321-4.149L9.233 0" class="cls-1" transform="translate(1.525)"/>
+    </g>
+</svg>

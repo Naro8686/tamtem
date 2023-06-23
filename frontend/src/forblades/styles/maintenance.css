@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap&subset=cyrillic");
+.container {
+  margin: 0 auto;
+  padding: 0 13px;
+  max-width: 1170px;
+}
+.serve {
+  background-color: #fff;
+  height: 100vh;
+  font-family: "Montserrat", Verdana, sans-serif;
+}
+.serve {
+  background-color: #fff;
+  height: 100vh;
+  font-family: "Montserrat", Verdana, sans-serif;
+}
+
+.serve__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.serve__title {
+  font-weight: 600;
+  font-size: 45px;
+  line-height: 45px;
+  margin-bottom: 73px;
+}
+
+.serve__message {
+  font-size: 30px;
+  line-height: 40px;
+  margin-bottom: 62px;
+  max-width: 50%;
+}
+
+.serve__tel {
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: 0.51px;
+  color: #000000;
+  text-decoration: none;
+}
+@media (max-width: 1169px) {
+  .container {
+    max-width: 930px;
+  }
+}
+@media (max-width: 929px) {
+  .container {
+    max-width: 769px;
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    max-width: 706px;
+  }
+	.serve__title {
+    font-size: 37px;
+    line-height: 70px;
+    margin-bottom: 66px;
+  }
+
+  .serve__message {
+    font-size: 22px;
+    line-height: 32px;
+    letter-spacing: 0.37px;
+    margin-bottom: 49px;
+  }
+
+  .serve__tel {
+    font-size: 22px;
+    line-height: 32px;
+    letter-spacing: 0.37px;
+  }
+}
+@media (max-width: 705px) {
+  .container {
+    max-width: 590px;
+  }
+}
+@media (max-width: 589px) {
+  .container {
+    max-width: 480px;
+  }
+}
+@media (max-width: 479px) {
+  .container {
+    max-width: 96%;
+  }
+}
+@media (max-width: 470px) {
+  .serve__message {
+    max-width: 90%;
+  }
+}
+@media (max-width: 425px) {
+  .container {
+    max-width: 391px;
+  }
+	.serve__title {
+    line-height: 42px;
+    margin-bottom: 39px;
+  }
+
+  .serve__message {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.27px;
+    margin-bottom: 30px;
+  }
+
+  .serve__tel {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.27px;
+  }
+}
+@media (max-width: 320px) {
+  .container {
+    max-width: 292px;
+  }
+}
+
