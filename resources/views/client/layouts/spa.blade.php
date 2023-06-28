@@ -19,9 +19,21 @@
 	@endif
 
 	<!-- Meta data -->
-	<meta name="title" content="TamTem - Сервис поиска оптовых поставщиков для бизнеса">
-	<meta name="keywords" content="сервис поиска поставщиков, поиск оптовых поставщиков, оптовые поставки для бизнеса, объявления о покупке оптом, бесплатно объявление оптом.">
-	<meta name="description" content="TamTem – это сервис поиска оптовых поставщиков для бизнеса. Здесь Вы можете бесплатно подать объявление о покупке оптом определенного товара, а мы найдем поставщика.">
+	@if(isset($metaData))
+		@if($metaData->title)
+			<meta name="title" content="{{$metaData->title}}">
+			<meta property="og:title" content="{{$metaData->title}}">
+		@endif
+
+		@if($metaData->description)
+			<meta name="description" content="{{$metaData->description}}">
+			<meta property="og:description" content="{{$metaData->description}}">
+		@endif
+
+		@if($metaData->keywords)
+			<meta name="keywords" content="{{ $metaData->keywords }}">
+		@endif
+	@endif
 
 	{{-- <link rel="image_src" href="{{ url('/') }}/images/image-site.jpg"> --}}
 	<meta name="author" content="TamTem">
@@ -29,10 +41,8 @@
 	<meta name="application-name" content="TamTem">
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
-	<meta property="og:title" content="TamTem">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:description" content="TamTem – это сервис поиска оптовых поставщиков для бизнеса. Здесь Вы можете бесплатно подать объявление о покупке оптом определенного товара, а мы найдем поставщика.">
 	<title>TamTem - Сервис поиска оптовых поставщиков для бизнеса</title>
 
 	<!-- Icon -->

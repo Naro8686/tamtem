@@ -5,15 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Оптовая площадка Tantem для продажи товаров и услуг по всей России</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta name="title" content="Оптовая площадка Tantem для продажи товаров и услуг по всей России">
-    <meta name="keywords" content="сервис оптовых заказов, контакты, контакты tamtem.">
-    <meta name="description" content=" Портал оптовых объявлений о продаже товаров и услуг. У нас на сайте вы можете оставить объявление о компании оптовых товаров или купить товары оптом.">
+      <!-- Meta data -->
+      @if(isset($metaData))
+          @if($metaData->title)
+              <meta name="title" content="{{$metaData->title}}">
+              <meta property="og:title" content="{{$metaData->title}}">
+          @endif
+
+          @if($metaData->description)
+              <meta name="description" content="{{$metaData->description}}">
+              <meta property="og:description" content="{{$metaData->description}}">
+          @endif
+
+          @if($metaData->keywords)
+              <meta name="keywords" content="{{ $metaData->keywords }}">
+          @endif
+      @endif
 		<meta property="og:type" content="website">
 		<meta property="og:site_name" content="{{ url('/') }}">
-		<meta property="og:title" content="Оптовая площадка Tantem для продажи товаров и услуг по всей России">
 		<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 		<meta property="og:url" content="{{ url('/') }}">
-		<meta property="og:description" content=" Портал оптовых объявлений о продаже товаров и услуг. У нас на сайте вы можете оставить объявление о компании оптовых товаров или купить товары оптом. ">
 	  <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	  <link rel="mask-icon" href="{{ url('/') }}/safari-pinned-tab.svg" color="#2fc06e">

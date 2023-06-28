@@ -3,15 +3,26 @@
 
 <head>
 	<title>Контакты оптовой компании Tantem</title>
-	<meta name="title" content="Контакты оптовой компании Tantem">
-	<meta name="description" content="Юридический адрес, телефон и контакты компании Tantem. Оптовые поставщики в едином портале.">
-	<meta name="keywords" content="сервис оптовых заказов, контакты, контакты tamtem.">
+	<!-- Meta data -->
+	@if(isset($metaData))
+		@if($metaData->title)
+			<meta name="title" content="{{$metaData->title}}">
+			<meta property="og:title" content="{{$metaData->title}}">
+		@endif
+
+		@if($metaData->description)
+			<meta name="description" content="{{$metaData->description}}">
+			<meta property="og:description" content="{{$metaData->description}}">
+		@endif
+
+		@if($metaData->keywords)
+			<meta name="keywords" content="{{ $metaData->keywords }}">
+		@endif
+	@endif
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
-	<meta property="og:title" content="Контакты оптовой компании Tantem">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:description" content="Юридический адрес, телефон и контакты компании Tantem. Оптовые поставщики в едином портале.">
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />

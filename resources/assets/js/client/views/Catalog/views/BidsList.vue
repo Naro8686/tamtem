@@ -84,7 +84,7 @@
 							li
 								a(href="/faq") Как пополнить кошелёк и оплатить контакт?
 						p.bids-layout__help-note Не нашли ответ? Напишите нам
-						a(href="/faq").bids-layout__help-ask Задать вопрос
+						a(href="javascript:jivo_api.open()").bids-layout__help-ask Задать вопрос
 
 
 </template>

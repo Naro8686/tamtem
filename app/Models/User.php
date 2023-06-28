@@ -114,6 +114,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function adminNotifications()
+    {
+        return $this->hasMany(\App\Models\AdminNotification::class, 'admin_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function financeOperation()
     {
         return $this->hasMany(\App\Models\FinanceOperation::class, 'user_id');

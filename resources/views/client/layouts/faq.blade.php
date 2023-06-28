@@ -12,15 +12,26 @@
 	<link rel="manifest" href="{{ url('/') }}/site.webmanifest">
 	<meta name="msapplication-config" content="browserconfig.xml" />
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="title" content="Помощь в размещении объявлений в компании Tantem">
-	<meta name="description" content="Вопросы и ответы по интерфейсу сайта компании Tantem. Личный кабинет и помощь в работе с заказами и предложениями.">
-	<meta name="keywords" content="как найти оптовых поставщиков, разместить заказ на опт, оптовые поставки товаров, оптовые поставщики одежды, оптовые поставщики товаров, оптовый поставщик продуктов, оптовые поставщики косметики.">
+	<!-- Meta data -->
+	@if(isset($metaData))
+		@if($metaData->title)
+			<meta name="title" content="{{$metaData->title}}">
+			<meta property="og:title" content="{{$metaData->title}}">
+		@endif
+
+		@if($metaData->description)
+			<meta name="description" content="{{$metaData->description}}">
+			<meta property="og:description" content="{{$metaData->description}}">
+		@endif
+
+		@if($metaData->keywords)
+			<meta name="keywords" content="{{ $metaData->keywords }}">
+		@endif
+	@endif
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
-	<meta property="og:title" content="Помощь в размещении объявлений в компании Tantem">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:description" content="Вопросы и ответы по интерфейсу сайта компании Tantem. Личный кабинет и помощь в работе с заказами и предложениями.">
 	<link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">

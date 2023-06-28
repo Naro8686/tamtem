@@ -147,6 +147,14 @@
             <i class="fa fa-circle-o"></i>Новости
           </router-link>
         </li>
+        <li>
+          <router-link
+              v-if="this.$root.profile.permissions.users.show"
+              :to="{ name: 'metatags' }"
+          >
+            <i class="fa fa-circle-o"></i>Метатеги
+          </router-link>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

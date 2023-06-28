@@ -15,6 +15,10 @@ Broadcast::channel('notification-message.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
+Broadcast::channel('admin-notification.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
 Broadcast::channel('dialog.{id}', function ($user, $id) {
     return true;
     //return (int) $user->organizaton_id === (int) $id;

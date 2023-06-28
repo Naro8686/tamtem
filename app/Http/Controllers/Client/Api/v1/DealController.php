@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Client\Api\v1;
 
+use App\Events\NotifyAdmin;
+use App\Events\NotifyUser;
 use App\Formatter\Api\v1\DealsItemFormatter;
 use App\Http\Requests\Client\Api\v1\Deal\DealStoreRequest;
 use App\Http\Requests\Client\Api\v1\Deal\DealUpdateRequest;
@@ -30,6 +32,9 @@ use App\Notifications\DealNeedNewWinner;
 use App\Notifications\DealSetWinner;
 use App\Notifications\DealWinner;
 use App\Notifications\DealWinnerResponse;
+use App\Notifications\SendStatusChangeNotification;
+use App\Notifications\SendTelegramNewDealCreate;
+use App\Notifications\SendTelegramNewDealSell;
 use App\Notifications\UserNewDealBuyMessage;
 
 use App\Repositories\Filters\FilterDealsRepository;
@@ -203,7 +208,6 @@ class DealController extends Controller
 		try{
 
 			$user = Auth::guard('api')->user();
-
 		    $type_deal = $request->get('type_deal');
 			$subtype_deal = $request->get('subtype_deal', OrganizationDeal::DEAL_SUBTYPE_NA);
 
@@ -412,15 +416,31 @@ class DealController extends Controller
 			}
 			// ==============================END  Платность услуги рассылки оповещений по эмайл ============================================================
 
-			$deal->notify(new DealCreate()); // письмо , что юзер создал новый заказ и он проходит модерацию
-//			if ($deal->type_deal === 'sell')
-//			{
+			$deal->notify(new DealCreate());
+            // письмо , что юзер создал новый заказ и он проходит модерацию
+            $notificationLink = url('admin/deals/show/moderation/' . $deal->id);
+			if ($deal->type_deal === 'sell')
+			{
+				$deal->notify(new SendTelegramNewDealSell);
+                $message = '<a href="'. $notificationLink .'">Есть новое объявление</a>';
 //				$deal->notify(new SendSlackNewDealSell);
-//			}
-//			else
-//			{
+			}
+			else
+			{
+                //Есть новый заказ
+                $message = '<a href="'. $notificationLink .'">Есть новый заказ</a>';
+				$deal->notify(new SendTelegramNewDealCreate);
 //				$deal->notify(new SendSlackNewDealCreate);
-//			}
+			}
+
+            $admins = User::whereIn('role', [User::ROLE_ADMINISTRATOR, User::ROLE_MODERATOR])->get();
+            foreach ($admins as $admin) {
+                $admin->adminNotifications()->create([
+                    'message' => $message,
+                ]);
+                broadcast(new NotifyAdmin($message, $admin, $deal));
+            }
+
 		// перенесено в App\Http\Controllers\Admin\DealsController    moderateSuccess()
 		//	$deal->notify(new UserNewDealBuyMessage('added', $user, $deal)); // отправит по сокетам оповещения для юзеров
 

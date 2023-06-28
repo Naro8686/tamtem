@@ -12,18 +12,26 @@
 	<link rel="manifest" href="{{ url('/') }}/site.webmanifest">
 	<meta name="msapplication-config" content="browserconfig.xml" />
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="title" content="Оптовые покупатели. Сервис поиска покупателей оптом в России.">
-	<meta name="description"
-		content="Сервис поиска покупателей онлайн. Преимущества платформы при поиске оптовых покупателей. Более тысячи  оптовых заказов и предложений.">
-	<meta name="keywords"
-		content="оптовый заказ, поиск оптовых заказов, сервис поиска оптовых покупателей, поиск оптовых заказчиков, оптовые поставки для бизнеса, объявления о покупке оптом, бесплатно объявление оптом, тендерные заказы, оптовый заказ для бизнеса">
+	<!-- Meta data -->
+	@if(isset($metaData))
+		@if($metaData->title)
+			<meta name="title" content="{{$metaData->title}}">
+			<meta property="og:title" content="{{$metaData->title}}">
+		@endif
+
+		@if($metaData->description)
+			<meta name="description" content="{{$metaData->description}}">
+			<meta property="og:description" content="{{$metaData->description}}">
+		@endif
+
+		@if($metaData->keywords)
+			<meta name="keywords" content="{{ $metaData->keywords }}">
+		@endif
+	@endif
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
-	<meta property="og:title" content="Оптовые покупатели. Сервис поиска покупателей оптом в России.">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:description"
-		content="Сервис поиска покупателей онлайн. Преимущества платформы при поиске оптовых покупателей. Более тысячи  оптовых заказов и предложений.">
 	<link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">
@@ -199,7 +207,7 @@
 								<p class="homepage-firstscreen__desc">безопасная платформа </p>
 								<p class="homepage-firstscreen__note">тысячи заказов и предложений по всей России</p>
 								@if (Cookie::has('api_auth'))
-									<a class="homepage-firstscreen__button" href="/bids?page=1&per_page=12&type_deal=buy&date_published=desc" onclick="ym(76387882,'reachGoal','nspostav')">Начать сейчас</a>
+									<a class="homepage-firstscreen__button" href="/optovyye-obyavleniya/bids" onclick="ym(76387882,'reachGoal','nspostav')">Начать сейчас</a>
 								@else
 									<a class="homepage-firstscreen__button" href="/?itm=signup" onclick="ym(76387882,'reachGoal','nspostav')">Начать сейчас</a>
 								@endif
@@ -260,7 +268,7 @@
 										заказчику.</p>
 								</li>
 							</ul><a class="supplier-steps__button supplier__button"
-								@click.prevent="showBids('view_zakazy');" href="/bids">Посмотреть заказы</a>
+								@click.prevent="showBids('view_zakazy');" href="/optovyye-obyavleniya/bids">Посмотреть заказы</a>
 						</div>
 					</div><!-- end supplier steps -->
 					<!-- supplier-adv -->

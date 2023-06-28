@@ -37,6 +37,8 @@ Vue.mixin(LocaleMixins);
 Vue.component("datatable", require("./views/Components/Datatable.vue"));
 Vue.component("progressbar", ProgressBar);
 
+window.io = require("socket.io-client")
+
 const router = new VueRouter({
   mode: "history",
   routes: routes

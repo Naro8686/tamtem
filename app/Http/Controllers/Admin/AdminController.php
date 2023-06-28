@@ -7,6 +7,7 @@ use App\Models\Org\OrganizationDeal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
@@ -69,6 +70,25 @@ class AdminController extends Controller
                 'ad_member' => '-',
                 'ad_news' => '-',
             ]
+        ];
+    }
+
+    public function notifications(Request $request)
+    {
+        $admin = Auth::user();
+        return [
+            'notifications' => $admin->adminNotifications()->orderBy('id', 'DESC')->offset($request->get('offset'))->limit(10)->get(),
+            'notSeen' => $admin->adminNotifications()->where(['seen' => 0])->count(),
+            'offset' => ($request->get('offset') + 10)
+        ];
+    }
+
+    public function notificationsSeen(Request $request)
+    {
+        $admin = Auth::user();
+        $admin->adminNotifications()->update(['seen' => 1]);
+        return [
+            'notSeen' => 0
         ];
     }
 }

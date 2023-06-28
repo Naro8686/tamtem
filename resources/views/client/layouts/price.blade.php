@@ -12,15 +12,26 @@
 	<link rel="manifest" href="{{ url('/') }}/site.webmanifest">
 	<meta name="msapplication-config" content="browserconfig.xml" />
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="title" content="Цены на tamtem.ru">
-	<meta name="description" content="Цены на услуги tamtem.ru">
-	<meta name="keywords" content="оптовый поставщик, поиск поставщиков, сервис поиска поставщиков, поиск оптовых поставщиков, цены на опт, цена на услуги, цена, оптовые поставки для бизнеса, объявления о покупке оптом, бесплатно объявление оптом.">
+	<!-- Meta data -->
+	@if(isset($metaData))
+		@if($metaData->title)
+			<meta name="title" content="{{$metaData->title}}">
+			<meta property="og:title" content="{{$metaData->title}}">
+		@endif
+
+		@if($metaData->description)
+			<meta name="description" content="{{$metaData->description}}">
+			<meta property="og:description" content="{{$metaData->description}}">
+		@endif
+
+		@if($metaData->keywords)
+			<meta name="keywords" content="{{ $metaData->keywords }}">
+		@endif
+	@endif
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
-	<meta property="og:title" content="Цены на tamtem.ru">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:description" content="Цены на услуги tamtem.ru">
 	<link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">

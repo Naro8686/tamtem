@@ -90,6 +90,13 @@ return [
                 'show', 'create', 'edit', 'delete',
             ],
         ],
+        'metatags' => [
+            'name' => 'Метатеги',
+            'slug' => 'metatags',
+            'permissions' => [
+                'show', 'create', 'edit', 'delete',
+            ],
+        ],
     ],
 
     'permissions_site' => [

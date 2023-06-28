@@ -18,7 +18,9 @@ class PermissionsSeeder extends Seeder
             $slug = $category['slug'];
             foreach ($category['permissions'] as $permission) {
                 try {
-                    Permission::create(['name' => $slug.'.'.$permission]);
+                    if (!Permission::where(['name' => $slug.'.'.$permission])->first()) {
+                        Permission::create(['name' => $slug.'.'.$permission]);
+                    }
                 } catch (Exception $e) {
                 }
             }
@@ -30,7 +32,9 @@ class PermissionsSeeder extends Seeder
             $slug = $category['slug'];
             foreach ($category['permissions'] as $permission) {
                 try {
-                    Permission::create(['name' => $slug.'.'.$permission]);
+                    if (!Permission::where(['name' => $slug.'.'.$permission])->first()) {
+                        Permission::create(['name' => $slug.'.'.$permission]);
+                    }
                 } catch (Exception $e) {
                 }
             }

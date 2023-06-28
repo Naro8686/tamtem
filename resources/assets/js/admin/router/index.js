@@ -29,6 +29,10 @@ import Posts from "../views/Posts/Index.vue";
 import PostsCreate from "../views/Posts/Create.vue";
 import PostsEdit from "../views/Posts/Edit.vue";
 
+import MetaTags from "../views/MetaTags/Index.vue";
+import MetaTagsCreate from "../views/MetaTags/Create.vue";
+import MetaTagsEdit from "../views/MetaTags/Edit.vue";
+
 import SendTicket from "../views/Users/SendTicket";
 const routes = [
   {
@@ -328,6 +332,32 @@ const routes = [
       permission: "posts.edit"
     },
     component: PostsEdit
+  },
+  {
+    path: "/admin/metatags",
+    name: "metatags",
+    meta: {
+      title: "Метатеги",
+      breadcrumbs: [{ name: "Метатеги" }],
+      permission: "metatags.show"
+    },
+    props: route => ({
+      ...route.query
+    }),
+    component: MetaTags
+  },
+  {
+    path: "/admin/metatags/edit/:id",
+    name: "metatags.edit",
+    meta: {
+      title: "Редактирование метатегов",
+      breadcrumbs: [
+        { name: "Метатеги", path: "metatags" },
+        { name: "Редактирование метатегов" }
+      ],
+      permission: "metatags.edit"
+    },
+    component: MetaTagsEdit
   },
 
   // 404

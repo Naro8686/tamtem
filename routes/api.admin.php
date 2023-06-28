@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('profile', 'Admin\ProfileController@profile')->name('profile');
+    Route::get('notifications', 'Admin\AdminController@notifications')->name('notifications');
+    Route::post('notifications/seen', 'Admin\AdminController@notificationsSeen')->name('notifications.seen');
     Route::get('sysinfo', 'Admin\AdminController@systemInfo')->name('sys.info');
     Route::get('statistic', 'Admin\AdminController@statistic')->name('statistic');
     Route::get('permissions', 'Admin\PermissionsController@permissions')->name('permissions.list');
@@ -211,5 +213,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('{id}', 'Admin\PostsController@get')->name('posts.get')->name('permission:posts.show');
         Route::patch('{id}', 'Admin\PostsController@update')->name('posts.update')->middleware('permission:posts.edit');
         Route::delete('{id}', 'Admin\PostsController@delete')->name('posts.delete')->middleware('permission:posts.delete');
+    });
+    Route::prefix('metatags')->group(function() {
+        Route::get('', 'Admin\MetaTagController@index')->name('metatags.index');
+        Route::post('store', 'Admin\MetaTagController@store')->name('metatags.store')->middleware('permission:metatags.create');
+        Route::get('{id}', 'Admin\MetaTagController@get')->name('metatags.get')->name('permission:metatags.show');
+        Route::patch('{id}', 'Admin\MetaTagController@update')->name('metatags.update')->middleware('permission:metatags.edit');
+        Route::delete('{id}', 'Admin\MetaTagController@delete')->name('metatags.delete')->middleware('permission:metatags.delete');
     });
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Client\Api\v1\PaymentServicesController;
+use App\Models\MetaTag;
 use App\Traits\ModelFileUpload;
 use App\Traits\ApiControllerTrait;
 use Illuminate\Http\Request;
@@ -40,18 +41,39 @@ class ClientController extends Controller
     //         Cookie::queue($isviewedCookieName, 'true', 2628000, "/");
     //         return view('client.layouts.about');
     //    }
-      
-       return view('client.layouts.spa');
+
+        $metaData = MetaTag::where(['page_slug' => 'buyers'])->first();
+       return view('client.layouts.spa', compact('metaData'));
     }
 
     public function about(Request $request)
     {
-        return view('client.layouts.about');
+        $metaData = MetaTag::where(['page_slug' => 'about'])->first();
+        return view('client.layouts.about', compact('metaData'));
     }
 
     public function contact(Request $request)
     {
-        return view('client.layouts.contact');
+        $metaData = MetaTag::where(['page_slug' => 'concat'])->first();
+        return view('client.layouts.contact', compact('metaData'));
+    }
+
+    public function faq(Request $request)
+    {
+        $metaData = MetaTag::where(['page_slug' => 'faq'])->first();
+        return view('client.layouts.faq', compact('metaData'));
+    }
+
+    public function price(Request $request)
+    {
+        $metaData = MetaTag::where(['page_slug' => 'price'])->first();
+        return view('client.layouts.price', compact('metaData'));
+    }
+
+    public function postavschic(Request $request)
+    {
+        $metaData = MetaTag::where(['page_slug' => 'postavschic'])->first();
+        return view('client.layouts.postavschic', compact('metaData'));
     }
 
     /**
