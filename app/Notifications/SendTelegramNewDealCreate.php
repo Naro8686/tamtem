@@ -39,7 +39,7 @@ class SendTelegramNewDealCreate extends Notification
     {
         $message = "Есть новый заказ";
         return TelegramMessage::create()
-            ->to('-861245143')
+            ->to(config('services.telegram-bot-api.group_id'))
             ->content('Информация: '.$message);
     }
 }

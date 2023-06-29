@@ -421,15 +421,21 @@ class DealController extends Controller
             $notificationLink = url('admin/deals/show/moderation/' . $deal->id);
 			if ($deal->type_deal === 'sell')
 			{
-				$deal->notify(new SendTelegramNewDealSell);
+                if (config()->has('services.telegram-bot-api') &&
+                    (!empty(config('services.telegram-bot-api.token')) && !empty(config('services.telegram-bot-api.group_id')))) {
+                    $deal->notify(new SendTelegramNewDealSell);
+                }
                 $message = '<a href="'. $notificationLink .'">Есть новое объявление</a>';
 //				$deal->notify(new SendSlackNewDealSell);
 			}
 			else
 			{
                 //Есть новый заказ
+                if (config()->has('services.telegram-bot-api') &&
+                    (!empty(config('services.telegram-bot-api.token')) && !empty(config('services.telegram-bot-api.group_id')))) {
+                    $deal->notify(new SendTelegramNewDealCreate);
+                }
                 $message = '<a href="'. $notificationLink .'">Есть новый заказ</a>';
-				$deal->notify(new SendTelegramNewDealCreate);
 //				$deal->notify(new SendSlackNewDealCreate);
 			}
 
