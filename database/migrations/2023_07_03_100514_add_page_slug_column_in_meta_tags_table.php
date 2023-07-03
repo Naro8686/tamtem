@@ -26,7 +26,7 @@ class AddPageSlugColumnInMetaTagsTable extends Migration
     public function down()
     {
         Schema::table('meta_tags', function (Blueprint $table) {
-            $table->dropColumn(['page_slug'])
+            $table->dropColumn(['page_slug']);
         });
     }
 }
