@@ -1382,15 +1382,22 @@ class DealController extends Controller
 
 			$organization_id  = $user->organization_id;
 
-			$responses = OrganizationDealMember::with(['deal', 'files'])->where('organization_id',  $organization_id )
+      $dealIds = $user->deals()->pluck('id')->toArray();
+
+			$responses = OrganizationDealMember::with(['deal', 'files'])
+        ->where(function ($q) use ($dealIds, $organization_id) {
+          $q->where('organization_id',  $organization_id );
+          if (!empty($dealIds)) {
+            $q->orWhereIn('deal_id', $dealIds);
+          }
+        })
 				->where('trading_status', "<>", OrganizationDeal::DEAL_TRADING_STATUS_NA)
 				->where('trading_status', "<>", OrganizationDeal::DEAL_TRADING_STATUS_BANNED)
 			//	->where('trading_status', "<>", OrganizationDeal::DEAL_TRADING_STATUS_MODERATION)
-				->with('deal.questions', 'deal.questions.questionHeader', 'deal.files')
-				;
+				->with('deal.questions', 'deal.questions.questionHeader', 'deal.files');
 
 			// отбросим те, которые завершены и не мои
-			$toPaginate = $responses->get();
+			$toPaginate = $responses->orderBy('id', 'desc')->get();
 			$toPaginate = $toPaginate->map(function($item, $key) use ($organization_id){
 				if($item->trading_status === OrganizationDeal::DEAL_TRADING_STATUS_FINISHED and ($item->deal->winner_id === null or $item->deal->winner_id !==  $organization_id)){
 					$item = null;

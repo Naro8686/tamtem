@@ -30,7 +30,7 @@ section.bid-detail(v-if='data.id')
 						.bid-header__viewed(title="Просмотров")
 							feather(type='eye')
 							span {{data.count_views}}
-						.bid-header__accept.accept(v-if="!isNotMy && hasMembers && !finished")
+						.bid-header__accept.accept(v-if="!isNotMy && hasMembers && !hasWinner")
 							a.accept__btn(@click="setWinner()") Принять предложение
 						.bid-header__vendors.vendors(v-if="!isNotMy && isNotDesktop && !finished")
 							ul.vendors__list
@@ -476,7 +476,8 @@ export default {
 			this.getwindowWidth();
 		});
 		this.setNoticifations();
-	},
+    console.log(this.hasWinner);
+  },
 	computed: {
 		...mapState(['profile']),
 		myId(){
@@ -495,6 +496,9 @@ export default {
 		finished() {
 			return !!this.data.winner_id;
 		},
+    hasWinner() {
+      return !!this.data.winnerIdReal;
+    },
 		hasMembers() {
 			return this.data.members.length > 0;
 		},
