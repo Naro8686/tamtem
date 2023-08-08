@@ -41,3 +41,6 @@ public/js/admin.js
 public/files/agreement.doc
 laravel-echo-server.json
 laravel-echo-server.lock
+/bootstrap/cache/services.php
+/bootstrap/cache/packages.php
+/composer.lock

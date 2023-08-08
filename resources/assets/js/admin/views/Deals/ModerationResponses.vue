@@ -296,17 +296,19 @@ export default {
         ].link = `/admin/deals/show/moderation-responses/${data[i].id}`;
         this.tabledata[i].owner = data[i].owner.name;
         this.tabledata[i].category = data[i].categories[0].name;
+        if (data[i].date_create.date){
+          let [year, month, day] = data[i].date_create.date
+              .split(" ")[0]
+              .split("-");
+          this.tabledata[i].created_at = `${day}.${month}.${year}`;
+        }
 
-        let [year, month, day] = data[i].date_create.date
-          .split(" ")[0]
-          .split("-");
-        this.tabledata[i].created_at = `${day}.${month}.${year}`;
-
-        let [year1, month1, day1] = data[i].planned_finish.date
-          .split(" ")[0]
-          .split("-");
-        this.tabledata[i].deadline_deal = `${day1}.${month1}.${year1}`;
-
+        if (data[i].planned_finish.date){
+          let [year1, month1, day1] = data[i].planned_finish.date
+              .split(" ")[0]
+              .split("-");
+          this.tabledata[i].deadline_deal = `${day1}.${month1}.${year1}`;
+        }
         this.tabledata[
           i
         ].responses = `${data[i].count_response}/${data[i].count_response_moderate}`;
