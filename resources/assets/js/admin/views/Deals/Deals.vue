@@ -353,11 +353,12 @@ export default {
         this.tabledata[i].type_deal =
           data[i].type_deal == "buy" ? "Покупка" : "Продажа";
         data[i].is_fake ? (this.tabledata[i].trClass = "fakeDeal") : "";
-        let [year, month, day] = data[i].date_create.date
-          .split(" ")[0]
-          .split("-");
-        this.tabledata[i].created_at = `${day}.${month}.${year}`;
-
+        if (data[i].date_create.date){
+          let [year, month, day] = data[i].date_create.date
+              .split(" ")[0]
+              .split("-");
+          this.tabledata[i].created_at = `${day}.${month}.${year}`;
+        }
         /*this.tabledata[i].deadline_deal = data[i].planned_finish
 					? data[i].planned_finish.date
 							.split(" ")[0]
