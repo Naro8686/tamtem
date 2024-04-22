@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Formatter\Api\v1\DealsItemFormatter;
 use App\Http\Requests\Admin\Client\ClientStoreRequest;
 use App\Http\Requests\Admin\Client\ClientStoreUserRequest;
 use App\Http\Requests\Admin\Client\ClientUpdateRequest;
@@ -189,7 +190,7 @@ class ClientsController extends Controller
 
         // не даем задать категорию выше второго уровня
         $organization = $request->organization;
-        
+
         if ($organization !== null) {
 
             $orgCatId = $organization['categories']['0'];
@@ -238,7 +239,7 @@ class ClientsController extends Controller
             'data' => json_encode($request->all()),
             'user_id' => Auth::user()->id
         ];
-        
+
         LogAdmin::create($log)->save();
 
         $user->notify(new \App\Notifications\SendClientPassword($request->user['email'], $password));
@@ -256,7 +257,7 @@ class ClientsController extends Controller
             $newOrg = $user->company()->create();
         } else {
             $cat = $organization['categories'];
-            
+
             $newOrg = $user->company()->create($organization);
             $newOrg->categories()->sync($cat);
 
@@ -459,7 +460,7 @@ class ClientsController extends Controller
 
         $unique_id = $request->params['unique_id'];
         $summ = number_format($request->params['summ'], 2, '.', '');
-        
+
         $modelOrgDeal=new OrganizationDeal();
         $fileName=$modelOrgDeal->score($unique_id, $summ,  Auth::user());
 
@@ -516,9 +517,9 @@ class ClientsController extends Controller
         if($dealsWaitingPayment->count() > 0 ){
             // dd( $dealsWaitingPayment->get());
 
-            $dealsNotPayed = array();  // ссылки на неоплаченные сделки   
+            $dealsNotPayed = array();  // ссылки на неоплаченные сделки
             $summDealsNotPayed = 0;  // сколько нужно еще внести в кошелек для оплаты
-            $dealsPayed = array();      // ссылки на оплаченные сделки     
+            $dealsPayed = array();      // ссылки на оплаченные сделки
 
             //переберем каждую непроплаченную сделку
             foreach($dealsWaitingPayment->get() as $deal){
@@ -532,25 +533,40 @@ class ClientsController extends Controller
 
                 // проплачены ли победителем контакты сделки
                 $idsDealsBuyContacts = $user->idsDealsBuyContacts(); // id объявлений с проплаченными контактами
-                $isPayed = isset($idsDealsBuyContacts[$deal->id]);            
+                $isPayed = isset($idsDealsBuyContacts[$deal->id]);
 
                 if($isPayed){
-    
+
                     $dealsPayed[] = "<p><a href=" . url('bids/' . $deal->id). ">" . url('bids/' . $deal->id) . "</a></p>";
-       
+
                     // надо создать диалог по данной сделке между продавцом и покупателем и послеть первое сообщение
                     if(!$dialogId = DialogsController::newLocalDialog($deal->id, $deal->winner_id, $deal->organization_id)){
                     // return $this->errorResponse('ошибка создания диалога');
                     }
-                    if(!$messageId = DialogsController::sendLocal($dialogId, $user, 'Мои контакты у Вас есть, можно обговорить детали')){
-                    // return $this->errorResponse('ошибка отправки сообщения продавцу');
+                    $message = '';
+
+                    if ($company = $deal->organization) {
+                        $message .= $company->org_name.PHP_EOL;
+                        $message .= $company->org_inn.PHP_EOL;
+                        $message .= $company->org_address.PHP_EOL;
                     }
-        
+                    if ($owner = $deal->user) {
+                        $message .= $owner->name.PHP_EOL;
+                        $message .= $owner->phone.PHP_EOL;
+                        $message .= $owner->email.PHP_EOL;
+                    }
+                    $message .= 'Мои контакты у Вас есть, можно обговорить детали';
+                    if (!$messageId = DialogsController::sendLocal($dialogId,
+                        $user, $message)
+                    ) {
+                        return $this->errorResponse('ошибка отправки сообщения продавцу');
+                    }
+
                 }
                 else{ // если неоплачено
                     $summDealsNotPayed += round($commission, 0, PHP_ROUND_HALF_DOWN);
                     $dealsNotPayed[] = "<p><a href=" . url('bids/' . $deal->id). ">" . url('bids/' . $deal->id) . "</a></p>";
-                  
+
                 }
             }
 
@@ -560,7 +576,7 @@ class ClientsController extends Controller
                 foreach($dealsPayed as $dealPayed){
                     $messageToMail .= $dealPayed;
                 }
-                $messageToMail .= "<br/> Доступ к контактной информации по данным сделкам был автоматически оплачен. Перейдите в личный кабинет на сайте " 
+                $messageToMail .= "<br/> Доступ к контактной информации по данным сделкам был автоматически оплачен. Перейдите в личный кабинет на сайте "
                                     . "<a href=" . url('/'). ">" . url('/') . "</a>" .  " в раздел 'Мои предложения' и статус предложения 'Завершено'";
             }
 
@@ -585,7 +601,7 @@ class ClientsController extends Controller
         $messageToMail .= "<br/> Спасибо, что Вы с нами";
         $user = User::where('unique_id', $request->params['unique_id'])->first();
         $user->notify(new \App\Notifications\SendEmailAdminkaUpdateBallance($messageToMail, "Пополнение балланса"));
-        
+
         return $this->successResponse();
     }
 
@@ -594,19 +610,19 @@ class ClientsController extends Controller
     * @return string
     */
     public function generateUniqueOrderIdValue($prefix = null) {
-        
+
         $orderId = md5(uniqid(rand(), true));
         $orderId = ($prefix !== null) ? $prefix . "_" . $orderId : $orderId;
 
         if ($this->financeOperationService->isRowValueExists('payment_id', $orderId)) {
             return $this->generateUniqueOrderIdValue($prefix);
         }
- 
+
         return $orderId;
     }
-    
 
- 
+
+
 
 
 }

@@ -396,11 +396,11 @@ export default {
 	},
 	filters: {
 		dateTransform(rawData) {
-			const data = rawData.split(" ")[0];
+			const data = rawData ? rawData.split(" ")[0] : null;
 			if (data) {
 				const [year, month, day] = data.split("-");
 				return `${day}.${month}.${year}`;
-			} else {
+			} else if(rawData) {
 				const [year, month, day] = rawData.split("-");
 				return `${day}.${month}.${year}`;
 			}

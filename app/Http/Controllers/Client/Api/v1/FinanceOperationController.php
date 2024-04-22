@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client\Api\v1;
 
 // use App\Http\Resources\FinanceOperation\FinanceOperationCollection;
+use App\Formatter\Api\v1\DealsItemFormatter;
 use App\Http\Resources\FinanceOperation\FinanceOperationResource;
 use App\Traits\ApiControllerTrait;
 
@@ -265,7 +266,20 @@ class FinanceOperationController extends Controller
                     if(!$dialogId = DialogsController::newLocalDialog($deal->id, $deal->winner_id, $deal->organization_id)){
                         return $this->errorResponse('ошибка создания диалога');
                     }
-                    if(!$messageId = DialogsController::sendLocal($dialogId, $deal->user, 'Мои контакты у Вас есть, можно обговорить детали')){
+                    $message = '';
+
+                    if ($company = $deal->organization) {
+                        $message .= $company->org_name.PHP_EOL;
+                        $message .= $company->org_inn.PHP_EOL;
+                        $message .= $company->org_address.PHP_EOL;
+                    }
+                    if ($owner = $deal->user) {
+                        $message .= $owner->name.PHP_EOL;
+                        $message .= $owner->phone.PHP_EOL;
+                        $message .= $owner->email.PHP_EOL;
+                    }
+                    $message .= 'Мои контакты у Вас есть, можно обговорить детали';
+                    if(!$messageId = DialogsController::sendLocal($dialogId, $deal->user, $message)){
                         return $this->errorResponse('ошибка отправки сообщения продавцу');
                     }
 

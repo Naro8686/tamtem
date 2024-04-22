@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +18,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         URL::forceRootUrl(config('app.url'));
+        Carbon::serializeUsing(static function($carbon) {
+            $timezone = (array) $carbon->timezone;
+            return [
+                'date'          => $carbon->toDateTimeString(),
+                'timezone_type' => $timezone['timezone_type'],
+                'timezone'      => $timezone['timezone'],
+            ];
+        });
     }
 
     /**

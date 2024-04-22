@@ -62,9 +62,7 @@ class User extends Authenticatable
         return $this->belongsTo(\App\Models\Org\Organization::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+
     public function company()
     {
         return $this->hasOne(\App\Models\Org\Organization::class, 'owner_id');
@@ -85,7 +83,7 @@ class User extends Authenticatable
     public function userViewDeal()
     {
         return $this->belongsToMany(\App\Models\Org\OrganizationDeal::class)->withTimestamps();
-    } 
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -183,7 +181,7 @@ class User extends Authenticatable
      */
     public function scopeIsNoticeSubscribed()
     {
-        if($this->company->channels()->count() > 0){
+        if(!is_null($this->company) && $this->company->channels()->count() > 0){
             return true;
         }
         return false;
@@ -379,7 +377,7 @@ class User extends Authenticatable
         } else {
 
             // если надо проверить , купил ли подписку юзер именно по какой-то сделке
-            if($dealId !== null){ 
+            if($dealId !== null){
                 return $activeSubscriptions->where('deal_id', $dealId)->get()->toArray();
             }
 
@@ -438,7 +436,7 @@ class User extends Authenticatable
 
     /**
      *  Финиширует купленный тариф
-     * 
+     *
      * @param $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -503,7 +501,7 @@ class User extends Authenticatable
         return count($this->idsDealsBuyContacts());
     }
 
-    
+
     /**
      * Могу ли я показать контакты юзера с указанным $id текущему юзеру
      *
@@ -521,7 +519,7 @@ class User extends Authenticatable
             return true;
         }
 
-        if($user = User::find($id)){ 
+        if($user = User::find($id)){
 
             // если я купил контакты другого юзера
             $idsDealsBuyContacts = $this->idsDealsBuyContacts();
@@ -562,7 +560,7 @@ class User extends Authenticatable
      */
     public function getDealsWaitingPayment()
     {
-        $organizationId = $this->organization_id; 
+        $organizationId = $this->organization_id;
         //dd($organizationId);
         $dealsNotPayedIds = \App\Models\Org\OrganizationDealMember::where('organization_id', '=', $organizationId)->where('trading_status', '=', OrganizationDeal::DEAL_TRADING_STATUS_WAITING_PAYMENT)->pluck('deal_id')->toArray();
         //dd($dealsNotPayedIds);

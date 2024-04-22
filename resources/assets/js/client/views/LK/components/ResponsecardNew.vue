@@ -1,5 +1,5 @@
 <template lang="pug">
-article(:class="[cardStatus, {'responsecard--folded' : folded}, {'responsecard--payed-unfold' : isOpenPayed}, {'active' : isOpenBody}, {'new' : !response.isReadedByMe}]", @click="openResponse()")
+article(:class="['response', cardStatus, {'responsecard--folded' : folded}, {'responsecard--payed-unfold' : isOpenPayed}, {'active' : isOpenBody}, {'new' : !response.isReadedByMe}]", @click="openResponse()")
   b-modal.modal-wrap(:id="`modalResponseReport${response.responseId}`", :ref="`modalResponseReport${response.responseId}`", modal-class="modal-response", body-class="response-modal-body")
   .response_title(@click="openBody")
     .response_first_block

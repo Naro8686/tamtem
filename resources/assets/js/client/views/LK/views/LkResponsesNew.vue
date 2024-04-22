@@ -5,13 +5,13 @@
   .content
     Loader(v-if="this.loading")
     .responses(v-if="responsesList")
-      .response(v-for="response in responsesList")
+      template(v-for="response in responsesList")
         ResponsecardNew(:response="response", @leaveDeal="leaveDeal", @reloadResponses="getResponses")
     .order_empty(v-else) У вас нет откликов
 </template>
 <script>
 import ResponsecardNew from "../components/ResponsecardNew"
-import { mapFields } from "vee-validate"
+import {mapFields} from "vee-validate"
 
 export default {
   components: {

@@ -10,7 +10,7 @@ namespace App\Traits;
 trait ApiControllerTrait
 {
 
-    public function successResponse($data = null)
+    public function successResponse($data = null): array
     {
         if (isset($data))
             return ['result' => true, 'data' => $data];
@@ -18,7 +18,7 @@ trait ApiControllerTrait
         return ['result' => true];
     }
 
-    public function errorResponse($error = null)
+    public function errorResponse($error = null): array
     {
         if (isset($error))
             return ['result' => false, 'error' => $error];
@@ -26,7 +26,7 @@ trait ApiControllerTrait
         return ['result' => false];
     }
 
-    public function paginateResponse($paginate)
+    public function paginateResponse($paginate): array
     {
         if(!$paginate)
             return $this->errorResponse();
