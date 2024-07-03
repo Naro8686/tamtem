@@ -22,8 +22,8 @@ class AppServiceProvider extends ServiceProvider
             $timezone = (array) $carbon->timezone;
             return [
                 'date'          => $carbon->toDateTimeString(),
-                'timezone_type' => $timezone['timezone_type'],
-                'timezone'      => $timezone['timezone'],
+                'timezone_type' => $timezone['timezone_type'] ?? 3,
+                'timezone'      => $timezone['timezone'] ?? 'UTC',
             ];
         });
     }
