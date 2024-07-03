@@ -1,5 +1,5 @@
 @php
-	$isTamtem = (strpos($_SERVER['HTTP_HOST'], 'tamtem.ru') !== false);
+	$isTamtem = (strpos(($_SERVER['HTTP_HOST'] ?? ''), 'tamtem.ru') !== false);
 @endphp
 
 <!DOCTYPE html>
