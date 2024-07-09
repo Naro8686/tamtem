@@ -4,7 +4,7 @@ footer.mainfooter
 		.container.mainfooter__container
 			section.mainfooter__logo
 				footer-logo
-			p.mainfooter__copyright © ООО «Акстек», 2021 ОГРН 1187847338920
+			p.mainfooter__copyright © ООО «Акстек», {{new Date().getFullYear()}} ОГРН 1187847338920
 			ul.mainfooter__services.mainfooter__list
 				//- li
 				//- 	router-link( :to="{name:'new.bid'}").animation-link-underline Добавить заказ
@@ -50,15 +50,15 @@ footer.mainfooter
 				li
 					a.mainfooter__socials-link(href="https://ok.ru/group/54744477925527?roistat_visit=102953").mainfooter__socials-link--ok
 						icon-ok
-				li
-					a.mainfooter__socials-link(href="https://www.facebook.com/%D0%A2%D0%B0%D0%BC%D0%A2%D0%B5%D0%BC-417576149054496/?roistat_visit=102953").mainfooter__socials-link--fb
-						icon-fb
-				li
-					a.mainfooter__socials-link(href="https://www.instagram.com/tamtemb2b/?roistat_visit=102953").mainfooter__socials-link--inst
-						icon-insta
-				li
-					a.mainfooter__socials-link(href="https://twitter.com/tamtemb2b").mainfooter__socials-link--twi
-						icon-twitter
+				//li
+				//	a.mainfooter__socials-link(href="https://www.facebook.com/%D0%A2%D0%B0%D0%BC%D0%A2%D0%B5%D0%BC-417576149054496/?roistat_visit=102953").mainfooter__socials-link--fb
+				//		icon-fb
+				//li
+				//	a.mainfooter__socials-link(href="https://www.instagram.com/tamtemb2b/?roistat_visit=102953").mainfooter__socials-link--inst
+				//		icon-insta
+				//li
+				//	a.mainfooter__socials-link(href="https://twitter.com/tamtemb2b").mainfooter__socials-link--twi
+				//		icon-twitter
 				li
 					a.mainfooter__socials-link(href="https://www.youtube.com/watch?v=CcP_-_eKiWw").mainfooter__socials-link--tube
 						icon-tube

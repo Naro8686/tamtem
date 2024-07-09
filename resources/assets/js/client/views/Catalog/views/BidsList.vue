@@ -375,11 +375,11 @@ export default {
     this.type = this.$route.meta.type
 		this.getParamsfromRoute();
 
-		const path = this.$router.history.current.path;
+		//const path = this.$router.history.current.path;
 
 		// переход по замененному пути, с фильтром из хранищища объекта текущего состояния. Именно отсюда появляются параметры в адресной строке
-		this.$router.replace(`${path}?${Api.serializeQueryParams(this.getCurrentValue)}`)
-			.catch(err => {});
+		// this.$router.replace(`${path}?${Api.serializeQueryParams(this.getCurrentValue)}`)
+		// 	.catch(err => {});
 
 		this.getData();
 

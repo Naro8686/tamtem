@@ -34,11 +34,16 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "buyers",
+    name: "homepage",
+    component: Home,
+    meta: {
+      // title: `${APPNAME} - Главная страница`
+      title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
+    }
   },
   {
     path: "/buyers",
-    name: "homepage",
+    name: "buyers",
     component: Home,
     meta: {
       // title: `${APPNAME} - Главная страница`

@@ -11,7 +11,7 @@ header(:class="{'mainheader--homepage' : isHomePage}").mainheader
 						path(d="M85.713 12.142H5.861c-2.305 0-4.174-1.869-4.174-4.176 0-2.305 1.869-4.174 4.174-4.174h79.852c2.305 0 4.174 1.869 4.174 4.174 0 2.307-1.869 4.176-4.174 4.176zM85.713 49.858H5.861c-2.305 0-4.174-1.869-4.174-4.175 0-2.307 1.869-4.176 4.174-4.176h79.852c2.305 0 4.174 1.869 4.174 4.176 0 2.306-1.869 4.175-4.174 4.175zM85.713 87.571H5.861c-2.305 0-4.174-1.869-4.174-4.176s1.869-4.176 4.174-4.176h79.852c2.305 0 4.174 1.869 4.174 4.176s-1.869 4.176-4.174 4.176z")
 			ul.mainmenu__list.notablet
 				li.mainmenu__item
-					a(href="/" @click.prevent="goToUrlWithReachGoal('onas', '/')" :class="{ 'active' : $route.name === 'homepage' }").mainmenu__link.animation-link-underline О нас
+					a(href="/about" @click.prevent="goToUrlWithReachGoal('onas', '/about')" :class="{ 'active' : $route.name === 'about' }").mainmenu__link.animation-link-underline О нас
 				li.mainmenu__item
 					a(href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
 				li.mainmenu__item

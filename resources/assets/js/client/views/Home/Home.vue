@@ -4,7 +4,7 @@ section.homepage
 		div.container
 			div.homepage-firstscreen__inner
 				div.pagetype-switch.homepage__pageswitch
-					a(href="/").pagetype-switch__btn.is-active Для покупателей
+					a(href="/buyers").pagetype-switch__btn.is-active Для покупателей
 					a(href="/postavschic").pagetype-switch__btn Для поставщиков
 			div.homepage-firstscreen__inner
 				div.homepage-firstscreen__box
