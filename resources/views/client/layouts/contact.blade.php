@@ -2,23 +2,20 @@
 <html lang="en">
 
 <head>
-	<title>Контакты оптовой компании Tantem</title>
+	<title>{{$metaData->title ?? 'Контакты оптовой компании Tantem'}}</title>
 	<!-- Meta data -->
-	@if(isset($metaData))
-		@if($metaData->title)
-			<meta name="title" content="{{$metaData->title}}">
-			<meta property="og:title" content="{{$metaData->title}}">
-		@endif
+	<meta name="title"
+		  content="{{$metaData->title ?? 'Контакты оптовой компании Tantem'}}">
+	<meta property="og:title"
+		  content="{{$metaData->title ?? 'Контакты оптовой компании Tantem'}}">
+	@isset($metaData->description)
+		<meta name="description" content="{{$metaData->description}}">
+		<meta property="og:description" content="{{$metaData->description}}">
+	@endisset
 
-		@if($metaData->description)
-			<meta name="description" content="{{$metaData->description}}">
-			<meta property="og:description" content="{{$metaData->description}}">
-		@endif
-
-		@if($metaData->keywords)
-			<meta name="keywords" content="{{ $metaData->keywords }}">
-		@endif
-	@endif
+	@isset($metaData->keywords)
+		<meta name="keywords" content="{{ $metaData->keywords }}">
+	@endisset
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">

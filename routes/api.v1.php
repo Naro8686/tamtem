@@ -262,7 +262,7 @@ Route::group(['prefix' => 'deals-file', 'as' => 'deals-file.', 'middleware' => '
  //   Route::post('{id}', 'Client\Api\v1\DealsFileController@update')->name('update');
     Route::delete('{id}', 'Client\Api\v1\DealsFileController@delete')->name('delete');
 });
-
+Route::get('/meta-tags', 'Client\Api\v1\MetaTagController')->name('meta-tags');
 // логироввание dadata
 Route::group(['prefix' => 'statistic', 'as' => 'statistic.', 'middleware' => 'auth:api'], function(){
     Route::post('log/store', 'Client\Api\v1\DataLoggerController@store')->name('create');

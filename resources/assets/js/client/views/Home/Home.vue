@@ -505,10 +505,6 @@ export default {
         this.currentStep = 1;
       }
     },
-    setCategory(selectedCategory) {
-      this.$refs.modalFinderCategories.hide();
-      this.finderData.category = selectedCategory;
-    },
     getData() {
       let url =
         "/api/v1/filter/deals?page=1&per_page=12&type_deal=sell&date_published=desc";

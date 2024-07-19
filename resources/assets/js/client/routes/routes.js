@@ -1,3 +1,4 @@
+// import axios from 'axios';
 import LkRoutes from "./routes.lk"
 import BidsRoutes from "./routes.bids"
 import UsersRoutes from "./routes.users"
@@ -14,6 +15,7 @@ import Tarifs from "../views/Tarifs"
 import faq2 from "../views/faq"
 import Unsubscribe from "../views/GeneralComponents/components/UnsubscribeView"
 import Supplier from "../views/Supplier/Supplier"
+
 const routes = [
   {
     path: "/lk",
@@ -144,5 +146,24 @@ const routes = [
     redirect: "/404"
   }
 ]
-
+// Устанавливает для всех url мета теги
+// axios.get("/api/v1/meta-tags").then((response) => {
+//   let data = response.data;
+//   if (data.result) for (const [i, route] of Object.entries(routes)) {
+//     if (route.hasOwnProperty('path')) {
+//       let path = route.path
+//           .replace(/^\//g, "")
+//           .replace(/\/$/g, "");
+//       let result = data.data.filter(meta => {
+//         return meta.page_slug === path;
+//       }) || [];
+//       if (result.length) {
+//         Object.keys(result[0]).forEach(function (key) {
+//           if (key !== 'page_slug')
+//             routes[i].meta[key] = result[0][key];
+//         });
+//       }
+//     }
+//   }
+// });
 export default routes

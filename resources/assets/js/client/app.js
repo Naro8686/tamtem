@@ -8,7 +8,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import App from "./views/App"
 import AppNew from "./views/AppNew"
-import { store } from "./store"
+import {store} from "./store"
 import Notifications from 'vue-notification'
 
 import routes from "./routes/routes"
@@ -16,8 +16,9 @@ import ApplicationMixin from "./mixins/application"
 import GlobalMixin from "./mixins/global"
 import Vuetify from "vuetify"
 import Cookies from "js-cookie"
-import { mapActions } from "vuex"
+import {mapActions} from "vuex"
 import vClickOutside from "v-click-outside"
+
 Vue.use(vClickOutside)
 import "vuetify/dist/vuetify.min.css"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
@@ -31,14 +32,17 @@ Vue.use(VueRouter)
 Vue.use(Notifications)
 
 import VueFeather from "vue-feather"
+
 Vue.component(VueFeather.name, VueFeather)
 
 try {
-  window.$ = window.jQuery = require("jquery")
-  require("bootstrap")
-} catch (e) {}
+    window.$ = window.jQuery = require("jquery")
+    require("bootstrap")
+} catch (e) {
+}
 
 import BootstrapVue from "bootstrap-vue"
+
 Vue.use(BootstrapVue)
 
 window.axios = require("axios")
@@ -54,113 +58,127 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest"
 let token = document.head.querySelector('meta[name="csrf-token"]')
 
 if (token) {
-  window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content
+    window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content
 } else {
-  console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token")
+    console.error("CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token")
 }
 
-import VeeValidate, { Validator } from "vee-validate"
+import VeeValidate, {Validator} from "vee-validate"
 import VeeValidateRu from "vee-validate/dist/locale/ru"
+
 VeeValidateRu.messages.confirmed = () => "Пароли не совпадают."
 
 VeeValidateRu.messages.decimal = (field) => {
-  return "Поле " + field + " должно быть числовым и может содержать 2 знака после точки."
+    return "Поле " + field + " должно быть числовым и может содержать 2 знака после точки."
 }
 
 Validator.localize({
-  ru: VeeValidateRu
+    ru: VeeValidateRu
 })
 Vue.use(VeeValidate, {
-  locale: "ru",
-  events: "input|blur"
+    locale: "ru",
+    events: "input|blur"
 })
+
+
+async function getMeta(slug) {
+    const res = axios.get("/api/v1/meta-tags", {params: {slug: slug}});
+    return await res;
+}
 
 const router = new VueRouter({
-  mode: "history",
-  routes: routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (to.name == "sells.list") {
-      if (from.name = "sells.list") {
-        return {}
-      }
-    }
-    if (to.name == "bids.list") {
-      if (from.name = "bids.list") {
-        return {}
-      }
-      if (from.name == "homepage") {
-        return new Promise((resolve, reject) => {
-          app.$nextTick(() => {
-            resolve({ x: 0, y: 0 })
-          })
-        })
-      }
-      if (savedPosition) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve(savedPosition)
-          }, 1500)
-        })
-      } else {
-        let coord = {
-          x: 0,
-          y: document.body.pageYOffset
+    mode: "history",
+    routes: routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (to.name == "sells.list") {
+            if (from.name = "sells.list") {
+                return {}
+            }
         }
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve(coord)
-          }, 1500)
-        })
-      }
-    } else if (to.hash) {
-      return { selector: to.hash }
-    } else {
-      return { x: 0, y: 0 }
+        if (to.name == "bids.list") {
+            if (from.name = "bids.list") {
+                return {}
+            }
+            if (from.name == "homepage") {
+                return new Promise((resolve, reject) => {
+                    app.$nextTick(() => {
+                        resolve({x: 0, y: 0})
+                    })
+                })
+            }
+            if (savedPosition) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve(savedPosition)
+                    }, 1500)
+                })
+            } else {
+                let coord = {
+                    x: 0,
+                    y: document.body.pageYOffset
+                }
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve(coord)
+                    }, 1500)
+                })
+            }
+        } else if (to.hash) {
+            return {selector: to.hash}
+        } else {
+            return {x: 0, y: 0}
+        }
     }
-  }
-})
-
+});
 router.beforeEach((to, from, next) => {
-  if (to.name == "success.reset") {
-    next("/?reset-password=true")
-  }
-  let token = Cookies.get("api_auth")
+    if (to.name == "success.reset") {
+        next("/?reset-password=true")
+    }
+    let token = Cookies.get("api_auth")
 
-  if (to.name == "lk.profile" && !token) {
-    next("/?itm=signin")
-    return
-  }
+    if (to.name == "lk.profile" && !token) {
+        next("/?itm=signin")
+        return
+    }
 
-  if (!token && to.matched.some((m) => m.meta.auth)) {
-    next({ name: "bids.list" })
-  } else {
-    document.title = to.meta.title
-    next()
-  }
-})
+    if (!token && to.matched.some((m) => m.meta.auth)) {
+        next({name: "bids.list"})
+    } else {
+        getMeta(to.fullPath).then((resp) => {
+            const data = resp.data;
+            let title = to.meta.title;
+            if (data.result) {
+                title = data.data.title;
+            }
+            to.meta.title = title;
+            document.title = title;
+        });
+        next();
+    }
+});
 
 if (BUILD_MODE === "production") {
-  window.isProdMode = true
+    window.isProdMode = true
 } else if (BUILD_MODE === "development") {
-  window.isDevMode = true
+    window.isDevMode = true
 }
 
 const app = new Vue({
-  store,
-  router,
-  render: (h) => h(AppNew),
-  mixins: [ApplicationMixin],
-  components: {},
-  created() {
-    this.loadCategories()
-    this.loadRegions()
-    this.setWindowWidth()
-  },
-  methods: {
-    ...mapActions("categories", ["loadCategories"]),
-    ...mapActions("regions", ["loadRegions"]),
-    ...mapActions(["setWindowWidth"])
-  }
+    store,
+    router,
+    render: (h) => h(AppNew),
+    mixins: [ApplicationMixin],
+    components: {},
+    created() {
+        this.loadCategories()
+        this.loadRegions()
+        this.setWindowWidth()
+    },
+    methods: {
+        ...mapActions("categories", ["loadCategories"]),
+        ...mapActions("regions", ["loadRegions"]),
+        ...mapActions(["setWindowWidth"])
+    }
 })
 
 Vue.prototype.$snackbar = app.$store.getters.getSnackbarState
@@ -173,5 +191,5 @@ console.log("%chash: %s", "background:#222; color:#bada55", GIT_COMMITHASH)
 console.groupEnd()
 
 Vue.config.errorHandler = (err, vm, msg) => {
-  app.printErrorOnConsole(err, "error", msg)
+    app.printErrorOnConsole(err, "error", msg)
 }

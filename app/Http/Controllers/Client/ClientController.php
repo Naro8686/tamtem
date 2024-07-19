@@ -54,7 +54,7 @@ class ClientController extends Controller
 
     public function contact(Request $request)
     {
-        $metaData = MetaTag::where(['page_slug' => 'concat'])->first();
+        $metaData = MetaTag::where(['page_slug' => 'contact'])->first();
         return view('client.layouts.contact', compact('metaData'));
     }
 
@@ -290,5 +290,13 @@ class ClientController extends Controller
             return $this->errorResponse($e->getMessage());
 		}
 
+    }
+
+    public function sitemap()
+    {
+        $pages = MetaTag::orderBy('updated_at', 'desc')->get();
+        return response()->view('client.layouts.sitemap', [
+            'pages' => $pages,
+        ])->header('Content-Type', 'text/xml');
     }
 }

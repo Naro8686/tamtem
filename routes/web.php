@@ -38,4 +38,5 @@ Route::get('/faq', 'Client\ClientController@faq')->name('faq.page');
 Route::get('/price', 'Client\ClientController@price')->name('price.page');
 Route::get('/postavschic', 'Client\ClientController@postavschic')->name('postavschic.page');
 
+Route::get('/sitemap.xml', 'Client\ClientController@sitemap')->name('sitemap');
 Route::get('/{any?}', 'Client\ClientController@index')->where('any', '.*')->name('client');

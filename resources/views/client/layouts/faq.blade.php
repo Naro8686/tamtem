@@ -2,7 +2,6 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-	<title>Помощь в размещении объявлений в компании Tantem</title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -12,22 +11,20 @@
 	<link rel="manifest" href="{{ url('/') }}/site.webmanifest">
 	<meta name="msapplication-config" content="browserconfig.xml" />
 	<meta name="msapplication-TileColor" content="#ffffff">
+	<title>{{$metaData->title ?? 'Помощь в размещении объявлений в компании Tantem'}}</title>
 	<!-- Meta data -->
-	@if(isset($metaData))
-		@if($metaData->title)
-			<meta name="title" content="{{$metaData->title}}">
-			<meta property="og:title" content="{{$metaData->title}}">
-		@endif
+	<meta name="title"
+		  content="{{$metaData->title ?? 'Помощь в размещении объявлений в компании Tantem'}}">
+	<meta property="og:title"
+		  content="{{$metaData->title ?? 'Помощь в размещении объявлений в компании Tantem'}}">
+	@isset($metaData->description)
+		<meta name="description" content="{{$metaData->description}}">
+		<meta property="og:description" content="{{$metaData->description}}">
+	@endisset
 
-		@if($metaData->description)
-			<meta name="description" content="{{$metaData->description}}">
-			<meta property="og:description" content="{{$metaData->description}}">
-		@endif
-
-		@if($metaData->keywords)
-			<meta name="keywords" content="{{ $metaData->keywords }}">
-		@endif
-	@endif
+	@isset($metaData->keywords)
+		<meta name="keywords" content="{{ $metaData->keywords }}">
+	@endisset
 	<meta property="og:type" content="website">
 	<meta property="og:site_name" content="{{ url('/') }}">
 	<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">

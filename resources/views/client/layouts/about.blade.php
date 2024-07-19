@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Оптовая площадка Tantem для продажи товаров и услуг по всей России</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-      <!-- Meta data -->
-      @if(isset($metaData))
-          @if($metaData->title)
-              <meta name="title" content="{{$metaData->title}}">
-              <meta property="og:title" content="{{$metaData->title}}">
-          @endif
+    <title>{{$metaData->title ?? 'Оптовая площадка Tantem для продажи товаров и услуг по всей России'}}</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- Meta data -->
+    <meta name="title"
+          content="{{$metaData->title ?? 'Оптовая площадка Tantem для продажи товаров и услуг по всей России'}}">
+    <meta property="og:title"
+          content="{{$metaData->title ?? 'Оптовая площадка Tantem для продажи товаров и услуг по всей России'}}">
+    @isset($metaData->description)
+        <meta name="description" content="{{$metaData->description}}">
+        <meta property="og:description" content="{{$metaData->description}}">
+    @endisset
 
-          @if($metaData->description)
-              <meta name="description" content="{{$metaData->description}}">
-              <meta property="og:description" content="{{$metaData->description}}">
-          @endif
-
-          @if($metaData->keywords)
-              <meta name="keywords" content="{{ $metaData->keywords }}">
-          @endif
-      @endif
-		<meta property="og:type" content="website">
-		<meta property="og:site_name" content="{{ url('/') }}">
-		<meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
-		<meta property="og:url" content="{{ url('/') }}">
-	  <meta name="theme-color" content="#ffffff">
+    @isset($metaData->keywords)
+        <meta name="keywords" content="{{ $metaData->keywords }}">
+    @endisset
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ url('/') }}">
+    <meta property="og:image" content="{{ url('/') }}/images/og_logo.png">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-	  <link rel="mask-icon" href="{{ url('/') }}/safari-pinned-tab.svg" color="#2fc06e">
+    <link rel="mask-icon" href="{{ url('/') }}/safari-pinned-tab.svg" color="#2fc06e">
     <link rel="manifest" href="{{ url('/') }}/site.webmanifest">
-	  <meta name="msapplication-config" content="browserconfig.xml" /> 
+    <meta name="msapplication-config" content="browserconfig.xml"/>
     <meta name="msapplication-TileColor" content="#ffffff">
-		<link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('/') }}/favicon-16x16.png">
     <link rel="shortcut icon" href="{{ url('/') }}/favicon.ico" type="image/x-icon">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  	<!-- <link rel="stylesheet" href="{{asset ('/blades/styles/main.min.css') }}"> -->
-  	<link rel="stylesheet" type="text/css" href="{{asset ('/blades/styles/main.css') }}">
-  	<script src="//code.jivosite.com/widget.js" data-jv-id="FhRCwDcc40" async></script>
-  </head>
+    <!-- <link rel="stylesheet" href="{{asset ('/blades/styles/main.min.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="{{asset ('/blades/styles/main.css') }}">
+    <script src="//code.jivosite.com/widget.js" data-jv-id="FhRCwDcc40" async></script>
+</head>
   <body>
     <header class="header">
       <section class="topbar">
