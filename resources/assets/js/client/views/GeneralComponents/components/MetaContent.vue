@@ -62,28 +62,28 @@ export default {
 }
 
 .meta-content h1 {
-  text-align: left !important;
-  font-weight: 800 !important;
-  font-size: 54px !important;
+  text-align: left;
+  font-weight: 800;
+  font-size: 54px;
   color: #2C3444 !important;
   margin-bottom: 10px !important;
-  line-height: 45px !important;
+  line-height: 45px;
 }
 
 .meta-content h2 {
-  text-align: left !important;
-  font-style: normal !important;
-  font-weight: 600 !important;
-  font-size: 44px !important;
+  text-align: left;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 44px;
   color: #2C3444 !important;
   margin-bottom: 10px !important;
-  line-height: 45px !important;
+  line-height: 45px;
 }
 
 .meta-content p {
-  font-weight: normal !important;
-  font-size: 24px !important;
-  line-height: 30px !important;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 30px;
   color: #2C3444 !important;
   text-align: left !important;
   margin-bottom: 30px !important;
@@ -103,5 +103,22 @@ export default {
 
 .meta-content a.read-more:hover {
   color: #000000 !important;
+}
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 35px !important;
+    line-height: 40px !important;
+  }
+
+  h2 {
+    font-size: 22px !important;
+    line-height: 25px !important;
+  }
+
+  p {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
 }
 </style>

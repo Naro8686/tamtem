@@ -149,9 +149,14 @@ router.beforeEach((to, from, next) => {
             let title = to.meta.title;
             if (data.result) {
                 title = data.data.title;
+                $('meta[name="keywords"]').attr('content', data.data.keywords);
+                $('meta[name="description"]').attr('content', data.data.description);
+                $('meta[property="og:description"]').attr('content', data.data.description);
             }
             to.meta.title = title;
             document.title = title;
+            $('meta[name="title"]').attr('content', title);
+            $('meta[property="og:title"]').attr('content', title);
         });
         next();
     }

@@ -15,7 +15,7 @@ return [
 */
     'host' => env('MAIL_HOST', 'mail.krivolapov.com'),
     'port' => env('MAIL_PORT', '587'),
-    'address' => env('MAIL_USERNAME', 'testuser'),
+    'address' => env('MAIL_FROM_ADDRESS', 'testuser'),
     'name' => env('MAIL_FROM_NAME', 'testuser@krivolapov.com'),
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
     'username' => env('MAIL_USERNAME', 'testuser@krivolapov.com'),

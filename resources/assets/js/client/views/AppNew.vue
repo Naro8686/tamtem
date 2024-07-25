@@ -225,13 +225,12 @@ body {
 		height: 100vh;
 		width: 100vw;
 		&::before {
-			content: "";
-			position: absolute;
-			width: 100%;
-			height: 100vh;
-			z-index: 3;
-			transition: 0.8s;
-			background: transparentize(#000, 0.5);
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
 		}
 		&--transparent {
 			overflow: hidden;

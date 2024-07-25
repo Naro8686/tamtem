@@ -329,14 +329,12 @@ export default {
       currentVal.page = this.$route.query.page || 1;
       currentVal.per_page = this.$route.query.per_page || 12;
       currentVal.date_published = this.$route.query.date_published || "desc";
-      console.log(this.$router.currentRoute);
       // изменяем тип в объекте состояния
       if (this.type == 'sell') {
         currentVal.type_deal = "sell"
       } else (
           currentVal.type_deal = this.$route.query.type_deal || "buy"
       )
-      console.log(this.type);
       // этот блок условий проверяет, были ли установлены какие-то новые значения в компоненте filtersitem
       if (this.$route.query.search) {
         this.$set(currentVal, "search", this.$route.query.search);

@@ -590,8 +590,10 @@ export default {
 $color-cold-soft: #ecf2fe;
 $color-darken: #2C3444;
 $color-prim: #3393FF;
+
 .container {
-  max-width: 1294px;
+  margin: 0 auto;
+  max-width: 1170px;
   padding: 0 60px;
   // Костыль для нейтрализации бага в vuetify-custom с определением максимальной ширины контейнера.
   @media (max-width: 1130px) {
