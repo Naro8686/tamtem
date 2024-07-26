@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Admin\MetaTagController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Client\Api\v1\PaymentServicesController;
-use App\Http\Resources\MetaTag\MetaTagCollection;
-use App\Http\Resources\MetaTag\MetaTagResource;
 use App\Models\MetaTag;
 use App\Traits\ModelFileUpload;
 use App\Traits\ApiControllerTrait;

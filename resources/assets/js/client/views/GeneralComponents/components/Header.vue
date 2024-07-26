@@ -147,11 +147,7 @@ export default {
       }
     },
     $route(to, from) {
-      if (to.name == 'homepage') {
-        this.isHomePage = true
-      } else {
-        this.isHomePage = false
-      }
+      this.isHomePage = to.name === 'homepage' || to.name === 'buyers';
     }
   },
   methods: {
@@ -263,9 +259,7 @@ export default {
       }
     },
     defineHomePage() {
-      if (this.$route.name == 'homepage') {
-        this.isHomePage = true
-      }
+      this.isHomePage = this.$route.name === 'homepage' || this.$route.name === 'buyers'
     },
     changeCurrency(currency) {
       this.setCurrency(currency);
