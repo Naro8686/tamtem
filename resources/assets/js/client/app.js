@@ -78,12 +78,10 @@ Validator.localize({
 Vue.use(VeeValidate, {
     locale: "ru",
     events: "input|blur"
-})
+});
 
-
-async function getMeta(slug) {
-    const res = axios.get("/api/v1/meta-tags", {params: {slug: slug}});
-    return await res;
+function fetchMetaTags(slug) {
+    return axios.get("/api/v1/meta-tags", {params: {slug: slug}}).then(response => response.data);
 }
 
 const router = new VueRouter({
@@ -91,12 +89,12 @@ const router = new VueRouter({
     routes: routes,
     scrollBehavior(to, from, savedPosition) {
         if (to.name == "sells.list") {
-            if (from.name = "sells.list") {
+            if (from.name == "sells.list") {
                 return {}
             }
         }
         if (to.name == "bids.list") {
-            if (from.name = "bids.list") {
+            if (from.name == "bids.list") {
                 return {}
             }
             if (from.name == "homepage") {
@@ -130,7 +128,7 @@ const router = new VueRouter({
         }
     }
 });
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.name == "success.reset") {
         next("/?reset-password=true")
     }
@@ -144,20 +142,21 @@ router.beforeEach((to, from, next) => {
     if (!token && to.matched.some((m) => m.meta.auth)) {
         next({name: "bids.list"})
     } else {
-        getMeta(to.fullPath).then((resp) => {
-            const data = resp.data;
-            let title = to.meta.title;
-            if (data.result) {
-                title = data.data.title;
-                $('meta[name="keywords"]').attr('content', data.data.keywords);
-                $('meta[name="description"]').attr('content', data.data.description);
-                $('meta[property="og:description"]').attr('content', data.data.description);
+        let title = to.meta.title;
+        try {
+            const meta = await fetchMetaTags(to.fullPath);
+            if (meta.result) {
+                title = meta.data.title || title;
+                $('meta[name="title"]').attr('content', title);
+                $('meta[property="og:title"]').attr('content', title);
+                $('meta[name="keywords"]').attr('content', meta.data.keywords);
+                $('meta[name="description"]').attr('content', meta.data.description);
+                $('meta[property="og:description"]').attr('content', meta.data.description);
             }
-            to.meta.title = title;
-            document.title = title;
-            $('meta[name="title"]').attr('content', title);
-            $('meta[property="og:title"]').attr('content', title);
-        });
+        } catch (error) {
+            console.error('Failed to fetch meta tags', error);
+        }
+        document.title = title;
         next();
     }
 });

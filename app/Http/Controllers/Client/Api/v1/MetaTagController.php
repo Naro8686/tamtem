@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client\Api\v1;
 
+use App\Models\Category;
 use App\Models\MetaTag;
 use App\Traits\ApiControllerTrait;
 use App\Http\Controllers\Controller;
@@ -28,6 +29,16 @@ class MetaTagController extends Controller
             'page_slug', 'title', 'description', 'keywords'
         ]);
         if (is_null($metaData)) {
+            $arr = explode('/', $slug);
+            $slug = end($arr);
+            if ($category = Category::whereSlug($slug)->first()) {
+                return $this->successResponse([
+                    'title'       => $category->title,
+                    'page_slug'   => $category->slug,
+                    'description' => $category->description,
+                    'keywords'    => null
+                ]);
+            }
             return $this->errorResponse('Meta Data Not Found');
         }
         return $this->successResponse($metaData->toArray());
@@ -35,7 +46,7 @@ class MetaTagController extends Controller
 
     private function all()
     {
-        $metaData = MetaTag::get([
+        $metaData = MetaTag::allWithCategories()->pluck([
             'page_slug', 'title', 'description', 'keywords'
         ]);
         return $this->successResponse($metaData->toArray());

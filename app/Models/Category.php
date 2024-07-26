@@ -6,15 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['slug', 'parent_slug', 'name', 'description', 'parent_id', 'cl_icon', 'cl_background'];
+    protected $fillable
+        = [
+            'slug', 'parent_slug', 'name', 'title', 'description', 'parent_id',
+            'cl_icon', 'cl_background'
+        ];
     public $timestamps = false;
     protected $hidden = ['pivot'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function organizations()
     {
-        return $this->belongsToMany(\App\Models\Org\Organization::class, 'organizations_categories', 'category_id', 'organization_id');
+        return $this->belongsToMany(\App\Models\Org\Organization::class,
+            'organizations_categories', 'category_id', 'organization_id');
     }
 
     /**
@@ -22,7 +28,8 @@ class Category extends Model
      */
     public function news()
     {
-        return $this->belongsToMany(\App\Models\News::class, 'news_categories', 'category_id', 'news_id');
+        return $this->belongsToMany(\App\Models\News::class, 'news_categories',
+            'category_id', 'news_id');
     }
 
     /**
@@ -30,7 +37,8 @@ class Category extends Model
      */
     public function deals()
     {
-        return $this->belongsToMany(\App\Models\Org\OrganizationDeals::class, 'organizations_deals_categories', 'deal_id', 'category_id');
+        return $this->belongsToMany(\App\Models\Org\OrganizationDeals::class,
+            'organizations_deals_categories', 'deal_id', 'category_id');
     }
 
     public function children()
@@ -45,11 +53,12 @@ class Category extends Model
 
     /**
      * @param $query
+     *
      * @return mixed
      */
     public function scopeCategoriesNotRoot($query)
     {
-        return $query->where('parent_id', '<>' , 0);
+        return $query->where('parent_id', '<>', 0);
     }
 
 }

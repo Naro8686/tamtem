@@ -22,28 +22,53 @@
                 {{ errorsServer.name[0] }}
               </span>
             </div>
-            <div
-              :class="[
+            <div class="row">
+              <div class="col-md-6">
+                <div
+                    :class="['form-group', errorsServer.title ? 'has-error' : '']"
+                >
+                  <label for="title">Title</label>
+                  <input
+                      v-model="item.title"
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      placeholder="Title"
+                  />
+                  <span
+                      class="help-block"
+                      v-if="errorsServer.title"
+                      :errorsServer="errorsServer"
+                  >
+                  {{ errorsServer.title[0] }}
+                </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                    :class="[
                 'form-group',
                 errorsServer.description ? 'has-error' : ''
               ]"
-            >
-              <label for="description">Описание</label>
-              <input
-                v-model="item.description"
-                type="text"
-                class="form-control"
-                id="description"
-                placeholder="Введите описание"
-              />
-              <span
-                v-for
-                class="help-block"
-                v-if="errorsServer.description"
-                :errorsServer="errorsServer"
-              >
+                >
+                  <label for="description">Description</label>
+                  <input
+                      v-model="item.description"
+                      type="text"
+                      class="form-control"
+                      id="description"
+                      placeholder="Description"
+                  />
+                  <span
+                      v-for
+                      class="help-block"
+                      v-if="errorsServer.description"
+                      :errorsServer="errorsServer"
+                  >
                 {{ errorsServer.description[0] }}
               </span>
+                </div>
+              </div>
             </div>
           </div>
           <div>

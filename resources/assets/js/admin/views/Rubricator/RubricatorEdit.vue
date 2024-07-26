@@ -10,61 +10,87 @@
             <div :class="['form-group', errorsServer.name ? 'has-error' : '']">
               <label for="name">Название вопроса</label>
               <input
-                v-model="item.name"
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Введите название"
+                  v-model="item.name"
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Введите название"
               />
               <span
-                class="help-block"
-                v-if="errorsServer.name"
-                :errorsServer="errorsServer"
+                  class="help-block"
+                  v-if="errorsServer.name"
+                  :errorsServer="errorsServer"
               >
                 {{ errorsServer.name[0] }}
               </span>
             </div>
-            <div
-              :class="[
+            <div class="row">
+              <div class="col-md-6">
+                <div
+                    :class="['form-group', errorsServer.title ? 'has-error' : '']"
+                >
+                  <label for="title">Title</label>
+                  <input
+                      v-model="item.title"
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      placeholder="Title"
+                  />
+                  <span
+                      class="help-block"
+                      v-if="errorsServer.title"
+                      :errorsServer="errorsServer"
+                  >
+                  {{ errorsServer.title[0] }}
+                </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                    :class="[
                 'form-group',
                 errorsServer.description ? 'has-error' : ''
               ]"
-            >
-              <label for="description">Описание рубрики</label>
-              <input
-                v-model="item.description"
-                type="text"
-                class="form-control"
-                id="description"
-                placeholder="Введите описание"
-              />
-              <span
-                v-for
-                class="help-block"
-                v-if="errorsServer.description"
-                :errorsServer="errorsServer"
-              >
+                >
+                  <label for="description">Description</label>
+                  <input
+                      v-model="item.description"
+                      type="text"
+                      class="form-control"
+                      id="description"
+                      placeholder="Description"
+                  />
+                  <span
+                      v-for
+                      class="help-block"
+                      v-if="errorsServer.description"
+                      :errorsServer="errorsServer"
+                  >
                 {{ errorsServer.description[0] }}
               </span>
+                </div>
+              </div>
             </div>
+
           </div>
           <div>
             <div class="col-md-6">
               <div
-                :class="['form-group', errorsServer.cl_icon ? 'has-error' : '']"
+                  :class="['form-group', errorsServer.cl_icon ? 'has-error' : '']"
               >
                 <label for="cl_icon">Стиль иконки</label>
                 <input
-                  v-model="item.cl_icon"
-                  type="text"
-                  class="form-control"
-                  id="cl_icon"
-                  placeholder="Class name"
+                    v-model="item.cl_icon"
+                    type="text"
+                    class="form-control"
+                    id="cl_icon"
+                    placeholder="Class name"
                 />
                 <span
-                  class="help-block"
-                  v-if="errorsServer.cl_icon"
-                  :errorsServer="errorsServer"
+                    class="help-block"
+                    v-if="errorsServer.cl_icon"
+                    :errorsServer="errorsServer"
                 >
                   {{ errorsServer.cl_icon[0] }}
                 </span>
@@ -72,24 +98,24 @@
             </div>
             <div class="col-md-6">
               <div
-                :class="[
+                  :class="[
                   'form-group',
                   errorsServer.cl_background ? 'has-error' : ''
                 ]"
               >
                 <label for="cl_background">Стиль фона</label>
                 <input
-                  v-model="item.cl_background"
-                  type="text"
-                  class="form-control"
-                  id="cl_background"
-                  placeholder="Class name"
+                    v-model="item.cl_background"
+                    type="text"
+                    class="form-control"
+                    id="cl_background"
+                    placeholder="Class name"
                 />
                 <span
-                  v-for
-                  class="help-block"
-                  v-if="errorsServer.cl_background"
-                  :errorsServer="errorsServer"
+                    v-for
+                    class="help-block"
+                    v-if="errorsServer.cl_background"
+                    :errorsServer="errorsServer"
                 >
                   {{ errorsServer.cl_background[0] }}
                 </span>
@@ -100,17 +126,17 @@
           <div class="col-md-12 frm-buttons">
             <div class="btn-group">
               <input
-                v-if="this.$root.profile.permissions.categories.edit"
-                class="btn btn-default"
-                type="submit"
-                value="Редактировать"
+                  v-if="this.$root.profile.permissions.categories.edit"
+                  class="btn btn-default"
+                  type="submit"
+                  value="Редактировать"
               />
               <input
-                v-if="this.$root.profile.permissions.users.delete"
-                class="btn btn-danger"
-                type="button"
-                @click="deleteItem"
-                value="Удалить"
+                  v-if="this.$root.profile.permissions.users.delete"
+                  class="btn btn-danger"
+                  type="button"
+                  @click="deleteItem"
+                  value="Удалить"
               />
             </div>
           </div>
@@ -137,15 +163,15 @@ export default {
   methods: {
     loadItem() {
       axios
-        .get("/admin/api/categories/" + this.$route.params.id)
-        .then((resp) => {
-          this.item = resp.data;
-        });
+          .get("/admin/api/categories/" + this.$route.params.id)
+          .then((resp) => {
+            this.item = resp.data;
+          });
     },
 
     deleteItem() {
       axios.delete("/admin/api/categories/" + this.item.id).then((resp) => {
-        this.$router.push({ name: "rubricator" });
+        this.$router.push({name: "rubricator"});
       });
     },
 
@@ -153,11 +179,11 @@ export default {
       event.preventDefault();
 
       axios
-        .patch("/admin/api/categories/" + this.item.id, this.item)
-        .then((resp) => {
-          this.messageSaved();
-        })
-        .catch(this.handleErrorResponse);
+          .patch("/admin/api/categories/" + this.item.id, this.item)
+          .then((resp) => {
+            this.messageSaved();
+          })
+          .catch(this.handleErrorResponse);
     }
   }
 };

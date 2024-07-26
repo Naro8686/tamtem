@@ -17,153 +17,134 @@ import Unsubscribe from "../views/GeneralComponents/components/UnsubscribeView"
 import Supplier from "../views/Supplier/Supplier"
 
 const routes = [
-  {
-    path: "/lk",
-    name: "lk",
-    component: LkNew,
-    redirect: "lk/bids#actived",
-    meta: {
-      breadcrumb: false,
-      title: `${APPNAME} - Личный кабинет`,
-      auth: true
+    {
+        path: "/lk",
+        name: "lk",
+        component: LkNew,
+        redirect: "lk/bids#actived",
+        meta: {
+            breadcrumb: false,
+            title: `${APPNAME} - Личный кабинет`,
+            auth: true
+        },
+        children: LkRoutes
     },
-    children: LkRoutes
-  },
-  {
-    path: "/fq",
-    name: "faq2",
-    component: faq2
-  },
-  {
-    path: "/",
-    name: "homepage",
-    component: Home,
-    meta: {
-      // title: `${APPNAME} - Главная страница`
-      title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
-    }
-  },
-  {
-    path: "/buyers",
-    name: "buyers",
-    component: Home,
-    meta: {
-      // title: `${APPNAME} - Главная страница`
-      title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
-    }
-  },
-  {
-    path: "/postavschik",
-    name: "supplier",
-    component: Supplier,
-    meta: {
-      title: `${APPNAME} - Для поставщиков`
-    }
-  },
-  {
-    path: "/unsub",
-    name: "unsub",
-    component: Unsubscribe,
-    meta: {
-      title: `${APPNAME} - Отписаться`
-    }
-  },
-  {
-    path: "/bids",
-    name: "bids",
-    redirect: "bids.list",
-    component: Bids,
-    meta: {
-      title: `${APPNAME} - Сервис поиска оптовых поставщиков для бизнеса`
+    {
+        path: "/fq",
+        name: "faq2",
+        component: faq2
     },
-    children: BidsRoutes
-  },
-  {
-    path: "/newbid",
-    name: "new.bid",
-    component: NewBid,
-    meta: {
-      title: `${APPNAME} - Новая заявка`,
-      auth: false,
-      type: "buy"
-    }
-  },
-  {
-    path: "/newsell",
-    name: "new.sell",
-    component: NewBid,
-    meta: {
-      title: `${APPNAME} - Новое объявление`,
-      auth: false,
-      type: "sell"
-    }
-  },
-  {
-    path: "/users",
-    name: "users",
-    redirect: "users.list",
-    component: Users,
-    meta: {
-      title: `${APPNAME} - Пользователи`,
-      breadcrumb: false
+    {
+        path: "/",
+        name: "homepage",
+        component: Home,
+        meta: {
+            // title: `${APPNAME} - Главная страница`
+            title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
+        }
     },
-    children: UsersRoutes
-  },
-  {
-    path: "/companies",
-    name: "companies",
-    redirect: "companies.list",
-    component: Companies,
-    meta: {
-      title: `${APPNAME} - Компании`,
-      breadcrumb: false
+    {
+        path: "/buyers",
+        name: "buyers",
+        component: Home,
+        meta: {
+            // title: `${APPNAME} - Главная страница`
+            title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
+        }
     },
-    children: CompaniesRoutes
-  },
-  {
-    path: "/tarifs",
-    name: "tarifs",
-    component: Tarifs,
-    meta: {
-      title: `${APPNAME} - Тарифы и услуги`,
-      breadcrumb: false
+    {
+        path: "/postavschik",
+        name: "supplier",
+        component: Supplier,
+        meta: {
+            title: `${APPNAME} - Для поставщиков`
+        }
+    },
+    {
+        path: "/unsub",
+        name: "unsub",
+        component: Unsubscribe,
+        meta: {
+            title: `${APPNAME} - Отписаться`
+        }
+    },
+    {
+        path: "/bids",
+        name: "bids",
+        redirect: "bids.list",
+        component: Bids,
+        meta: {
+            title: `${APPNAME} - Сервис поиска оптовых поставщиков для бизнеса`
+        },
+        children: BidsRoutes
+    },
+    {
+        path: "/newbid",
+        name: "new.bid",
+        component: NewBid,
+        meta: {
+            title: `${APPNAME} - Новая заявка`,
+            auth: false,
+            type: "buy"
+        }
+    },
+    {
+        path: "/newsell",
+        name: "new.sell",
+        component: NewBid,
+        meta: {
+            title: `${APPNAME} - Новое объявление`,
+            auth: false,
+            type: "sell"
+        }
+    },
+    {
+        path: "/users",
+        name: "users",
+        redirect: "users.list",
+        component: Users,
+        meta: {
+            title: `${APPNAME} - Пользователи`,
+            breadcrumb: false
+        },
+        children: UsersRoutes
+    },
+    {
+        path: "/companies",
+        name: "companies",
+        redirect: "companies.list",
+        component: Companies,
+        meta: {
+            title: `${APPNAME} - Компании`,
+            breadcrumb: false
+        },
+        children: CompaniesRoutes
+    },
+    {
+        path: "/tarifs",
+        name: "tarifs",
+        component: Tarifs,
+        meta: {
+            title: `${APPNAME} - Тарифы и услуги`,
+            breadcrumb: false
+        }
+    },
+    {
+        path: "/success-reset",
+        name: "success.reset"
+    },
+    {
+        path: "/404",
+        name: "page404",
+        component: Page404,
+        meta: {
+            title: `${APPNAME} - Страница не найдена`
+        }
+    },
+    {
+        path: "*",
+        redirect: "/404"
     }
-  },
-  {
-    path: "/success-reset",
-    name: "success.reset"
-  },
-  {
-    path: "/404",
-    name: "page404",
-    component: Page404,
-    meta: {
-      title: `${APPNAME} - Страница не найдена`
-    }
-  },
-  {
-    path: "*",
-    redirect: "/404"
-  }
-]
-// Устанавливает для всех url мета теги
-// axios.get("/api/v1/meta-tags").then((response) => {
-//   let data = response.data;
-//   if (data.result) for (const [i, route] of Object.entries(routes)) {
-//     if (route.hasOwnProperty('path')) {
-//       let path = route.path
-//           .replace(/^\//g, "")
-//           .replace(/\/$/g, "");
-//       let result = data.data.filter(meta => {
-//         return meta.page_slug === path;
-//       }) || [];
-//       if (result.length) {
-//         Object.keys(result[0]).forEach(function (key) {
-//           if (key !== 'page_slug')
-//             routes[i].meta[key] = result[0][key];
-//         });
-//       }
-//     }
-//   }
-// });
+];
+
 export default routes

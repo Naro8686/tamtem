@@ -17,6 +17,7 @@ class CategoryRepository
      * Build tree
      *
      * @param $source
+     *
      * @return array
      */
     public static function makeNested($source)
@@ -46,16 +47,22 @@ class CategoryRepository
      */
     public static function getCategoryTree()
     {
-        return Cache::remember('api.category.tree', config('b2b.cache_time'), function () {
-            return self::makeNested(Category::all(['id','slug', 'parent_slug', 'parent_id', 'name', 'description', 'cl_icon', 'cl_background'])->keyBy('id')->toArray());
-        });
+        return Cache::remember('api.category.tree', config('b2b.cache_time'),
+            function() {
+                return self::makeNested(Category::all([
+                    'id', 'slug', 'parent_slug', 'parent_id', 'name', 'title',
+                    'description', 'cl_icon', 'cl_background'
+                ])->keyBy('id')->toArray());
+            });
     }
 
     public static function getCategoryIdList()
     {
-        return Cache::remember('api.category.id.list', config('b2b.cache_time'), function () {
-            return Category::all(['id', 'parent_id'])->keyBy('id')->toArray();
-        });
+        return Cache::remember('api.category.id.list', config('b2b.cache_time'),
+            function() {
+                return Category::all(['id', 'parent_id'])->keyBy('id')
+                    ->toArray();
+            });
     }
 
     public static function getIncludedIds($tree, $id)
@@ -65,7 +72,8 @@ class CategoryRepository
         foreach ($tree as $node) {
             if ($node['parent_id'] == $id) {
                 $ids[] = $node['id'];
-                $ids = array_merge($ids, self::getIncludedIds($tree, $node['id']));
+                $ids = array_merge($ids,
+                    self::getIncludedIds($tree, $node['id']));
             }
         }
 
@@ -80,21 +88,23 @@ class CategoryRepository
         foreach ($categories as $category) {
             if (isset($tree[$category])) {
                 $allCategories[] = $category;
-                $allCategories = array_merge($allCategories, self::getIncludedIds($tree, $category));
+                $allCategories = array_merge($allCategories,
+                    self::getIncludedIds($tree, $category));
             }
         }
 
         return $allCategories;
     }
 
-    public static function getRootParentFromId($id){
-
+    public static function getRootParentFromId($id)
+    {
         $curRow = Category::find($id);
-        $parentRow =  $curRow->parent()->first();
-        if ($parentRow !== null){
-            $curRow = \App\Repositories\CategoryRepository::getRootParentFromId($parentRow->id);
+        $parentRow = $curRow->parent()->first();
+        if ($parentRow !== null) {
+            $curRow
+                = \App\Repositories\CategoryRepository::getRootParentFromId($parentRow->id);
         }
-        
+
         return $curRow;
     }
 }
