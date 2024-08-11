@@ -153,25 +153,26 @@ export default {
     },
     checkSignin() {
       if (this.$route.fullPath.includes("destination=regorg") && !this.$root.profile) {
-        // вырезаем из роута метку
-        this.$router.replace({ name: this.$route.name })
         // показать форму входа
         this.activeComponent = "registrationForm"
         this.$nextTick(() => {
           this.$refs.registrationModal.show()
         })
+        // вырезаем из роута метку
+        this.$router.replace({ name: this.$route.name })
       }
     },
     checkMark() {
       if ((this.$route.fullPath.includes("itm=signup") || this.$route.fullPath.includes("itm=signin")) && !this.$root.profile) {
         // показать форму
-        this.activeComponent = this.$route.fullPath.includes("itm=signup") ? "registrationForm" : "authorizationForm"
-        // вырезаем из роута метку
-        this.$router.replace({name: this.$route.name})
-
+        this.activeComponent = this.$route.fullPath.includes("itm=signup")
+            ? "registrationForm"
+            : "authorizationForm";
         this.$nextTick(() => {
           this.$refs.registrationModal.show()
         })
+        // вырезаем из роута метку
+        this.$router.replace({name: this.$route.name})
       }
     },
     hideregistrationModal() {
