@@ -97,11 +97,6 @@ export default {
     }
   },
   created() {
-    this.checkCookies()
-    this.checkSuccessRegistration()
-    this.checkSuccessPasswordReset()
-    this.checkSignin()
-    this.checkMark()
     this.$root.$on("showForm", (payload) => {
       this.activeComponent = payload;
       this.showRegistrationModal = true;
@@ -185,9 +180,16 @@ export default {
     }
   },
   mounted() {
-    if (this.showRegistrationModal) {
-      this.$refs.registrationModal.show();
-    }
+    this.$nextTick(() => {
+      this.checkCookies()
+      this.checkSuccessRegistration()
+      this.checkSuccessPasswordReset()
+      this.checkSignin()
+      this.checkMark()
+      if (this.showRegistrationModal) {
+        this.$refs.registrationModal.show();
+      }
+    })
     if (window.isDevMode) {
       console.log("%cRoute: %O", "color:gray;", this.$route)
     }
