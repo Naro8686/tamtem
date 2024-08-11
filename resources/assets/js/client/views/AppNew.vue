@@ -131,48 +131,48 @@ export default {
     },
     checkSuccessPasswordReset() {
       if (this.$route.fullPath.includes("reset-password=true") && !this.$root.profile) {
-        // вырезаем из роута метку
-        this.$router.replace({ name: this.$route.name })
-        // // показать форму успешного завершения
-        this.activeComponent = "resetPasswordSuccessForm"
+        this.activeComponent = "resetPasswordSuccessForm";
         this.$nextTick(() => {
-          this.$refs.registrationModal.show()
-        })
+          // показать форму успешного завершения
+          this.$refs.registrationModal.show();
+          // вырезаем из роута метку
+          this.$router.replace({ name: this.$route.name });
+        });
       }
     },
     checkSuccessRegistration() {
       if (this.$route.fullPath.includes("registration=true") && !this.$root.profile) {
-        // вырезаем из роута метку
-        this.$router.replace({ name: this.$route.name })
-        // // показать форму успешного завершения
-        this.activeComponent = "registrationSuccessForm"
+        this.activeComponent = "registrationSuccessForm";
         this.$nextTick(() => {
-          this.$refs.registrationModal.show()
-        })
+          // показать форму успешного завершения
+          this.$refs.registrationModal.show();
+          // вырезаем из роута метку
+          this.$router.replace({ name: this.$route.name });
+        });
       }
     },
     checkSignin() {
       if (this.$route.fullPath.includes("destination=regorg") && !this.$root.profile) {
-        // показать форму входа
-        this.activeComponent = "registrationForm"
+        this.activeComponent = "registrationForm";
         this.$nextTick(() => {
-          this.$refs.registrationModal.show()
+          // показать форму входа
+          this.$refs.registrationModal.show();
+          // вырезаем из роута метку
+          this.$router.replace({ name: this.$route.name });
         })
-        // вырезаем из роута метку
-        this.$router.replace({ name: this.$route.name })
       }
     },
     checkMark() {
       if ((this.$route.fullPath.includes("itm=signup") || this.$route.fullPath.includes("itm=signin")) && !this.$root.profile) {
-        // показать форму
         this.activeComponent = this.$route.fullPath.includes("itm=signup")
             ? "registrationForm"
             : "authorizationForm";
         this.$nextTick(() => {
-          this.$refs.registrationModal.show()
-        })
-        // вырезаем из роута метку
-        this.$router.replace({name: this.$route.name})
+          // вырезаем из роута метку
+          this.$refs.registrationModal.show();
+          // показать форму
+          this.$router.replace({name: this.$route.name});
+        });
       }
     },
     hideregistrationModal() {
