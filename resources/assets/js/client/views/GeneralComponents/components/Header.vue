@@ -77,7 +77,7 @@
 
       section.mainheader__account.head-acc
         div.profile__section(v-if="!$root.isAuth")
-          a(href="/lk/profile", :class="{ 'white-border-text': !isHomePage }").profile__box-homepage
+          a(href="#", :class="{ 'white-border-text': !isHomePage }", @click="$root.$emit('showForm','authorizationForm')").profile__box-homepage
             div.profile__box-homepage-pic
               img(src="/images/home/log-in.png" alt="log in")
             p.profile__box-homepage-txt Войти

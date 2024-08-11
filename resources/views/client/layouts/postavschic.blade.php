@@ -44,7 +44,7 @@
 	<div class="page-wrapper">
 		<header class="mainheader mainheader--homepage">
 			<div class="container mainheader__container">
-				<section class="logo"><img src="images/home/logo.png" alt="logo tamtem"></section>
+				<section class="logo"><img src="images/home/logo.svg" alt="logo tamtem"></section>
 				<nav class="mainmenu"><a class="mainmenu__burger">
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 91 91">
 							<g fill="#ffffff">
@@ -174,15 +174,14 @@
 				<section class="createorder mainheader__createorder"><a class="createorder__btn" href="/newbid"></a></section>
 				<section class="mainheader__profile profile">
 					<div class="profile__section">
-                        @if(Illuminate\Support\Facades\Auth::check())
-
-                        @else
-                            <a class="profile__box-homepage" href="/lk/profile">
-                                <div class="profile__box-homepage-pic"><img src="images/home/log-in.png" alt="log in"></div>
-                                <p class="profile__box-homepage-txt">Войти</p>
-                            </a>
-                        @endif
-                    </div>
+						@guest
+							<a class="profile__box-homepage" href="/lk/profile">
+								<div class="profile__box-homepage-pic"><img src="images/home/log-in.png" alt="log in">
+								</div>
+								<p class="profile__box-homepage-txt">Войти</p>
+							</a>
+						@endguest
+					</div>
 				</section>
 			</div>
 		</header>
