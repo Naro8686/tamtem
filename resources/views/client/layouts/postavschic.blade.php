@@ -174,13 +174,13 @@
 				<section class="createorder mainheader__createorder"><a class="createorder__btn" href="/newbid"></a></section>
 				<section class="mainheader__profile profile">
 					<div class="profile__section">
-						@guest
+						@if (!Cookie::has('api_auth'))
 							<a class="profile__box-homepage" href="/lk/profile">
 								<div class="profile__box-homepage-pic"><img src="images/home/log-in.png" alt="log in">
 								</div>
 								<p class="profile__box-homepage-txt">Войти</p>
 							</a>
-						@endguest
+						@endif
 					</div>
 				</section>
 			</div>
