@@ -64,7 +64,7 @@ v-app
 		modal-class="modal-signin"
 		ref="registrationModal"
 	)
-		component(:is="activeComponent" @close="$refs.registrationModal.hide();")
+		component(:is="activeComponent")
 		div(slot='modal-footer')
 	v-snackbar(
 		v-model="getSnackbarState.toggle"
@@ -209,23 +209,17 @@ export default {
 			}
 		},
 		checkMark() {
-			if (
-				(this.$route.fullPath.includes("itm=signup") ||
-					this.$route.fullPath.includes("itm=signin")) &&
-				!this.$root.profile
-			) {
-				console.log(this.$route.fullPath);
+			if ((this.$route.fullPath.includes("itm=signup") || this.$route.fullPath.includes("itm=signin")) && !this.$root.profile) {
 				// показать форму
-				this.$route.fullPath.includes("itm=signup")
-					? (this.activeComponent = "registrationForm")
-					: "authorizationForm";
-				// вырезаем из роута метку
-				this.$router.replace({ name: this.$route.name });
+        this.activeComponent = this.$route.fullPath.includes("itm=signup")
+            ? "registrationForm"
+            : "authorizationForm";
+        // вырезаем из роута метку
+        this.$router.replace({name: this.$route.name});
 
-				this.$nextTick(()=>{
-
-					this.$refs.registrationModal.show();
-				})
+        this.$nextTick(() => {
+          this.$refs.registrationModal.show();
+        })
 			}
 		},
 		hideregistrationModal() {

@@ -32,7 +32,7 @@ v-app
 
   Footer
   b-modal#registrationModal(modal-class="modal-signin", ref="registrationModal")
-    component(:is="activeComponent", @close="$refs.registrationModal.hide()")
+    component(:is="activeComponent")
     div(slot="modal-footer")
   v-snackbar(v-model="getSnackbarState.toggle", :color="getSnackbarState.color", :timeout="6000", top, right) {{ getSnackbarState.text }}
     v-btn(dark, flat, @click="$store.dispatch('setSnackbar', { toggle: false })") Закрыть
@@ -102,7 +102,7 @@ export default {
     this.checkSignin()
     this.checkMark()
     this.$root.$on("showForm", (payload) => {
-      this.activeComponent = payload
+      this.activeComponent = payload;
       this.$refs.registrationModal.show()
     })
     this.$root.$on("closeForm", (payload) => {
@@ -164,11 +164,10 @@ export default {
     },
     checkMark() {
       if ((this.$route.fullPath.includes("itm=signup") || this.$route.fullPath.includes("itm=signin")) && !this.$root.profile) {
-        console.log(this.$route.fullPath)
         // показать форму
-        this.$route.fullPath.includes("itm=signup") ? (this.activeComponent = "registrationForm") : "authorizationForm"
+        this.activeComponent = this.$route.fullPath.includes("itm=signup") ? "registrationForm" : "authorizationForm"
         // вырезаем из роута метку
-        this.$router.replace({ name: this.$route.name })
+        this.$router.replace({name: this.$route.name})
 
         this.$nextTick(() => {
           this.$refs.registrationModal.show()
