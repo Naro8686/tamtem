@@ -31,7 +31,7 @@ v-app
     div(slot="modal-footer")
 
   Footer
-  b-modal#registrationModal(modal-class="modal-signin", ref="registrationModal")
+  b-modal#registrationModal(v-if="isRegistrationModalVisible", modal-class="modal-signin", ref="registrationModal")
     component(:is="activeComponent")
     div(slot="modal-footer")
   v-snackbar(v-model="getSnackbarState.toggle", :color="getSnackbarState.color", :timeout="6000", top, right) {{ getSnackbarState.text }}
@@ -92,7 +92,8 @@ export default {
       pageTitle: "Main page title",
       breadcrumbs: [],
       supportvisible: false,
-      showCookie: false
+      showCookie: false,
+      isRegistrationModalVisible: false,
     }
   },
   created() {
@@ -103,10 +104,10 @@ export default {
     this.checkMark()
     this.$root.$on("showForm", (payload) => {
       this.activeComponent = payload;
-      this.$refs.registrationModal.show();
+      this.showRegistrationModal();
     });
     this.$root.$on("closeForm", (payload) => {
-      this.$refs.registrationModal.hide();
+      this.hideregistrationModal();
     });
     if (this.$route.query.unsubscribed) {
       this.$router.replace({
@@ -129,15 +130,21 @@ export default {
         Cookies.set("cookiesInfo", true, { expires: 365 })
       }
     },
+    showRegistrationModal() {
+      this.isRegistrationModalVisible = true;
+      this.$nextTick(() => {
+        if (this.$refs.registrationModal) {
+          this.$refs.registrationModal.show();
+        }
+      });
+    },
     checkSuccessPasswordReset() {
       if (this.$route.fullPath.includes("reset-password=true") && !this.$root.profile) {
+        // вырезаем из роута метку
+        this.$router.replace({ name: this.$route.name });
+        // показать форму успешного завершения
         this.activeComponent = "resetPasswordSuccessForm";
-        this.$nextTick(() => {
-          // показать форму успешного завершения
-          this.$refs.registrationModal.show();
-          // вырезаем из роута метку
-          this.$router.replace({ name: this.$route.name });
-        });
+        this.showRegistrationModal();
       }
     },
     checkSuccessRegistration() {
@@ -146,9 +153,7 @@ export default {
         this.$router.replace({ name: this.$route.name });
         // // показать форму успешного завершения
         this.activeComponent = "registrationSuccessForm";
-        this.$nextTick(()=>{
-          this.$refs.registrationModal.show();
-        })
+        this.showRegistrationModal();
       }
     },
     checkSignin() {
@@ -157,9 +162,7 @@ export default {
         this.$router.replace({ name: this.$route.name });
         // // показать форму успешного завершения
         this.activeComponent = "registrationForm";
-        this.$nextTick(()=>{
-          this.$refs.registrationModal.show();
-        })
+        this.showRegistrationModal();
       }
     },
     checkMark() {
@@ -171,12 +174,11 @@ export default {
         this.$router.replace({name: this.$route.name});
         // вырезаем из роута метку
         this.activeComponent = activeComponent;
-        this.$nextTick(() => {
-          this.$refs.registrationModal.show();
-        });
+        this.showRegistrationModal();
       }
     },
     hideregistrationModal() {
+      this.isRegistrationModalVisible = false;
       this.$refs.registrationModal.hide()
     }
   },
