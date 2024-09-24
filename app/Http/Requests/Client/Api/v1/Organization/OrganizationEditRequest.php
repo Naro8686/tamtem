@@ -32,7 +32,7 @@ class OrganizationEditRequest extends FormRequest
             'first_name'        => 'sometimes|required|max:64',
             'second_name'       => 'sometimes|required|max:64',
             'middle_name'       => 'sometimes|required|max:64',
-            'phone'             => 'sometimes|required|regex:/(^(\d+)$)/u|min:10|max:10',
+            'phone'             => 'required|regex:/(^(\d+)$)/u|min:10|max:10',
             'org_city_id'       => 'sometimes|required|exists:cities,id',
             'org_name'          => 'sometimes|required|max:255',
             'org_inn'           => 'sometimes|required|min:10|max:12',
@@ -42,7 +42,7 @@ class OrganizationEditRequest extends FormRequest
             'org_legal_form_id' => 'sometimes|required|exists:organizations_legal_forms,id',
             'org_director'      => 'sometimes|required|max:64',
             'org_site'          => 'sometimes|required|url|max:64',
-            'org_products'      => 'sometimes|required|max:5000', // описание товаров и услуг
+            'org_products'      => 'required|max:5000', // описание товаров и услуг
             'org_description'   => 'sometimes|required|max:5000', // краткое описание организации
             'org_work_time'     => ['sometimes', 'array', new WorkTimeRule()],
             'logo'              => 'sometimes|required|mimes:jpeg,bmp,png|max:' . $max_size,

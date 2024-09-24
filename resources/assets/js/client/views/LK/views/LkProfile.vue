@@ -97,13 +97,13 @@ export default {
   computed: {
     isMy() {
       return (
-        this.profile &&
-        this.$root.profile &&
-        this.profile.profile.id === this.$root.profile.profile.id
+          this.profile &&
+          this.$root.profile &&
+          this.profile.profile.id === this.$root.profile.profile.id
       );
 	},
 	...mapState({
-		getProfile: 'profile'
+		getProfileStat: 'profile'
 	})
   },
   methods: {
@@ -153,6 +153,7 @@ export default {
     display: none;
   }
 }
+
 .lk-notifications {
   margin-top: 74px;
   padding: 26px 33px 50px 23px;
@@ -167,6 +168,7 @@ export default {
     @media (max-width: 768px) {
       grid-template-areas: "title" "text" "buttonSubscribe";
     }
+
     &--active {
       @media (max-width: 768px) {
         grid-template-areas: "title" "buttonUnsubscribe" "text" "channel";
@@ -174,36 +176,44 @@ export default {
       grid-template-areas: "title title buttonUnsubscribe" "text channel .";
     }
   }
+
   &__title {
     grid-area: title;
     font: $font-medium;
     font-size: 18px;
     color: #000;
   }
+
   &__text {
     grid-area: text;
+
     &--text {
       font: $font-regular;
       font-size: $fontsize-base;
       color: #000;
     }
   }
+
   &__button {
     &--subscribe {
       grid-area: buttonSubscribe;
       @include big-rounded-btn;
       padding: 0 22px;
+
       &:hover {
         background-color: $color-hover-button;
       }
+
       &[disabled] {
         opacity: 0.5;
       }
+
       &:active {
         background-color: $color-border-gray;
         color: #000;
       }
     }
+
     &--unsubscribe {
       grid-area: buttonUnsubscribe;
       justify-self: end;
@@ -213,6 +223,7 @@ export default {
       border-bottom: 1px dashed #000;
     }
   }
+
   &__channel {
     grid-area: channel;
     font: $font-regular;
@@ -229,14 +240,18 @@ export default {
     display: flex;
     flex-direction: column;
   }
+
   &-row {
     display: flex;
+
     &--settings {
       justify-content: flex-end;
+
       .feather {
         color: $color-green-elements;
       }
     }
+
     &--userdata {
       .row-item {
         &--ava {
@@ -244,16 +259,19 @@ export default {
           align-items: center;
           justify-content: center;
           width: 120px;
+
           img {
             width: 120px;
             height: 120px;
             border-radius: $border-radius-standart;
           }
+
           /deep/ svg {
             width: 110px;
             height: 110px;
           }
         }
+
         &--data {
           display: flex;
           justify-content: space-between;
@@ -262,6 +280,7 @@ export default {
           width: 100%;
           border-bottom: 1px solid;
           border-color: $color-profile-border-line;
+
           .profiledata {
             &--companyname {
               font: $font-semibold;
@@ -269,17 +288,20 @@ export default {
               color: #000;
               line-height: 19px;
             }
+
             &--username {
               font: $font-regular;
               font-size: $fontsize-base;
               color: #000;
             }
           }
+
           .companydata {
             &--info {
               padding: 13px 26px;
               border-radius: 32px;
               background-color: $color-green-elements;
+
               &--link {
                 text-decoration: none;
                 font: $font-semibold;
@@ -288,16 +310,19 @@ export default {
                 color: #fff;
               }
             }
+
             &--id {
               display: flex;
               justify-content: flex-end;
               margin-top: 16px;
+
               dt,
               dd {
                 font: $font-regular;
                 font-size: $fontsize-base;
                 color: $color-text-gray;
               }
+
               dd {
                 margin-left: 5px;
               }
@@ -305,6 +330,7 @@ export default {
           }
         }
       }
+
       @include media-breakpoint-down(xs) {
         display: block;
         margin: 0 auto;
@@ -313,18 +339,23 @@ export default {
           &--ava {
             width: 100%;
           }
+
           &--data {
             margin: 0;
             flex-direction: column;
             border: none;
+
             .profiledata {
               order: 1;
             }
+
             .companydata {
               order: 0;
+
               &--info {
                 display: none;
               }
+
               &--id {
                 margin: 5px 0px 15px 0px;
               }
@@ -333,8 +364,10 @@ export default {
         }
       }
     }
+
     &--contacts {
       margin-top: 16px;
+
       .row-item {
         &--title {
           width: 120px;
@@ -349,12 +382,15 @@ export default {
           font-size: $fontsize-base;
           color: #000;
         }
+
         &--items {
           margin-left: 54px;
           margin-top: 15px;
+
           dl {
             margin-top: 15px;
             margin-bottom: 15px;
+
             dt,
             dd {
               line-height: 19px;
@@ -366,6 +402,7 @@ export default {
           }
         }
       }
+
       @include media-breakpoint-down(xs) {
         display: block;
         text-align: center;
@@ -374,6 +411,7 @@ export default {
           &--title {
             display: none;
           }
+
           &--items {
             margin: 15px 0 0 0;
             text-align: left;
@@ -381,6 +419,7 @@ export default {
         }
       }
     }
+
     &--company-link {
       display: none;
       @include media-breakpoint-down(xs) {
@@ -391,6 +430,7 @@ export default {
           padding: 13px 26px;
           border-radius: 32px;
           background-color: $color-green-elements;
+
           .link {
             text-decoration: none;
             font: $font-semibold;

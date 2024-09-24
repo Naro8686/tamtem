@@ -33,6 +33,7 @@ const routes = [
   {
     path: "/lk/mobile",
     name: "lk.mobile",
+    component: LkSettings,
     meta: {
       title: "Личный кабинет"
     }
@@ -44,6 +45,14 @@ const routes = [
     meta: {
       title: "Настройки профиля и данных о компании",
       breadcrumb: [{ name: "Личный кабинет", link: "/lk/bids/" }, { name: "Настройки" }]
+    }
+  },
+  {
+    path: "/lk/profile/edit",
+    name: "lk.profile.edit",
+    component: LkProfileEdit,
+    meta: {
+      title: "Настройки профиля"
     }
   },
   {

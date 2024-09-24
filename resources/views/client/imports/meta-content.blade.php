@@ -56,24 +56,30 @@
         color: #000000 !important;
     }
 
+    .meta-content.hide-title {
+        position: absolute;
+        left: -9999rem;
+        top: -9999rem;
+    }
+
     @media screen and (max-width: 768px) {
-        h1 {
+        .meta-content h1 {
             font-size: 35px !important;
             line-height: 40px !important;
         }
 
-        h2 {
+        .meta-content h2 {
             font-size: 22px !important;
             line-height: 25px !important;
         }
 
-        p {
+        .meta-content p {
             font-size: 14px !important;
             line-height: 20px !important;
         }
     }
 </style>
-<section class="meta-content">
+<section class="meta-content hide-title">
     <div class="container" id="contentDiv">
         {!! $content !!}
     </div>

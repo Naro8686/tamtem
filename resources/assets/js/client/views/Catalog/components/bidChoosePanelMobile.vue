@@ -26,7 +26,7 @@ section.bid-body__pointsblank.pointsblank
 								p.pointsblank__text(v-else) {{answers[item].value}} {{ item=='dqh_volume' ? unit_for_all : '' }}
 		section.pointsblank__comment.comment(v-if="hasMembers")
 				div.comment__field(v-if="activeMember.notice") {{activeMember.notice}}
-		section.pointsblank__comment
+		section(v-if="activeMember && activeMember.files.length").pointsblank__comment
 			.comment__field.conditions__files
 					p.conditions__cap Файлы от поставщика
 					.filelist-file

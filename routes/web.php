@@ -34,9 +34,9 @@ Route::get('/register/{token}', 'Client\ClientController@registerConfirm')->wher
 Route::get('/unsubscribe', 'Client\Api\v1\UserNoticeSubscribeController@unsubscribeNoticeFromMail'); // отписаться от рассылок из письма
 Route::get('/about', 'Client\ClientController@about')->name('about.page');
 Route::get('/contact', 'Client\ClientController@contact')->name('contact.page');
-Route::get('/faq', 'Client\ClientController@faq')->name('faq.page');
+//Route::get('/faq', 'Client\ClientController@faq')->name('faq.page');
 Route::get('/price', 'Client\ClientController@price')->name('price.page');
-Route::get('/postavschic', 'Client\ClientController@postavschic')->name('postavschic.page');
+//Route::get('/postavschic', 'Client\ClientController@postavschic')->name('postavschic.page');
 
 Route::get('/sitemap.xml', 'Client\ClientController@sitemap')->name('sitemap');
 Route::get('/{any?}', 'Client\ClientController@index')->where('any', '.*')->name('client');

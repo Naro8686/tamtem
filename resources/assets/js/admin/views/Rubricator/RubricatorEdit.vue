@@ -25,7 +25,7 @@
               </span>
             </div>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div
                     :class="['form-group', errorsServer.title ? 'has-error' : '']"
                 >
@@ -46,7 +46,7 @@
                 </span>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div
                     :class="[
                 'form-group',
@@ -54,7 +54,7 @@
               ]"
                 >
                   <label for="description">Description</label>
-                  <input
+                  <textarea
                       v-model="item.description"
                       type="text"
                       class="form-control"

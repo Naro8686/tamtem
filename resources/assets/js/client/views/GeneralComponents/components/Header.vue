@@ -15,7 +15,7 @@
           li.mainmenu__item
             a(href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
           li.mainmenu__item
-            a(href="/faq").mainmenu__link.animation-link-underline Помощь
+            a(href="/faq" @click.prevent="goToUrlWithReachGoal('optovieob', '/faq')" :class="{ 'active' : $route.name === 'faq' }").mainmenu__link.animation-link-underline Помощь
         section.modalmenu(
           :class="{'modalmenu--active' : modalmenuShow}"
         )
@@ -23,7 +23,7 @@
             router-link.modalmenu__logo(:to="{name: 'homepage'}")
               logoheader(variant="modalmenu")
             .modalmenu__close
-              a(href="close").modalmenu__logo(@click.prevent="hideModalmenu()")
+              a(href="close", @click.prevent="hideModalmenu()").modalmenu__logo
                 svg(xmlns="http://www.w3.org/2000/svg" width="15.557" height="15.556" viewBox="0 0 15.557 15.556")
                   g(fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2")
                     path(d="M14.142 1.414L1.414 14.1419")
@@ -32,8 +32,9 @@
           nav.modalmenu__navigation
             ul.modalmenu__menu-list
               li.modalmenu__menu-item
-                a(@click="hideModalmenu()" href="/optovyye-obyavleniya/sales" v-if="!isSellsPage").modalmenu__menu-link Оптовые объявления
-                //a(@click="hideModalmenu()" href="/bids" v-else).modalmenu__menu-link Заказы
+                a(@click="hideModalmenu()" href="/optovyye-obyavleniya/sales").modalmenu__menu-link Оптовые объявления
+              li.modalmenu__menu-item
+                a(@click="hideModalmenu()" href="/optovyye-obyavleniya/bids").modalmenu__menu-link Заказы
               li.modalmenu__menu-item
                 a(href="/faq" @click="tofaq();").modalmenu__menu-link Помощь
               li.modalmenu__menu-item
@@ -84,7 +85,7 @@
 
         div.head-acc__logged(v-else)
           div.head-acc__favorites
-            router-link(to='lk/favorites')
+            router-link(to='/lk/favorites')
               <svg width="18" height="24" viewBox="0 0 18 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M7.50031 19.5L15.0006 24V6C15.0006 5.20435 14.6845 4.44129 14.1219 3.87868C13.5593 3.31607 12.7962 3 12.0005 3H3.00013C2.20444 3 1.44135 3.31607 0.878716 3.87868C0.316084 4.44129 0 5.20435 0 6V24L7.50031 19.5ZM1.50006 21.351L7.50031 17.751L13.5006 21.351V6C13.5006 5.60218 13.3425 5.22064 13.0612 4.93934C12.7799 4.65804 12.3983 4.5 12.0005 4.5H3.00013C2.60228 4.5 2.22074 4.65804 1.93942 4.93934C1.6581 5.22064 1.50006 5.60218 1.50006 6V21.351Z" fill="#2FC06E"/>
               <path d="M18.001 21L16.5009 20.1V3C16.5009 2.60218 16.3428 2.22064 16.0615 1.93934C15.7802 1.65804 15.3987 1.5 15.0008 1.5H3.40234C3.66565 1.04395 4.04437 0.665247 4.50043 0.401943C4.95649 0.138639 5.47383 1.33777e-05 6.00045 0L15.0008 0C15.7965 0 16.5596 0.316071 17.1222 0.87868C17.6849 1.44129 18.001 2.20435 18.001 3V21Z" fill="#2FC06E"/>
@@ -93,14 +94,14 @@
                 span.head-acc__favorites-count {{ favCount }}
           div.head-acc__user(@click.stop="toggleProfile")
             a
-              span(v-if="$root.unreadMsg").head-acc__user-badge {{$root.unreadMsg}}
+              span(v-if="hasNotifications && profile").head-acc__user-badge {{countNot}}
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M20.1667 22C20.1667 22 22 22 22 20.1667C22 18.3333 20.1667 12.8333 11 12.8333C1.83333 12.8333 0 18.3333 0 20.1667C0 22 1.83333 22 1.83333 22H20.1667ZM1.8425 20.2693V20.2657V20.2693ZM1.87367 20.1667H20.1263C20.1349 20.1657 20.1435 20.1644 20.152 20.163L20.1667 20.1593C20.1648 19.7083 19.8843 18.3517 18.6413 17.1087C17.446 15.9133 15.1965 14.6667 11 14.6667C6.80167 14.6667 4.554 15.9133 3.35867 17.1087C2.11567 18.3517 1.837 19.7083 1.83333 20.1593C1.84675 20.1619 1.8602 20.1644 1.87367 20.1667ZM20.1593 20.2693V20.2657V20.2693ZM11 9.16667C11.9725 9.16667 12.9051 8.78036 13.5927 8.09272C14.2804 7.40509 14.6667 6.47246 14.6667 5.5C14.6667 4.52754 14.2804 3.59491 13.5927 2.90727C12.9051 2.21964 11.9725 1.83333 11 1.83333C10.0275 1.83333 9.09491 2.21964 8.40728 2.90727C7.71964 3.59491 7.33333 4.52754 7.33333 5.5C7.33333 6.47246 7.71964 7.40509 8.40728 8.09272C9.09491 8.78036 10.0275 9.16667 11 9.16667ZM16.5 5.5C16.5 6.95869 15.9205 8.35764 14.8891 9.38909C13.8576 10.4205 12.4587 11 11 11C9.54131 11 8.14236 10.4205 7.11091 9.38909C6.07946 8.35764 5.5 6.95869 5.5 5.5C5.5 4.04131 6.07946 2.64236 7.11091 1.61091C8.14236 0.579463 9.54131 0 11 0C12.4587 0 13.8576 0.579463 14.8891 1.61091C15.9205 2.64236 16.5 4.04131 16.5 5.5Z" fill="#2FC06E"/>
               </svg>
               span.head-acc__account-name {{ profile.profile.name }}
           div.head-acc__modal(v-if="logMenuShow" v-click-outside="hideProfileModal")
             div.head-acc__modal-inner
-              router-link(:to="{name: 'lk.deals'}").head-acc__modal-link
+              router-link(:to="{name: 'lk.deals'}" @click.native="hideProfileModal").head-acc__modal-link
                 img(src="/images/icon-account.svg" alt="")
                 span Личный кабинет
               a(href="logout" @click.prevent="logout").head-acc__modal-link
@@ -120,6 +121,7 @@ export default {
       isHomePage: false,
       currModalView: false,
       logMenuShow: false,
+      countNot: 0,
     };
   },
   computed: {
@@ -130,7 +132,15 @@ export default {
       currencies: 'getCurrencies'
     }),
     hasNotifications() {
-      return (this.profile.unreadMsg > 0 || (this.profile.notifications && (this.profile.notifications.unreaded_owner_deal > 0 || this.profile.notifications.unreaded_owner_response > 0)))
+      let notifications = this.profile.notifications || false;
+      let unReadMsg = this.profile.unreadMsg || 0;
+      let unReadOwnerDeal = notifications.unreaded_owner_deal || 0;
+      let unReadOwnerResponse = notifications.unreaded_owner_response || 0;
+      if (unReadMsg > 0 || notifications) {
+        this.countNot = unReadMsg + unReadOwnerDeal + unReadOwnerResponse
+      }
+      console.log(this.countNot, unReadMsg, notifications);
+      return this.countNot > 0;
     }
   },
   watch: {
@@ -147,7 +157,7 @@ export default {
       }
     },
     $route(to, from) {
-      this.isHomePage = to.name === 'homepage' || to.name === 'buyers';
+      this.isHomePage = to.name === 'homepage' || to.name === 'buyers' || to.name === 'postavschic';
     }
   },
   methods: {
@@ -259,7 +269,7 @@ export default {
       }
     },
     defineHomePage() {
-      this.isHomePage = this.$route.name === 'homepage' || this.$route.name === 'buyers'
+      this.isHomePage = this.$route.name === 'homepage' || this.$route.name === 'buyers'  || this.$route.name === 'postavschic'
     },
     changeCurrency(currency) {
       this.setCurrency(currency);
@@ -293,12 +303,19 @@ export default {
   }
   @media (max-width: 640px) {
     padding: 0 15px;
+    margin: 0;
   }
 }
 
 .white-border-text {
   color: white !important;
   border-color: white !important;
+}
+
+.mainheader .head-acc__user-badge {
+  top: -13px;
+  left: 10px !important;
+  bottom: unset !important;
 }
 </style>
 <style lang="scss" scoped>

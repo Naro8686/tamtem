@@ -1,41 +1,41 @@
 <template lang="pug">
-.tabs
-  .maintabs
-    button.maintab.active Сообщения
-  .content
-    .messages.messages__list-private
-      .messages__left-block(v-if="!isMobile")
-        ul.messages__list(v-if="dialog", role="list")
-          DialogItemNew(v-for="(dialog, index) in dialogList.items", :dialog="dialog", :key="index")
-      .messages__right-block
-        ul.messages__dialog-list(v-if="privateDialog", ref="list")
-          li.text-center(v-if="dialog ? !!dialog.hasMore : false")
-            b-button(variant="outline-primary", @click="getMore()")
-              span(v-if="isLoadingMore") Загрузка...
-              span(v-else) Загрузить ещe
-          li(v-for="(item, ind) in privateDialog", :class="{'messages__dialog-right': (item.user.id === profile.id), 'messages__dialog-left': (item.user.id !== profile.id), 'm-response': item.type === 'responce'}", :key="item.id")
-            .messages__dialog-date(v-if="item.date_create && dates[item.id]") {{dateTimeformat(dateTimezone(item.date_create))}}
-            .messages__dialog-item(:data-id="item.user.id")
-              .messages__dialog-body
-                .messages__dialog-user
-                  a {{dialog.user.name}}-{{dialog.deal.name}}
-                .messages__dialog-message
-                  p.messages__dialog-text {{item.message}}
-              .messages__dialog-time(v-if="item.date_create")
-                span {{dateFormat(dateTimezone(item.date_create), 'HH:mm')}}
-        p.mb-5(v-else) Сообщений нет
-        .messages__form
-          .messages__textarea-block
-            textarea#message-text.messages__textarea(placeholder="Введите сообщение", v-model="messageText", rows="1", :disabled="statusSending", @keydown="keydownMessage")
-          .messages__send-block(@click="sendMessage")
-            svg(width="41", height="41", viewBox="0 0 41 41", fill="none", xmlns="http://www.w3.org/2000/svg")
-              circle(cx="20.5", cy="20.5", r="20.5", fill="#F1F1F1")
-              path(d="M28 21L18 29.6603V12.3397L28 21Z", fill="#B3B3B3")
+  .tabs
+    .maintabs
+      button.maintab.active Сообщения
+    .content
+      .messages.messages__list-private
+        .messages__left-block(v-if="!isMobile")
+          ul.messages__list(v-if="dialog && dialogList && dialogList.hasOwnProperty('items')", role="list")
+            DialogItemNew(v-for="(dialog, index) in dialogList.items", :dialog="dialog", :key="index")
+        .messages__right-block
+          ul.messages__dialog-list(v-if="privateDialog", ref="list")
+            li.text-center(v-if="dialog ? !!dialog.hasMore : false")
+              b-button(variant="outline-primary", @click="getMore()")
+                span(v-if="isLoadingMore") Загрузка...
+                span(v-else) Загрузить ещe
+            li(v-for="(item, ind) in privateDialog", :class="{'messages__dialog-right': (item.user.id === profile.id), 'messages__dialog-left': (item.user.id !== profile.id), 'm-response': item.type === 'responce'}", :key="item.id")
+              .messages__dialog-date(v-if="item.date_create && dates[item.id]") {{dateTimeformat(dateTimezone(item.date_create))}}
+              .messages__dialog-item(:data-id="item.user.id")
+                .messages__dialog-body
+                  .messages__dialog-user
+                    a {{dialog.user.name}}-{{dialog.deal.name}}
+                  .messages__dialog-message
+                    p.messages__dialog-text {{item.message}}
+                .messages__dialog-time(v-if="item.date_create")
+                  span {{dateFormat(dateTimezone(item.date_create), 'HH:mm')}}
+          p.mb-5(v-else) Сообщений нет
+          .messages__form
+            .messages__textarea-block
+              textarea#message-text.messages__textarea(placeholder="Введите сообщение", v-model="messageText", rows="1", :disabled="statusSending", @keydown="keydownMessage")
+            .messages__send-block(@click="sendMessage")
+              svg(width="41", height="41", viewBox="0 0 41 41", fill="none", xmlns="http://www.w3.org/2000/svg")
+                circle(cx="20.5", cy="20.5", r="20.5", fill="#F1F1F1")
+                path(d="M28 21L18 29.6603V12.3397L28 21Z", fill="#B3B3B3")
 </template>
 
 <script>
 import Vue from "vue"
-import { mapGetters } from "vuex"
+import {mapGetters} from "vuex"
 import DialogItemNew from "../components/DialogItemNew.vue"
 
 const SendIcon = Vue.component("SendIcon", {
@@ -104,52 +104,55 @@ export default {
     }
   },
   methods: {
-    createEchoInstance() {
-      window.Echo.private("dialog." + this.$route.params.id).listen("ChatMessage", (msg) => {
-        this.printNewMsg(msg)
+    createEchoInstance(dialogId) {
+      window.Echo.private("dialog." + dialogId).listen("ChatMessage", (msg) => {
+        if (msg.user.id !== this.profile.id) {
+          this.printNewMsg(msg);
+          this.setReadedMsg(msg.message_id)
+        }
         // this.setScrollAndFocus()
-        this.setReadedMsg(msg.message_id)
+
       })
     },
-    getDialog() {
+    getDialog(dialogId) {
       this.$parent.loading = true
       axios
-        .get("/api/v1/dialogs/" + this.$route.params.id)
-        .then((resp) => {
-          this.dialog = resp.data.data
+          .get("/api/v1/dialogs/" + dialogId)
+          .then((resp) => {
+            this.dialog = resp.data.data
 
-          this.createEchoInstance()
+            this.createEchoInstance(dialogId)
 
-          this.$root.checkNewMsg()
-          // this.setScrollAndFocus()
-        })
-        .catch((error) => {
-          this.printErrorOnConsole(error)
-          this.$router.replace({ name: "page404" })
-        })
-        .then(() => {
-          this.$parent.loading = false
-        })
+            this.$root.checkNewMsg()
+            // this.setScrollAndFocus()
+          })
+          .catch((error) => {
+            this.printErrorOnConsole(error)
+            this.$router.replace({name: "page404"})
+          })
+          .then(() => {
+            this.$parent.loading = false
+          })
     },
     getDialogs() {
       this.$parent.loading = true
       axios
-        .get("/api/v1/dialogs/")
-        .then((resp) => {
-          this.dialogList = resp.data.data
-          this.dialogList.items.sort((a, b) => {
-            if (a.last_message_date.date > b.last_message_date.date) {
-              return 0
-            }
-            return 1
+          .get("/api/v1/dialogs/")
+          .then((resp) => {
+            this.dialogList = resp.data.data
+            this.dialogList.items.sort((a, b) => {
+              if (a.last_message_date.date > b.last_message_date.date) {
+                return 0
+              }
+              return 1
+            })
           })
-        })
-        .catch((error) => {
-          this.printErrorOnConsole(error)
-        })
-        .then(() => {
-          this.$parent.loading = false
-        })
+          .catch((error) => {
+            this.printErrorOnConsole(error)
+          })
+          .then(() => {
+            this.$parent.loading = false
+          })
     },
     keydownMessage(evt) {
       if (evt.keyCode === 13 && !evt.shiftKey) {
@@ -158,25 +161,25 @@ export default {
       }
     },
     sendMessage() {
-      if (this.messageText !== "") {
+      if (this.messageText.trim().length) {
         this.statusSending = true
         this.printFakeMessage()
         axios
-          .post("/api/v1/dialogs/" + this.$route.params.id + "/send", {
-            message: this.messageText
-          })
-          .then((resp) => {
-            this.messageText = ""
-            this.$nextTick(() => {
-              // this.setScrollAndFocus()
+            .post("/api/v1/dialogs/" + this.$route.params.id + "/send", {
+              message: this.messageText
             })
-          })
-          .catch((error) => {
-            this.printErrorOnConsole(error)
-          })
-          .then(() => {
-            this.statusSending = false
-          })
+            .then((resp) => {
+              this.messageText = ""
+              this.$nextTick(() => {
+                // this.setScrollAndFocus()
+              })
+            })
+            .catch((error) => {
+              this.printErrorOnConsole(error)
+            })
+            .then(() => {
+              this.statusSending = false
+            })
       }
     },
     scrollToBottom() {
@@ -184,10 +187,10 @@ export default {
       if (list) {
         // list.scrollTop = list.scrollHeight
         $(list).animate(
-          {
-            scrollTop: list.scrollHeight
-          },
-          300
+            {
+              scrollTop: list.scrollHeight
+            },
+            300
         )
       }
     },
@@ -199,29 +202,30 @@ export default {
     getMore() {
       this.isLoadingMore = true
       axios
-        .get("/api/v1/dialogs/" + this.$route.params.id + "/?page=" + this.nextPage)
-        .then((resp) => {
-          this.dialog.hasMore = resp.data.data.hasMore
-          this.dialog.items = this.dialog.items.concat(resp.data.data.items)
-          this.nextPage++
-        })
-        .catch((error) => {
-          this.printErrorOnConsole(error)
-        })
-        .then(() => {
-          this.isLoadingMore = false
-        })
+          .get("/api/v1/dialogs/" + this.$route.params.id + "/?page=" + this.nextPage)
+          .then((resp) => {
+            this.dialog.hasMore = resp.data.data.hasMore
+            this.dialog.items = this.dialog.items.concat(resp.data.data.items)
+            this.nextPage++
+          })
+          .catch((error) => {
+            this.printErrorOnConsole(error)
+          })
+          .then(() => {
+            this.isLoadingMore = false
+          })
     },
     setReadedMsg(id) {
       if (id) {
         axios
-          .post("/api/v1/dialogs/messages/markreaded", {
-            id: id
-          })
-          .then((resp) => {})
-          .catch((error) => {
-            this.printErrorOnConsole(error)
-          })
+            .post("/api/v1/dialogs/messages/markreaded", {
+              id: id
+            })
+            .then((resp) => {
+            })
+            .catch((error) => {
+              this.printErrorOnConsole(error)
+            })
       }
     },
     printFakeMessage() {
@@ -254,15 +258,22 @@ export default {
   },
   mounted() {
     const user = this.getProfileState
-
     this.profile = user.profile
     this.$root.notification = false
-    this.getDialog()
+    const dialogId = this.$route.params.id;
+    if (dialogId) this.getDialog(dialogId);
   },
   created() {
-    this.getDialogs()
+    this.getDialogs();
   },
-  watch: {} //this.scrollToBottom()
+  watch: {
+    '$route.params.id': {
+      handler(dialogId) {
+        this.getDialog(dialogId);
+      },
+      immediate: true
+    }
+  } //this.scrollToBottom()
 }
 </script>
 

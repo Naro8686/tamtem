@@ -1,14 +1,5 @@
 <template lang="pug">
 section.bid-detail(v-if='data.id')
-	.bids-search__intro.bids-intro
-		.container
-			.bids-intro__inner
-				h1.bids-intro__title Биржа оптовых #[br] продаж tamtem.ru
-				div.bids-intro__picture
-					img(src="/images/bidlist/intro-pic.png")
-		.container
-			.bids-intro__filters
-				filtersItem
 	article.bid.bid--buy
 		header.bid__header.bid-header
 			.container

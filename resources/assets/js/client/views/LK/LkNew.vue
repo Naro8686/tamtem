@@ -1,27 +1,31 @@
 <template lang="pug">
-section.content
-  .title__block-mobile(v-if="isMobile")
-    svg.close__svg(width="18", height="17", viewBox="0 0 18 17", fill="none", xmlns="http://www.w3.org/2000/svg", @click="$router.push({ name: 'bids.list'})")
-      line(x1="16", y1="1.41421", x2="2.41421", y2="15", stroke="#888888", stroke-width="2", stroke-linecap="round")
-      line(x1="1", y1="-1", x2="20.2132", y2="-1", transform="matrix(0.707107 0.707107 0.707107 -0.707107 2 0)", stroke="#888888", stroke-width="2", stroke-linecap="round")
-    svg.back__svg(v-if="hasBackArrow()", width="31", height="16", viewBox="0 0 31 16", fill="none", xmlns="http://www.w3.org/2000/svg", @click="backArrowPage")
-      path(d="M0.292891 7.29289C-0.0976334 7.68342 -0.0976334 8.31658 0.292891 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292891 7.29289ZM31 7L0.999998 7V9L31 9V7Z", fill="#888888")
-    .title-text__block-mobile {{$route.meta.title}}
-    .title-text__bids-mobile(v-if="this.$route.name == 'lk.deals' && isMobile")
-      div(@click="changeType('buy')", :class="{'active' : mobileTabsClick == 'buy'}") Заказы
-      div(@click="changeType('sell')", :class="{'active' : mobileTabsClick == 'sell'}") Предложения
-  .custom-container(v-if="$root.profile")
-    Breadcrumbs(v-if="!isMobile")
-    .content__block
-      LkNavigationNew(v-if="!isMobile || (this.$route.name == 'lk.mobile' && isMobile)", :profile="profile")
-      .main-content(v-if="this.$route.name != 'lk.mobile'")
-        router-view(@profileUpdateEmit="loadProfile", :profile="profile", :mobileTabsClick="mobileTabsClick")
-        Loader(v-if="this.loading")
+  section.content
+    .title__block-mobile(v-if="isMobile")
+      svg.close__svg(width="18", height="17", viewBox="0 0 18 17", fill="none", xmlns="http://www.w3.org/2000/svg", @click="$router.push({ name: 'bids.list'})")
+        line(x1="16", y1="1.41421", x2="2.41421", y2="15", stroke="#888888", stroke-width="2", stroke-linecap="round")
+        line(x1="1", y1="-1", x2="20.2132", y2="-1", transform="matrix(0.707107 0.707107 0.707107 -0.707107 2 0)", stroke="#888888", stroke-width="2", stroke-linecap="round")
+      svg.back__svg(v-if="hasBackArrow()", width="31", height="16", viewBox="0 0 31 16", fill="none", xmlns="http://www.w3.org/2000/svg", @click="backArrowPage")
+        path(d="M0.292891 7.29289C-0.0976334 7.68342 -0.0976334 8.31658 0.292891 8.70711L6.65685 15.0711C7.04738 15.4616 7.68054 15.4616 8.07107 15.0711C8.46159 14.6805 8.46159 14.0474 8.07107 13.6569L2.41421 8L8.07107 2.34315C8.46159 1.95262 8.46159 1.31946 8.07107 0.928932C7.68054 0.538408 7.04738 0.538408 6.65685 0.928932L0.292891 7.29289ZM31 7L0.999998 7V9L31 9V7Z", fill="#888888")
+      .title-text__block-mobile {{$route.meta.title}}
+      .title-text__bids-mobile(v-if="this.$route.name == 'lk.deals' && isMobile")
+        div(@click="changeType('buy')", :class="{'active' : mobileTabsClick == 'buy'}") Заказы
+        div(@click="changeType('sell')", :class="{'active' : mobileTabsClick == 'sell'}") Предложения
+    .custom-container(v-if="$root.profile")
+      Breadcrumbs(v-if="!isMobile")
+      .content__block
+        LkNavigationNew(v-if="!isMobile || (this.$route.name == 'lk.mobile' && isMobile)", :profile="profile")
+        .main-content()
+          router-view(
+            @profileUpdateEmit="loadProfile",
+            :profile="profile",
+            :mobileTabsClick="mobileTabsClick"
+          )
+          Loader(v-if="this.loading")
 </template>
 
 <script>
 import LkNavigationNew from "./components/LkNavigationNew"
-import { mapGetters, mapActions } from "vuex"
+import {mapGetters, mapActions} from "vuex"
 import Breadcrumbs from "./components/Breadcrumbs"
 
 export default {
@@ -58,9 +62,9 @@ export default {
     },
     backArrowPage() {
       if (this.$route.fullPath.indexOf("lk/mobile") == -1 && this.$route.fullPath.indexOf("lk/dialogs/") != -1) {
-        this.$router.push({ name: "lk.dialogs" })
+        this.$router.push({name: "lk.dialogs"})
       } else if (this.$route.fullPath.indexOf("lk/mobile") == -1 && this.$route.fullPath.indexOf("lk/") != -1) {
-        this.$router.push({ name: "lk.mobile" })
+        this.$router.push({name: "lk.mobile"})
       }
     },
     hasBackArrow() {
@@ -78,40 +82,40 @@ export default {
     getBillPay(data) {
       this.loading = true
       axios
-        .post("/api/v1/paymentservice/get/score", {
-          params: {
-            unique_id: this.profile.profile.unique_id,
-            summ: parseInt(data.price, 10)
-          }
-        })
-        .then((resp) => {
-          if (resp.data.result && resp.data.result === true) {
-            this.paylink = resp.data.link
-            // this.scoreNumber = resp.data.scoreNumber
-            this.setSnackbar({
-              color: "success",
-              text: "Счёт сформирован",
-              toggle: true
-            })
-
-            if (window.isProdMode) {
-              window.ym(76387882, "reachGoal", "create_schet") // Выставить счет
+          .post("/api/v1/paymentservice/get/score", {
+            params: {
+              unique_id: this.profile.profile.unique_id,
+              summ: parseInt(data.price, 10)
             }
-            window.open(this.paylink, "_blank").focus()
+          })
+          .then((resp) => {
+            if (resp.data.result && resp.data.result === true) {
+              this.paylink = resp.data.link
+              // this.scoreNumber = resp.data.scoreNumber
+              this.setSnackbar({
+                color: "success",
+                text: "Счёт сформирован",
+                toggle: true
+              })
+
+              if (window.isProdMode) {
+                window.ym(76387882, "reachGoal", "create_schet") // Выставить счет
+              }
+              window.open(this.paylink, "_blank").focus()
+              this.loading = false
+            } else {
+              this.printErrorOnConsole("Произошла ошибка, попробуйте позднее", "warning")
+              this.setSnackbar({
+                color: "success",
+                text: "Произошла ошибка, попробуйте позднее",
+                toggle: true
+              })
+            }
+          })
+          .catch((error) => {
+            this.printErrorOnConsole(error)
             this.loading = false
-          } else {
-            this.printErrorOnConsole("Произошла ошибка, попробуйте позднее", "warning")
-            this.setSnackbar({
-              color: "success",
-              text: "Произошла ошибка, попробуйте позднее",
-              toggle: true
-            })
-          }
-        })
-        .catch((error) => {
-          this.printErrorOnConsole(error)
-          this.loading = false
-        })
+          })
     }
   },
   computed: {

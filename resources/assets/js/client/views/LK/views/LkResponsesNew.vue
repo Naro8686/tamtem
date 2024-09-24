@@ -1,13 +1,13 @@
 <template lang="pug">
-.tabs
-  .maintabs
-    button.maintab.active Отклики
-  .content
-    Loader(v-if="this.loading")
-    .responses(v-if="responsesList")
-      template(v-for="response in responsesList")
-        ResponsecardNew(:response="response", @leaveDeal="leaveDeal", @reloadResponses="getResponses")
-    .order_empty(v-else) У вас нет откликов
+  .tabs
+    .maintabs
+      button.maintab.active Отклики
+    .content
+      Loader(v-if="this.loading")
+      .responses(v-if="responsesList")
+        template(v-for="response in responsesList")
+          ResponsecardNew(:response="response", @leaveDeal="leaveDeal", @reloadResponses="getResponses")
+      .order_empty(v-else) У вас нет откликов
 </template>
 <script>
 import ResponsecardNew from "../components/ResponsecardNew"
@@ -47,51 +47,52 @@ export default {
         text: message,
         toggle: true
       })
-      this.$router.replace({ name: "lk.responses" })
+      this.$router.replace({name: "lk.responses"})
     },
     leaveDeal(id) {
       axios
-        .post(`/api/v1/deals/user/responses/${id}/finish`)
-        .then((result) => {
-          if (result.data.result == true) {
-            this.getResponses()
-          }
-        })
-        .catch((err) => {
-          this.$store.dispatch("setSnackbar", {
-            color: "error",
-            text: `Произошла ошибка, попробуйте позднее`,
-            toggle: true
+          .post(`/api/v1/deals/user/responses/${id}/finish`)
+          .then((result) => {
+            if (result.data.result == true) {
+              this.getResponses()
+            }
           })
-        })
+          .catch((err) => {
+            this.$store.dispatch("setSnackbar", {
+              color: "error",
+              text: `Произошла ошибка, попробуйте позднее`,
+              toggle: true
+            })
+          })
     },
     getResponses() {
       this.loading = true
       axios
-        .get("/api/v1/deals/user/responses")
-        .then((result) => {
-          if (result.data.result) {
-            this.responsesList = this.processedData(result.data.data.items)
-          }
-          console.log(this.responsesList)
-        })
-        .catch((err) => {})
-        .then(() => {
-          this.loading = false
-        })
+          .get("/api/v1/deals/user/responses")
+          .then((result) => {
+            if (result.data.result) {
+              this.responsesList = this.processedData(result.data.data.items)
+            }
+          })
+          .catch((err) => {
+          })
+          .then(() => {
+            this.loading = false
+          })
     },
     getAnswers(questions) {
       return Object.assign(
-        {},
-        ...Object.keys(questions).map((item) => {
-          return {
-            [item]: {
-              name: questions[item].slug,
-              header: questions[item].header,
-              value: questions[item].question
+          {},
+          ...Object.keys(questions).map((item) => {
+            return {
+              [item]: {
+                name: questions[item].slug,
+                header: questions[item].header,
+                value: questions[item].question,
+                is_agree: questions[item].is_agree,
+              }
             }
-          }
-        })
+          })
       )
     },
     //  org_id == user.organization_id -
@@ -152,6 +153,7 @@ export default {
           dealPeriod: item.deal.date_of_event,
           isPayed: item.deal.is_payed,
           isReadedByMe: item.is_readed_owner_response,
+          dateCreated: item.date_create,
           deadlinePayment: this.transformDate(item.deal.winner_wating_payment_at || null),
           summ: item.deal.commission,
           paymentslug: item.deal.slug_payment_type,

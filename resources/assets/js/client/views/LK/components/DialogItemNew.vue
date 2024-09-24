@@ -49,7 +49,6 @@ export default {
   },
   mounted() {
     let size = 23
-    console.log(this.dialog.last_message)
     if (this.dialog.last_message.length > size) {
       this.textPrev = this.dialog.last_message.slice(0, size) + "..."
     } else {

@@ -18,7 +18,7 @@ export default {
   methods: {
     changeSubscribe() {
       axios
-        .post("/api/v1/user/subscribe", { notice_allowed: +this.profile.profile.notice_allowed })
+        .post("/api/v1/user/subscribe", { notice_allowed: +!this.profile.profile.notice_allowed })
         .then((response) => {
           if (response.data.result) {
             this.profile.profile.notice_allowed = !this.profile.profile.notice_allowed

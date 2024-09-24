@@ -141,8 +141,6 @@ class DealController extends Controller
         }
 
         try {
-            // dd(	FilterDealsRepository::filter($categories, $countries, $regions,  $cities, false, false, false, $finish , $typeDeal,
-            // false, false , false, false, false, false,false, $subtypeDeal, $status, $userId   )->get()->toArray());
             return $this->successResponse(
                 DealsItemFormatter::formatPaginator(
                 // FilterDealsRepository::getUserDeals($user)->simplePaginate() // todo удалить при чистке
@@ -739,9 +737,6 @@ class DealController extends Controller
             ) {
                 throw new \App\Exceptions\NotFoundException();
             }
-            // //dd($user->organization_id);
-            // dd($deal->isUserMemberDeal($user));
-//			dd($deal->toArray());
 
             // если юзер не авторизован и заказ завершен - не показывать
             if (!$user and (
@@ -760,7 +755,7 @@ class DealController extends Controller
                 $isDealMy = true;
             } elseif ($deal->isUserMemberDeal($user)) { // если пользователь  - участник сделки
                 $deal['members']
-                    = $deal->getAnswersAndQuestionsByMember($user->organization_id);    //	 dd($deal->toArray());
+                    = $deal->getAnswersAndQuestionsByMember($user->organization_id);
                 // if(isset($deal['members']['trading_status']) === OrganizationDeal::DEAL_TRADING_STATUS_BANNED){
                 // 	unset($deal['members']);
                 // }
@@ -840,7 +835,7 @@ class DealController extends Controller
                 && $isDealActive === true
             ) { // если пользователь  - участник сделки и это покупка
                 $deal['members']
-                    = $deal->getAnswersAndQuestionsByMember($user->organization_id);    //	 dd($deal->toArray());
+                    = $deal->getAnswersAndQuestionsByMember($user->organization_id);
             } elseif ($isDealActive
                 === true
             ) { // добавим просмотр к объявлению, если смотрел не сам
@@ -978,7 +973,7 @@ class DealController extends Controller
                 ->where('organization_id', $user->organization_id)->first()->id;
 
             //записываем ответы на вопросы
-            $questions = $request->get('questions'); //dd($questions);
+            $questions = $request->get('questions');
             $organizationDealAnswerService
                 = new OrganizationDealAnswerService();
 
@@ -1110,7 +1105,6 @@ class DealController extends Controller
         $resultPayment = $this->paymentService->paymentSubscription($request,
             Subscription::SUBSCRIPTION_PAYMENT_ONCE_DEAL_BUY_GET_CONTACTS, true,
             $id, $winnerUser, round($commission, 0, PHP_ROUND_HALF_DOWN));
-//  dd( $resultPayment);
 
         // проплачены ли победителем контакты сделки
         $idsDealsBuyContacts
@@ -1532,7 +1526,7 @@ class DealController extends Controller
      *
      * @param  mixed  $request
      *
-     * @return void
+     * @return array|false[]|true[]
      */
     public function getResponsesForCurrentUser(Request $request)
     {
@@ -1548,7 +1542,9 @@ class DealController extends Controller
 
             $dealIds = $user->deals()->pluck('id')->toArray();
 
-            $responses = OrganizationDealMember::with(['deal', 'files'])
+            $responses = OrganizationDealMember::with([
+                'deal', 'files', 'answers'
+            ])
                 ->where(function($q) use ($dealIds, $organization_id) {
                     $q->where('organization_id', $organization_id);
                     if (!empty($dealIds)) {
@@ -1591,8 +1587,8 @@ class DealController extends Controller
                 $request->input('per_page', 10), $request->input('page', 1),
                 ['path' => $request->url(), 'query' => $request->query()]);
 
-            return $this->successResponse(DealsResponsesCurrentUserItemFormatter::formatPaginator($paginateCollection));
-            //return $this->successResponse(DealsResponsesCurrentUserItemFormatter::formatPaginator($responses->paginate($request->input('per_page', 10))));
+            return $this->successResponse(DealsResponsesCurrentUserItemFormatter::formatPaginator($paginateCollection,
+                true));
 
         } catch (Throwable $e) {
             return $this->errorResponse($e->getMessage());

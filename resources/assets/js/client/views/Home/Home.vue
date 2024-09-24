@@ -1,18 +1,19 @@
 <template lang="pug">
-  section.homepage
+  section(:class="{'supplier':!isHomePage, 'homepage':isHomePage}")
     section.homepage-firstscreen
       div.container
         div.homepage-firstscreen__inner
           div.pagetype-switch.homepage__pageswitch
-            a(href="/buyers").pagetype-switch__btn.is-active Для покупателей
-            a(href="/postavschic").pagetype-switch__btn Для поставщиков
+            router-link(to="/buyers", class="pagetype-switch__btn", :class="{'is-active':isHomePage}" , @click.native="goToRouteWithReachGoal('nszakaz', '/buyers')") Для покупателей
+            router-link(to="/postavschic", class="pagetype-switch__btn", exact-active-class="is-active", @click.native="goToRouteWithReachGoal('nszakaz', '/postavschic')") Для поставщиков
         div.homepage-firstscreen__inner
           div.homepage-firstscreen__box
             h1.homepage-firstscreen__title Биржа оптовых #[br] продаж tamtem.ru
             p.homepage-firstscreen__desc безопасная платформа
             p.homepage-firstscreen__note тысячи заказов и предложений по всей России
             template(v-if='this.$root.isAuth')
-              a(href="/newbid" @click.prevent="goToUrlWithReachGoal('nszakaz', '/newbid')").homepage-firstscreen__button Начать сейчас
+              a(v-if="isHomePage" href="/newbid" @click.prevent="goToUrlWithReachGoal('nszakaz', '/newbid')").homepage-firstscreen__button Начать сейчас
+              a(v-else href="/optovyye-obyavleniya/bids" @click.prevent="goToUrlWithReachGoal('nszakaz', '/optovyye-obyavleniya/bids')").homepage-firstscreen__button Начать сейчас
             template(v-else)
               a(href="/?itm=signup" @click.prevent="goToUrlWithReachGoal('nszakaz', '/?itm=signup')").homepage-firstscreen__button Начать сейчас
 
@@ -29,7 +30,7 @@
             img(src="/images/home/shortabout-3.png").shortabout__pic
             p.shortabout__cap все категории товаров
     section.homepage-gradient-block
-      section.get-started
+      section(v-if="isHomePage").get-started
         div.container
           h2.homepage__title.get-started__title.homepage__title--decored С ЧЕГО НАЧАТЬ
           ul.get-started__list
@@ -54,7 +55,7 @@
               p.get-started__number 4.
               p.get-started__txt В короткие сроки получить #[span актуальные предложения] по Вашему заказу
           //- a(@click.prevent="createOrder('sozdat_zakaz')" href="/newbid").get-started__button.homepage__button Создать заказ
-      section.advantages
+      section(v-if="isHomePage").advantages
         div.container
           h3.advantages__title.homepage__title.homepage__title--decored ПРЕИМУЩЕСТВА
           p.advantages__desc купить оптом от производителя проще, чем когда либо прежде
@@ -89,7 +90,144 @@
                 img(src="/images/home/advantage-6.png" alt="advantage time")
               h4.advantages__name Удобство
               p.advantages__text Вы получите уведомление, если подходящий заказ появится в сервисе.
-    section.homepage-bids
+      div(v-if="!isHomePage").supplier-steps
+        div.container
+          h2.homepage__title.homepage__title--decored.supplier-steps__title Как получить заказ
+          ul.supplier-steps__list
+            li
+              div.supplier-steps__pic
+                img(src="/images/home/step1.png" alt="Выберите заказ")
+              strong.supplier-steps__cap 1. Выберите заказ
+              p.supplier-steps__txt Выберите интересующий вас заказ. Ознакомьтесь с его условиями и описанием.
+            li
+              div.supplier-steps__pic
+                img(src="/images/home/step2.png" alt="Оставьте предложение")
+              strong.supplier-steps__cap 2. Оставьте предложение
+              p.supplier-steps__txt Отметьте условия, которые вы можете выполнить. Оставьте своё ценовое предложение и комментарий для заказчика.
+            li
+              div.supplier-steps__pic
+                img(src="/images/home/step3.png" alt="Получите контактные данные")
+              strong.supplier-steps__cap 3. Получите контактные данные заказчика
+              p.supplier-steps__txt Если заказчик выбирает вас, оплачивайте получение контакта. Звоните заказчику.
+          a.supplier-steps__button.supplier__button(@click.prevent="showBids('view_zakazy');" href="/optovyye-obyavleniya/bids") Посмотреть заказы
+
+      section(v-if="!isHomePage").supplier-adv
+        div.container
+          h3.supplier-adv__title.homepage__title.homepage__title--decored ПРЕИМУЩЕСТВА
+          p.supplier-adv__desc купить оптом от производителя проще, чем когда либо прежде
+          ul.supplier-adv__list
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-1.png" alt="advantage time")
+              h4.supplier-adv__name Сократите время на поиск покупателей
+              p.supplier-adv__text Без утомительных обзвонов и писем. Создавайте заказы, получайте на них ответы, или просматривайте уже готовые предложения.
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-2.png" alt="advantage time")
+              h4.supplier-adv__name Бесплатно
+              p.supplier-adv__text Сервис tamtem.ru полностью бесплатен для покупателей. Вы можете создавать неограниченное количество заказов по любым категориям товаров или услуг.
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-3.png" alt="advantage time")
+              h4.supplier-adv__name Высокий уровень конфиденциальности
+              p.supplier-adv__text Мы ценим безопасность прежде всего. Ваши контакты увидит только тот поставщик, которого Вы сами выберите.
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-4.png" alt="advantage time")
+              h4.supplier-adv__name Просто и быстро
+              p.supplier-adv__text Простая и удобная в использовании платформа. Находите новых поставщиков в несколько кликов. Обсуждайте в чате детали сделки и получайте уведомления, чтобы не пропустить актуальные ответы на Ваши заказы.
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-5.png" alt="advantage time")
+              h4.supplier-adv__name Поддержка
+              p.supplier-adv__text Вы всегда можете связаться со службой поддержки сервиса tamtem.ru. Наши специалисты помогут Вам по любым вопросам, связанным с работой сервиса или взаимодействием с заказчиком.
+            li.supplier-adv__item
+              div.supplier-adv__pic
+                img(src="/images/home/advantage-6.png" alt="advantage time")
+              h4.supplier-adv__name Удобство
+              p.supplier-adv__text Вы получите уведомление, если подходящий заказ появится в сервисе.
+
+    section(v-if="!isHomePage").supplier-price
+      .container
+        h2.supplier-price__title.homepage__title.homepage__title--decored Услуги и цены
+        p.supplier-price__desc Получайте заказы на сервисе tamtem.ru, оплачивая за контакт от 200 ₽
+        .supplier-price__tablebox
+          table.supplier-price__table
+            tbody
+              tr
+                th
+                th
+                  h3 Покупателям
+                  p 0 рублей
+                th(colspan="2")
+                  h3 Продавцам *
+                  p от 200 рублей
+              tr
+                td.supplier-price__table-serve
+                  p Размещение объявлений
+                td.supplier-price__table-value
+                  p бесплатно
+                td.supplier-price__table-value(colspan="2")
+                  p бесплатно
+              tr
+                td.supplier-price__table-serve
+                  p Заключение сделки
+                td.supplier-price__table-value
+                  p бесплатно
+                td.supplier-price__table-text
+                  p сумма сделки, руб
+                  ul
+                    li < 500 000
+                    li < 1 000 000
+                    li < 3 000 000
+                td.supplier-price__table-text
+                  p стоимость, руб
+                  ul
+                    li 200
+                    li 500
+                    li 800
+        .supplier-price__mobile
+          .supplier-price__mobile-block
+            p.supplier-price__mobile-title Размещение объявлений
+            .supplier-price__mobile-row
+              p.supplier-price__mobile-name Покупателям
+              p.supplier-price__mobile-value
+                span бесплатно
+            .supplier-price__mobile-row
+              p.supplier-price__mobile-name Продавцам
+              p.supplier-price__mobile-value
+                span бесплатно
+          .supplier-price__mobile-block
+            p.supplier-price__mobile-title Заключение сделки
+            .supplier-price__mobile-row
+              p.supplier-price__mobile-name Покупателям
+              p.supplier-price__mobile-value
+                span бесплатно
+            .supplier-price__mobile-row
+              p.supplier-price__mobile-name Продавцам
+              p.supplier-price__mobile-value от 200 рублей
+            .supplier-price__mobile-tablebox
+              table.supplier-price__mobile-table
+                tr
+                  th сумма сделки, руб
+                  th стоимость, руб
+                tr
+                  td.supplier-price__mobile-table-txt
+                    ul
+                      li < 500 000
+                      li < 1 000 000
+                      li < 3 000 000
+                  td.supplier-price__mobile-table-txt
+                    ul
+                      li 200
+                      li 500
+                      li 800
+        .supplier-price__notes
+          p.supplier-price__note
+            i Вы можете отправлять ответы на неограниченное колличество заказов.
+          p.supplier-price__note
+            i Продавец оплачивает предоставление контактных данных <b>только тогда, когда Покупатель выберет его.</b> Сумма оплаты за контакт видна при отправке предложения Покупателю.
+    section(v-if="isHomePage").homepage-bids
       div.container
         h2.homepage__title.homepage__title--decored.homepage-bids__title Предложения поставщиков
         p.homepage-bids__desc Вы так же можете находить нужных поставщиков просматривая их предложения на доске объявлений
@@ -98,7 +236,90 @@
             bidcard(
               :bid='bid'
             )
-    section.find-new-cl
+    section(v-else).homepage-bids
+      .container
+        h2.homepage__title.homepage__title--decored.homepage-bids__title Заказы покупателей
+        p.homepage-bids__desc База заказов на сервисе tamtem.ru регулярно обновляется. Мы работаем с заказчиками по всей России.
+        ul.homepage-bids__list.for__supplier
+          li.homepage-bids__item
+            a.card
+              .card-header
+                .card-header-items-wrap
+                  h3.card-header-title Заказ: наименование
+                  .card-header-icons
+                    .line
+                      .card-infograph(title="Предложения")
+                        img(src="/images/home/icon-user.svg")
+                        span.text-small 0
+                      .card-infograph(title="Просмотры")
+                        img(src="/images/home/icon-eye.svg")
+                        span.text-small 0
+              .card-body
+                .card-body-descr
+                  span Тип сделки
+                  span Объем
+                  span Минимальная партия
+                p.card-body-descr Описание
+              .card-footer
+                .card-footer-content
+                  .card-infograph
+                    img(src="/images/home/icon-map-pin.svg")
+                    span.text-small Регион
+                  .card-infograph
+                    p.deal-budget Бюджет ₽
+          li.homepage-bids__item
+            a.card
+              .card-header
+                .card-header-items-wrap
+                  h3.card-header-title Заказ: наименование
+                  .card-header-icons
+                    .line
+                      .card-infograph(title="Предложения")
+                        img(src="/images/home/icon-user.svg")
+                        span.text-small 0
+                      .card-infograph(title="Просмотры")
+                        img(src="/images/home/icon-eye.svg")
+                        span.text-small 0
+              .card-body
+                .card-body-descr
+                  span Тип сделки
+                  span Объем
+                  span Минимальная партия
+                p.card-body-descr Описание
+              .card-footer
+                .card-footer-content
+                  .card-infograph
+                    img(src="/images/home/icon-map-pin.svg")
+                    span.text-small Регион
+                  .card-infograph
+                    p.deal-budget Бюджет ₽
+          li.homepage-bids__item
+            a.card
+              .card-header
+                .card-header-items-wrap
+                  h3.card-header-title Заказ: наименование
+                  .card-header-icons
+                    .line
+                      .card-infograph(title="Предложения")
+                        img(src="/images/home/icon-user.svg")
+                        span.text-small 0
+                      .card-infograph(title="Просмотры")
+                        img(src="/images/home/icon-eye.svg")
+                        span.text-small 0
+              .card-body
+                .card-body-descr
+                  span Тип сделки
+                  span Объем
+                  span Минимальная партия
+                p.card-body-descr Описание
+              .card-footer
+                .card-footer-content
+                  .card-infograph
+                    img(src="/images/home/icon-map-pin.svg")
+                    span.text-small Регион
+                  .card-infograph
+                    p.deal-budget Бюджет ₽
+    section(v-if="isHomePage" ).find-new-cl
       div.container
         div.find-new-cl__inner
           div.find-new-cl__content
@@ -111,6 +332,20 @@
               a(href="/?itm=signup" @click.prevent="goToUrlWithReachGoal('nszakazniz', '/?itm=signup')").homepage-firstscreen__button Начать сейчас
           div.find-new-cl__illustration
             img(src="/images/home/find-new-vendors-pic.png")
+    section(v-else).find-new-cl
+      .container
+        .find-new-cl__inner
+          .find-new-cl__content
+            h2.find-new-cl__title Хотите найти новых клиентов?
+            p.find-new-cl__desc отвечайте на заказы
+            p.find-new-cl__note и размещайте бесплатно свои объявления
+            template(v-if='this.$root.isAuth')
+              a.find-new-cl__button(href="/bids?page=1&per_page=12&type_deal=buy&date_published=desc" @click.prevent="goToUrlWithReachGoal('nszakazniz', '/bids?page=1&per_page=12&type_deal=buy&date_published=desc')") Начать сейчас
+            template(v-else)
+              a.find-new-cl__button(href="/?itm=signup" @click.prevent="goToUrlWithReachGoal('nszakazniz', '/?itm=signup')") Начать сейчас
+          .find-new-cl__illustration
+            img(src="/images/home/find-new-customers-pic.png")
+
     //- section.homepage-goals
         div.container
             .row
@@ -249,37 +484,30 @@
                     feather(type="minus")
               div.answer__text
                 p Нет, заказ отредактировать нельзя, чтобы избежать ситуаций изменения условий заказа Заказчиком после принятия предложения.
-
-
-        section.news
-          ul.news__list
-            li.news__item.news-item
-              div.news-item__head
-                p.news-item__name Текстовой блог
-                span.news-item__icon
-                  i.news-item__icon-closed
-                    feather(type="plus")
-                  i.news-item__icon-opened
-                    feather(type="minus")
-              div.news-item__text
-                div.post(v-for='(newsItem,key) in news')
-                  div.post-data(v-if='key<1')
-                    h1 {{newsItem.title}}
-                    p.post-body(v-html='newsItem.body')
-                  div.post-data(v-else)
-                    h2 {{newsItem.title}}
-                    p.post-body(v-html='newsItem.body')
         div.homepage-faq__questions
           h3.homepage-faq__questions-title Остались вопросы?
           p.homepage-faq__questions-here #[a(href="/faq" @click.prevent="goToUrlWithReachGoal('zdesvopros', '/faq')") Здесь] Вы найдете больше информации.
           p.homepage-faq__questions-desc Наш сервис делает работу простой и безопасной. Экономьте время и средства на поиске заказов.
-    MetaContent
+    MetaContent(v-if="isHomePage")
       h1 Оптовые продажи для бизнеса
       p Оптовые продажи — это идеальный способ увеличить вашу прибыль и развить свой бизнес. Когда вы покупаете товары оптом, вы получаете значительные скидки, которые позволяют вам устанавливать конкурентные цены в розницу и привлекать больше клиентов. На сайте вы найдете множество выгодных предложений для оптовых продаж. Мы гордимся тем, что предлагаем большую базу поставщиков оптом  товаров от производителей. Это означает, что вы получаете товары напрямую от производителя, минуя посредников, и можете быть уверены в их высоком качестве. Работаем только с надежными поставщиками, чтобы предложить вам широкий ассортимент товаров в различных категориях. Мы упростили процесс оптовых продаж для вас. Наш сайт имеет интуитивно понятный интерфейс, который позволяет вам легко находить нужные товары и оформлять заказы. У нас также есть удобная система поиска, которая поможет вам быстро найти интересующие вас товары и сравнить их цены и характеристики. Оптовые продажи от производителя – это отличная возможность получить товары по выгодным ценам, минуя дополнительные наценки. Мы гарантируем высокое качество всех товаров, представленных на нашем сайте. Благодаря прямому сотрудничеству с производителями, мы можем предложить вам лучшие цены на рынке. Не упустите возможность развить свой бизнес с помощью оптовых продаж. Заходите на наш сайт прямо сейчас и выбирайте выгодные предложения по оптовым закупкам. У нас вы найдете все необходимое для успешного бизнеса: качественные товары, низкие цены и удобный процесс покупки.
       h2 Выбирайте качество и надежность: оптовые продажи от производителя
       p Когда дело касается оптовых продаж, качество товаров является одним из самых важных факторов. Мы гарантируем высокое качество всех товаров, предлагаемых в оптовых объемах. У нас вы найдете товары от надежных производителей, которые следят за каждой деталью производства и стремятся предложить продукцию самого высокого качества. Одним из преимуществ оптовых продаж от производителя является прямая связь между вами и производителем. Это позволяет установить прочные деловые отношения, обеспечить более выгодные условия покупки и гарантировать надежность и стабильность поставок. Вы можете быть уверены, что товары, приобретенные у нас, будут соответствовать самым высоким стандартам качества и доставят вам только положительные эмоции и удовлетворение от сотрудничества. Оптовые продажи от производителя — это ваш надежный партнер в бизнесе. Мы предлагаем широкий выбор товаров, высокое качество, привлекательные цены и удобный интерфейс для оформления заказов. Не упустите возможность развить свой бизнес и сделать выгодные покупки - посетите наш сайт и начните сотрудничество с лучшими производителями уже сегодня.
       h2 Получите преимущество конкуренции: продажа оптом
       p Конкурентная борьба в современном бизнесе требует постоянного стремления к превосходству над конкурентами. И одним из способов достичь этого является продажа товаров оптом.  У нас вы найдете отличные возможности для оптовой покупки, которые помогут вам получить преимущество в сравнении с конкурентами. Продажа оптом позволяет вам приобретать товары по более низкой цене, чем при розничной покупке. Благодаря этому вы можете устанавливать более привлекательные цены для ваших клиентов и привлекать больше покупателей. Это поможет вам увеличить объемы продаж и укрепить свою позицию на рынке. Кроме того, при продаже оптом вы можете получить дополнительные преимущества, такие как бесплатная доставка или специальные условия сотрудничества. Мы стремимся предложить нашим оптовым клиентам выгодные условия, которые помогут им достичь успеха в своем бизнесе. Не упустите возможность получить преимущество конкуренции. Заходите на сайт и начните совершать оптовые покупки уже сегодня. Мы гарантируем высокое качество товаров, удобный интерфейс и отличное обслуживание. Присоединяйтесь к нашему порталу поставщиков.
+    MetaContent(v-else)
+      h1 Найдите оптовых покупателей с помощью нашего сервиса поиска покупателей
+      p В мире бизнеса оптовые покупатели играют важную роль в успехе предприятия. Если вы ищете надежных и квалифицированных партнеров для оптовых продаж, то вы попали по адресу. Мы предлагаем уникальный сервис поиска покупателей, который поможет вам найти оптовых покупателей, нацеленных на долгосрочное и взаимовыгодное сотрудничество.
+      h2 Эффективный сервис поиска оптовых покупателей
+      p Наш сервис поиска покупателей предоставляет вам доступ к широкой базе данных оптовых покупателей, которые активно ищут поставщиков и готовы установить с ними деловые отношения. Вы сможете найти покупателей в различных отраслях, начиная от одежды и обуви и заканчивая электроникой и бытовой техникой. Наша база данных регулярно обновляется, что гарантирует вам доступ к актуальной информации и новым возможностям.
+      p С помощью нашего сервиса поиска оптовых покупателей вы сможете точно определить свою целевую аудиторию. Вы сможете настроить фильтры по отрасли, региону, объему закупок и другим параметрам, чтобы найти именно тех покупателей, которые наиболее подходят для вашего бизнеса. Это поможет вам сэкономить время и силы, обращаясь только к потенциальным покупателям, которые реально заинтересованы в вашей продукции или услугах.
+      p Кроме того, наш сервис поиска покупателей предлагает различные инструменты и функции, которые помогут вам эффективно взаимодействовать с покупателями и заключать с ними сделки. Вы сможете просматривать профили покупателей, узнавать о их потребностях и требованиях, а также связываться с ними напрямую для обсуждения деталей сотрудничества.
+      h2 Продвигайте свой бизнес с помощью сервиса поиска покупателей
+      p Наш сервис поиска покупателей поможет вам не только найти оптовых покупателей, но и продвигать свой бизнес. Вы сможете создать профиль вашей компании, загрузить информацию о вашей продукции или услугах, а также предоставить дополнительные материалы, такие как фотографии, видео или каталоги. Это поможет вам привлечь внимание покупателей и представить вашу компанию в наилучшем свете.
+      p Мы поможем вам не только найти оптовых покупателей, но и продвигать свой бизнес. Вы сможете создать профиль вашей компании, загрузить информацию о вашей продукции или услугах, а также предоставить дополнительные материалы, такие как фотографии, видео или каталоги.
+      p Оптовые покупатели, использующие сервис поиска покупателей, активно ищут новых поставщиков и готовы рассмотреть предложения от новых партнеров. Ваша компания может стать их идеальным выбором, если вы предлагаете качественные товары, конкурентные цены и надежное сотрудничество.
+      p Не упускайте возможность найти оптовых покупателей и расширить свой бизнес. Зарегистрируйтесь на сайте TamTem.ru и начните использовать наш сервис поиска покупателей уже сегодня. Уверены, что наше партнерство принесет вам успех и процветание!
+
 </template>
 
 <script>
@@ -431,6 +659,7 @@ export default {
   },
   data() {
     return {
+      isHomePage: false,
       currentItem: '',
       bids: [],
       currentStep: 1,
@@ -463,6 +692,11 @@ export default {
         category: null
       }
     };
+  },
+  watch: {
+    $route(to, from) {
+      this.isHomePage = to.name === 'homepage' || to.name === 'buyers';
+    }
   },
   computed: {
     ...mapGetters("createBid", ["getStep"]),
@@ -571,8 +805,12 @@ export default {
     async getNews() {
       await this.$store.dispatch('news/loadAdminNews');
     },
+    setPageType() {
+      this.isHomePage = this.$route.name === 'homepage' || this.$route.name === 'buyers';
+    }
   },
   created() {
+    this.setPageType();
     this.getData();
   },
   mounted() {
@@ -2199,6 +2437,873 @@ $color-prim: #3393FF;
     textarea {
       border: 1px solid $danger;
     }
+  }
+}
+</style>
+<style lang="css" scoped>
+.supplier {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+}
+
+.supplier__title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.supplier__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 12px;
+  padding: 0 42px;
+  height: 43px;
+  background-color: #2FC06E;
+  border: none;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  max-width: 220px;
+  min-height: 50px;
+  text-transform: none;
+  margin: 0 auto;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 20px;
+  color: #ffffff;
+}
+
+.supplier__button:hover,
+.supplier__button:visited,
+.supplier__button:active {
+  color: #ffffff;
+}
+
+.supplier__button:hover {
+  background-color: #218663;
+  text-decoration: none;
+}
+
+.supplier-steps {
+  padding-top: 130px;
+  padding-bottom: 100px;
+}
+
+.supplier-steps__title {
+  margin-bottom: 70px;
+}
+
+.supplier-steps__list {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+
+.supplier-steps__list li {
+  list-style: none;
+}
+
+.supplier-steps__pic {
+  height: 230px;
+}
+
+.supplier-steps__pic img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.supplier-steps__cap {
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+  margin-top: 38px;
+}
+
+.supplier-steps__txt {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.supplier-steps__txt a {
+  color: #2FC06E;
+  text-decoration: none;
+}
+
+.supplier-steps__txt span {
+  color: #2FC06E;
+}
+
+.supplier-price {
+  background: url(/images/home/price-bg.png) no-repeat;
+  background-size: cover;
+  padding-top: 100px;
+  padding-bottom: 125px;
+}
+
+.supplier-price__title {
+  margin-bottom: 59px;
+}
+
+.supplier-price__desc {
+  margin-bottom: 88px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  color: #2C3444;
+}
+
+.supplier-price__tablebox {
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 44px;
+  border: 1px solid #989FAB;
+}
+
+.supplier-price__table {
+  width: 100%;
+  -webkit-box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.07);
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  border-collapse: collapse;
+}
+
+.supplier-price__table td,
+.supplier-price__table th {
+  border: 1px solid #989FAB;
+  text-align: center;
+}
+
+.supplier-price__table td:first-child,
+.supplier-price__table th:first-child {
+  border-left: none;
+}
+
+.supplier-price__table td:last-child,
+.supplier-price__table th:last-child {
+  border-right: none;
+}
+
+.supplier-price__table th {
+  padding: 25px 0 20px;
+}
+
+.supplier-price__table th h3 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 23px;
+  margin-bottom: 6px;
+  color: #222222;
+}
+
+.supplier-price__table th p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #222222;
+}
+
+.supplier-price__table tr:first-child td,
+.supplier-price__table tr:first-child th {
+  border-top: none;
+}
+
+.supplier-price__table tr:first-child td:first-child,
+.supplier-price__table tr:first-child th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.supplier-price__table tr:first-child td:last-child,
+.supplier-price__table tr:first-child th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.supplier-price__table tr:last-child td,
+.supplier-price__table tr:last-child th {
+  border-bottom: none;
+}
+
+.supplier-price__table tr:last-child td:first-child,
+.supplier-price__table tr:last-child th:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.supplier-price__table tr:last-child td:last-child,
+.supplier-price__table tr:last-child th:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.supplier-price__table-serve p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 19px;
+  line-height: 23px;
+  color: #222222;
+  text-align: center;
+  padding: 33px 0;
+}
+
+.supplier-price__table-value p {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #2FC06E;
+  text-align: center;
+  padding: 33px 0;
+}
+
+.supplier-price__table-text {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #222222;
+  text-align: center;
+  padding-top: 19px;
+  padding-bottom: 40px;
+}
+
+.supplier-price__table-text p {
+  margin-bottom: 21px;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  color: #222222;
+}
+
+.supplier-price__table-text li:not(:last-child) {
+  margin-bottom: 9px;
+}
+
+.supplier-price__note {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: #222222;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.supplier-price__note p,
+.supplier-price__note i {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.supplier-price__note::before {
+  content: "*";
+  margin-right: 10px;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.supplier-price__note:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.supplier-price__mobile-title {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #222222;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.supplier-price__mobile-block:not(:last-child) {
+  margin-bottom: 64px;
+}
+
+.supplier-price__mobile-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.supplier-price__mobile-row:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.supplier-price__mobile-name {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+  margin-right: 10px;
+}
+
+.supplier-price__mobile-value {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.supplier-price__mobile-value span {
+  color: #2FC06E;
+}
+
+.supplier-price__mobile-tablebox {
+  margin-top: 26px;
+  margin-bottom: 22px;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid #989FAB;
+}
+
+.supplier-price__mobile-table {
+  -webkit-box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.07);
+  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.07);
+  border-radius: 2px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.supplier-price__mobile-table td,
+.supplier-price__mobile-table th {
+  border: 1px solid #989FAB;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #222222;
+  padding: 13px;
+}
+
+.supplier-price__mobile-table td,
+.supplier-price__mobile-table th {
+  border: 1px solid #989FAB;
+}
+
+.supplier-price__mobile-table td:first-child,
+.supplier-price__mobile-table th:first-child {
+  border-left: none;
+}
+
+.supplier-price__mobile-table td:last-child,
+.supplier-price__mobile-table th:last-child {
+  border-right: none;
+}
+
+.supplier-price__mobile-table tr:first-child td,
+.supplier-price__mobile-table tr:first-child th {
+  border-top: none;
+}
+
+.supplier-price__mobile-table tr:first-child td:first-child,
+.supplier-price__mobile-table tr:first-child th:first-child {
+  border-top-left-radius: 2px;
+}
+
+.supplier-price__mobile-table tr:first-child td:last-child,
+.supplier-price__mobile-table tr:first-child th:last-child {
+  border-top-right-radius: 2px;
+}
+
+.supplier-price__mobile-table tr:last-child td,
+.supplier-price__mobile-table tr:last-child th {
+  border-bottom: none;
+}
+
+.supplier-price__mobile-table tr:last-child td:first-child,
+.supplier-price__mobile-table tr:last-child th:first-child {
+  border-bottom-left-radius: 2px;
+}
+
+.supplier-price__mobile-table tr:last-child td:last-child,
+.supplier-price__mobile-table tr:last-child th:last-child {
+  border-bottom-right-radius: 2px;
+}
+
+.supplier-price__mobile-table-txt li:not(:last-child) {
+  margin-bottom: 7px;
+}
+
+.supplier-adv {
+  padding-top: 100px;
+  padding-bottom: 171px;
+}
+
+.supplier-adv__title {
+  margin-bottom: 33px;
+}
+
+.supplier-adv__desc {
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 90px;
+  color: #2C3444;
+  text-align: center;
+}
+
+.supplier-adv__list {
+  list-style: none;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -webkit-column-gap: 45px;
+  -moz-column-gap: 45px;
+  column-gap: 45px;
+  row-gap: 45px;
+}
+
+.supplier-adv__pic {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.supplier-adv__pic img {
+  width: 65px;
+  height: 65px;
+}
+
+.supplier-adv__name {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.supplier-adv__text {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  /* or 150% */
+  letter-spacing: -0.02em;
+  color: #11141A;
+}
+
+.card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  background-clip: border-box;
+  border-radius: 6px;
+  position: relative;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.card:hover {
+  -webkit-box-shadow: 0px 0px 14px 0 rgba(69, 91, 99, 0.2);
+  box-shadow: 0px 0px 14px 0 rgba(69, 91, 99, 0.2);
+}
+
+.card .card-infograph > * {
+  vertical-align: middle;
+  color: #001d85;
+  font-weight: 400;
+  font-size: 12px;
+  color: #001d85;
+}
+
+.card .text-small {
+  line-height: 15px;
+  margin-left: 3px;
+}
+
+.card hr.fix-border {
+  display: block;
+  border-top: 2px solid #ececec;
+  margin: 0 15px;
+}
+
+.card-header,
+.card-body,
+.card-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 12px !important;
+}
+
+.card-header {
+  height: 72px;
+  border-bottom: none;
+  background-color: #fff;
+  padding-top: 5px !important;
+}
+
+.card-header-items-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 43px;
+  width: 100%;
+}
+
+.card-header-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  font-size: 12px;
+  line-height: 15px;
+  min-width: 100px;
+  text-align: right;
+}
+
+.card-header-icons .line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
+  justify-content: space-evenly;
+}
+
+.card-header-icons .line:last-child {
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+}
+
+.card-header-icons .line .card-infograph {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.card-header-icons .feather {
+  color: #2acc5a;
+}
+
+.card-header-icons .text-small {
+  color: #001d85;
+}
+
+.card-header-icons .btn-favorite.active svg {
+  fill: white;
+}
+
+.card-header-title {
+  color: #001d85;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 24px;
+  overflow: hidden;
+  width: 85%;
+  word-wrap: break-word;
+  margin: 0 !important;
+}
+
+.card-header .fix-border {
+  display: block;
+}
+
+.card-body {
+  height: 88px;
+}
+
+.card-body-descr {
+  word-wrap: break-word;
+  min-height: 43px;
+  font-weight: 400;
+  font-size: 14px;
+  color: black;
+  line-height: 19px;
+  max-height: 80px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.card-footer {
+  background-color: white;
+  border-top: none;
+}
+
+.card-footer-content {
+  width: 100%;
+  -webkit-box-pack: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  display: inherit;
+  border-top: solid 1px #ececec;
+  height: 35px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.card-footer-content .feather.feather--map-pin {
+  height: 13px;
+}
+
+.card-footer-content .deal-budget > * {
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  color: #001d85;
+  line-height: 19px !important;
+}
+
+.homepage-bids__list.for__supplier {
+  list-style: none;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  -webkit-column-gap: 15px;
+  -moz-column-gap: 15px;
+  column-gap: 15px;
+  row-gap: 20px;
+}
+
+@media screen and (min-width: 641px) {
+  .supplier-price__mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .supplier-adv__list {
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .homepage-bids__list.for__supplier {
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .supplier-price__desc {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .supplier-price__table th h3 {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .supplier-price__table-serve p {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .supplier-price__table-value p {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .supplier-price__table-text p {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .supplier-adv__desc {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .supplier__button {
+    font-size: 14px;
+    min-height: 40px;
+  }
+
+  .supplier-steps {
+    padding-top: 90px;
+    padding-bottom: 50px;
+  }
+
+  .supplier-steps__list {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    margin-bottom: 52px;
+  }
+
+  .supplier-steps__cap {
+    font-size: 16px;
+  }
+
+  .supplier-steps__txt {
+    padding: 0 10%;
+  }
+
+  .supplier-adv {
+    padding-top: 90px;
+    padding-bottom: 134px;
+  }
+
+}
+
+@media screen and (max-width: 640px) {
+
+  .supplier-price__title {
+    margin-bottom: 14px;
+  }
+
+  .supplier-price__desc {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 60px;
+  }
+
+  .supplier-price__tablebox {
+    display: none;
+  }
+
+  .supplier-price__note {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .supplier-adv__desc {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 60px;
+  }
+
+  .supplier-adv__list {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .supplier-adv__item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .supplier-adv__text {
+    text-align: center;
+  }
+
+  .homepage-bids__list.for__supplier {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .supplier-adv {
+    padding-top: 90px;
+    padding-bottom: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  .supplier-steps__title {
+    margin-bottom: 50px;
+  }
+
+  .supplier-steps__cap {
+    margin-top: 20px;
+  }
+
+  .supplier-steps__txt {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 530px) {
+  .supplier__title {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .supplier-steps__title {
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .supplier-price__mobile-row {
+    width: 80%;
+  }
+}
+
+@media (max-width: 425px) {
+  .supplier-steps__list {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    margin-bottom: 50px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .supplier-price__mobile-row {
+    width: 100%;
   }
 }
 </style>

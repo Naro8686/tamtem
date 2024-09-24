@@ -204,7 +204,6 @@ class DealsController extends Controller
 
         try{
             $id = (int) $id;
-
             $response = OrganizationDealMember::with('answers', 'files')->where('organizations_deals_members.id',  $id )->first() ;
 
             if (!$response){
@@ -256,7 +255,7 @@ class DealsController extends Controller
 
             //записываем ответы на вопросы
             $questionsWithSlugs = $deal->questionsWithSlugs()->toArray();
-            $answers = $request->get('answers', []); //dd($answers);
+            $answers = $request->get('answers', []);
             $organizationDealAnswerService    = new \App\Services\OrganizationDealAnswer\OrganizationDealAnswerService();
 
             foreach ($answers as $slug => $value) {

@@ -32,7 +32,7 @@ header(v-if="profile")
             a.header__nav-dd-link(href="tel:8 800 700 14 76") 8 800 700 14 76
             span.header__nav-dd-tel-info Бесплатно по России
             a.header__nav-dd-link(href="mailto:team@tamtem.ru") team@tamtem.ru
-        section.curr
+        section.header__currency
           div.curr__main
             p.curr__main-icon
               img(:src="currentCurr && currentCurr.icon ? currentCurr.icon : ''" alt="")
@@ -137,7 +137,7 @@ export default {
     hasNotifications() {
       if (this.profile.unreadMsg > 0 || (this.profile.notifications && (this.profile.notifications.unreaded_owner_deal > 0 || this.profile.notifications.unreaded_owner_response > 0))) {
         this.countNot = this.profile.unreadMsg || 0 + this.profile.notifications.unreaded_owner_deal || 0 + this.profile.notifications.unreaded_owner_response || 0
-        return this.countNot
+        return this.countNot;
       }
     }
   }

@@ -192,8 +192,8 @@ class ClientController extends Controller
             $max_size = (int) ini_get('upload_max_filesize') * 1000;
             $v = Validator::make($request->all(), [
                 'name' => 'sometimes|min:4|max:190',
-                'phone' => 'required|regex:/(^(\d+)$)/u|min:10|max:10',
-                'photo' => 'sometimes|mimes:jpeg,bmp,png|max:'.$max_size,
+                'phone' => 'required|regex:/(^(\d+)$)/u|min:7|max:10',
+                'photo' => 'sometimes|mimes:jpeg,bmp,png,gif|max:'.$max_size,
             ]);
 
             if ($v->fails()) {

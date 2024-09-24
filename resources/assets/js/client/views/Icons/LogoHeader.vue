@@ -104,7 +104,7 @@
 				</g>
 			</g>
 		</svg> -->
-		<img src="images/logo-mini.svg" alt="tamtem logo">
+		<img src="/images/logo-mini.svg" alt="tamtem logo">
 	</template>
 	<template v-if="props.variant === 'homepage'">
 		<svg width="157" height="46" viewBox="0 0 157 46" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

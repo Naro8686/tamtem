@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'title' => 'max:255',
-            'description' => 'max:255',
+            'description' => 'max:500',
             'cl_icon' => 'max:32',
             'cl_background' => 'max:32',
         ];

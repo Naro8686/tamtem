@@ -1,7 +1,5 @@
 <template lang="pug">
-	//- div(
-		:class="pointClass"
-		).pointsblank__mark
+	//div.pointsblank__mark(:class="{'pointsblank__mark--yes':flag,'pointsblank__mark--not':!flag}")
 	div.answer-yes(v-if="flag == true")
 		iconTick(color="#2fc06e")
 	div.answer-no(v-else) -

@@ -12,7 +12,7 @@ import Users from "../views/Users/Users"
 import Companies from "../views/Companies/Companies"
 import Page404 from "../views/Page404"
 import Tarifs from "../views/Tarifs"
-import faq2 from "../views/faq"
+import Faq from "../views/faq"
 import Unsubscribe from "../views/GeneralComponents/components/UnsubscribeView"
 import Supplier from "../views/Supplier/Supplier"
 
@@ -20,8 +20,8 @@ const routes = [
     {
         path: "/lk",
         name: "lk",
-        component: LkNew,
         redirect: "lk/bids#actived",
+        component: LkNew,
         meta: {
             breadcrumb: false,
             title: `${APPNAME} - Личный кабинет`,
@@ -30,9 +30,9 @@ const routes = [
         children: LkRoutes
     },
     {
-        path: "/fq",
-        name: "faq2",
-        component: faq2
+        path: "/faq",
+        name: "faq",
+        component: Faq
     },
     {
         path: "/",
@@ -46,6 +46,15 @@ const routes = [
     {
         path: "/buyers",
         name: "buyers",
+        component: Home,
+        meta: {
+            // title: `${APPNAME} - Главная страница`
+            title: `TamTem - Сервис поиска оптовых поставщиков для бизнеса`
+        }
+    },
+    {
+        path: "/postavschic",
+        name: "postavschic",
         component: Home,
         meta: {
             // title: `${APPNAME} - Главная страница`

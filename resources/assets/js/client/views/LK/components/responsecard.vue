@@ -126,6 +126,7 @@ import modalDeny from "../components/modalDeny.vue";
 import { mapActions } from "vuex";
 import Retreat from "../../GeneralComponents/components/retreatBid";
 import clip from "../../Icons/iconClip.vue";
+
 export default {
   components: {
     budget,

@@ -1,7 +1,8 @@
 <template lang="pug">
   v-app
-    LkHeader(v-if="$route.name.indexOf('lk') != -1")
-    newheader(v-else)
+    //LkHeader(v-if="$route.name.indexOf('lk') != -1")
+    //newheader(v-else)
+    newheader
     filters-item(v-if="isFiltersVisible")
 
     .error-message(v-if="$root.errorCode == 429")
@@ -11,7 +12,7 @@
 
     main.main.custom__main(role="main", :class="'main-' + $route.name.replace('.', '-')")
       LkPanel(v-if="($route.name.indexOf('lk') != -1 || $route.name == 'bids.list' || $route.name == 'sells.list') && !isMobile")
-      SliderCategories(v-if="$route.name.indexOf('lk') != -1 || $route.name == 'bids.list' || $route.name == 'sells.list'")
+      SliderCategories(v-if="$route.name == 'bids.list' || $route.name == 'sells.list'")
       router-view
       notifications
       Loader(v-if="getLoadingState")
@@ -32,7 +33,7 @@
 
     Footer
     b-modal#registrationModal(v-if="isRegistrationModalVisible", modal-class="modal-signin", ref="registrationModal")
-      component(:is="activeComponent")
+      component(:is="activeComponent", @close="hideregistrationModal")
       div(slot="modal-footer")
     v-snackbar(v-model="getSnackbarState.toggle", :color="getSnackbarState.color", :timeout="6000", top, right) {{ getSnackbarState.text }}
       v-btn(dark, flat, @click="$store.dispatch('setSnackbar', { toggle: false })") Закрыть
@@ -49,7 +50,7 @@ import Cookies from "js-cookie"
 // import modalWrapper from "./GeneralComponents/components/modal-wrapper";
 import Loader from "./GeneralComponents/components/Loader"
 import newheader from "./GeneralComponents/components/Header"
-import LkHeader from "./GeneralComponents/components/LkHeader"
+// import LkHeader from "./GeneralComponents/components/LkHeader"
 import LkPanel from "./GeneralComponents/components/LkPanel"
 import SliderCategories from "./GeneralComponents/components/SliderCategories"
 import Footer from "./GeneralComponents/components/Footer"
@@ -79,7 +80,7 @@ export default {
     passwordResetForm,
     registrationSuccessForm,
     resetPasswordSuccessForm,
-    LkHeader,
+    //LkHeader,
     LkPanel,
     SliderCategories,
     pendingPopUp,
@@ -174,8 +175,10 @@ export default {
       }
     },
     hideregistrationModal() {
-      this.isRegistrationModalVisible = false;
-      this.$refs.registrationModal.hide()
+      this.$refs.registrationModal.hide();
+      setTimeout(function () {
+        this.isRegistrationModalVisible = false;
+      }, 3000);
     }
   },
   computed: {

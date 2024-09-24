@@ -1,14 +1,5 @@
 <template lang="pug">
 section.bid-detail(v-if='data.id')
-	.bids-search__intro.bids-intro
-		.container
-			.bids-intro__inner
-				h1.bids-intro__title Биржа оптовых #[br] продаж tamtem.ru
-				div.bids-intro__picture
-					img(src="/images/bidlist/intro-pic.png")
-		.container
-			.bids-intro__filters
-				filtersItem
 	article.bid.bid--buy
 		header.bid__header.bid-header
 			.container
@@ -365,7 +356,6 @@ import iconTick from "../../Icons/iconTick";
 import iconInformation from "../../Icons/iconInformation";
 import iconCardpayment	 from "../../Icons/iconCardpayment";
 import iconDogovor	 from "../../Icons/iconDogovor";
-import filtersItem from "../../GeneralComponents/components/filtersitem";
 import breadcrumbs from "../../GeneralComponents/components/Breadcrumbs";
 import { mapActions, mapState } from "vuex";
 
@@ -385,7 +375,6 @@ export default {
 		usercontacts,
 		Retreat,
 		modalConfirm,
-		filtersItem,
 		breadcrumbs
 	},
 	props: {
@@ -476,7 +465,6 @@ export default {
 			this.getwindowWidth();
 		});
 		this.setNoticifations();
-    console.log(this.hasWinner);
   },
 	computed: {
 		...mapState(['profile']),
@@ -568,7 +556,6 @@ export default {
 			return `background: url(${URL.createObjectURL(file)})`
 		},
 		uploadFiles(fileList){
-			// console.log(fileList)
 			this.files.splice(0,this.files.length);
 
 			const maxCount = Math.min(fileList.length,this.maxUploadedFilesCount);
@@ -584,7 +571,6 @@ export default {
 				command: "is_readed_owner_response"
 			}
 			const data = { deal_id: this.data.id };
-			// console.log(data);
 			let url = `/api/v1/paymentservice/subscriptions/${pay}/payment`;
 			axios
 				.post(url, data)
