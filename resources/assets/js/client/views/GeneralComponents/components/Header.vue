@@ -13,7 +13,7 @@
           li.mainmenu__item
             a(href="/about" @click.prevent="goToUrlWithReachGoal('onas', '/about')" :class="{ 'active' : $route.name === 'about' }").mainmenu__link.animation-link-underline О нас
           li.mainmenu__item
-            a(v-if="isSellsPage || $route.name === 'sells.list'" href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
+            a(v-if="isSellsPage || $route.name === 'postavschic'" href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
             a(v-else href="/optovyye-obyavleniya/bids" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/bids')" :class="{ 'active' : $route.name === 'bids.list' }").mainmenu__link.animation-link-underline Оптовые заявления
           li.mainmenu__item
             a(href="/faq" @click.prevent="goToUrlWithReachGoal('optovieob', '/faq')" :class="{ 'active' : $route.name === 'faq' }").mainmenu__link.animation-link-underline Помощь
