@@ -13,7 +13,8 @@
           li.mainmenu__item
             a(href="/about" @click.prevent="goToUrlWithReachGoal('onas', '/about')" :class="{ 'active' : $route.name === 'about' }").mainmenu__link.animation-link-underline О нас
           li.mainmenu__item
-            a(href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
+            a(v-if="isSellsPage" href="/optovyye-obyavleniya/sales" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/sales')" :class="{ 'active' : $route.name === 'sells.list' }").mainmenu__link.animation-link-underline Оптовые объявления
+            a(v-else href="/optovyye-obyavleniya/bids" @click.prevent="goToUrlWithReachGoal('optovieob', '/optovyye-obyavleniya/bids')" :class="{ 'active' : $route.name === 'bids.list' }").mainmenu__link.animation-link-underline Оптовые заявления
           li.mainmenu__item
             a(href="/faq" @click.prevent="goToUrlWithReachGoal('optovieob', '/faq')" :class="{ 'active' : $route.name === 'faq' }").mainmenu__link.animation-link-underline Помощь
         section.modalmenu(
@@ -144,19 +145,15 @@ export default {
     }
   },
   watch: {
-    $route() {
+    $route(to, from) {
       this.modalmenuShow = false;
       this.modalprofileShow = false;
       document.body.classList.remove("body-overlay");
-    },
-    $route(to, from) {
       if (to.meta.type == 'sell') {
         this.isSellsPage = true
       } else {
         this.isSellsPage = false
       }
-    },
-    $route(to, from) {
       this.isHomePage = to.name === 'homepage' || to.name === 'buyers' || to.name === 'postavschic';
     }
   },
