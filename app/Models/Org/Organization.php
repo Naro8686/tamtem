@@ -4,10 +4,12 @@ namespace App\Models\Org;
 
 use App\Classes\Business\WorkTime;
 use App\Models\Basic\DatatableModel;
+use App\Models\Dialog;
 use App\Models\News;
 use App\Models\User;
 use App\Traits\DataTable;
 use App\Traits\ModelFileUpload;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -233,8 +235,9 @@ class Organization extends Model
         return $this->hasMany(\App\Models\Dialog::class, 'buyer_id');
     }
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return Dialog|Builder
      */
     public function dialogs_all()
     {

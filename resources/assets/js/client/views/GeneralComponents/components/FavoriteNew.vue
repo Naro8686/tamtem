@@ -39,7 +39,8 @@ export default {
       axios
           .post("/api/v1/user/favourites/delete", {deal_id: this.bid.id})
           .then((resp) => {
-            this.bid.favourited = false
+            this.bid.favourited = false;
+            this.$emit("remove", this.bid.id);
           })
           .catch((error) => {
             this.printErrorOnConsole(error)

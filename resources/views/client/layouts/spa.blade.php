@@ -47,7 +47,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<link rel="mask-icon" href="{{ url('/') }}/safari-pinned-tab.svg" color="#2fc06e">
     <link rel="manifest" href="{{ url('/') }}/site.webmanifest">
-	<meta name="msapplication-config" content="browserconfig.xml" /> 
+	<meta name="msapplication-config" content="browserconfig.xml" />
     <meta name="msapplication-TileColor" content="#ffffff">
 	<link rel="apple-touch-icon" href="{{ url('/') }}/favicons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="{{ url('/') }}/favicon-32x32.png">
@@ -74,10 +74,10 @@
 	</noscript>
 
 	<div id="app"></div>
-	
+
 	<!-- Analytics and metrics -->
 	@if ($isTamtem)
-	
+
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141180310-1"></script>
 		<script>
@@ -88,7 +88,7 @@
 		gtag('config', 'UA-141180310-1');
 		</script>
 		<!-- END Global site tag (gtag.js) - Google Analytics -->
-		
+
 		<!-- Top100 (Kraken) Counter -->
 {{--		<script>--}}
 {{--			(function (w, d, c) {--}}
@@ -170,12 +170,12 @@ fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=315150146045581&ev=PageView&noscript=1" alt=""/></noscript>
-<!-- End Facebook Pixel Code -->  
+<!-- End Facebook Pixel Code -->
 <!-- Roistat -->
 <script>(function(w, d, s, h, id) {    w.roistatProjectId = id; w.roistatHost = h;    var p = d.location.protocol == "https:" ? "https://" : "http://";    var u = /^.*roistat_visit=[^;]+(.*)?$/.test(d.cookie) ? "/dist/module.js" : "/api/site/1.0/"+id+"/init";    var js = d.createElement(s); js.charset="UTF-8"; js.async = 1; js.src = p+h+u; var js2 = d.getElementsByTagName(s)[0]; js2.parentNode.insertBefore(js, js2);})(window, document, 'script', 'cloud.roistat.com', 'ca04ee5c41c8e47c722300ec84d8c981');</script>
 <!-- Roistat -->
 	@endif
 	<!-- END Analytics and metrics -->
-<script src="//code.jivosite.com/widget/te4uKTP41V" async></script>	
+<script src="//code.jivosite.com/widget/te4uKTP41V" async></script>
 </body>
 </html>

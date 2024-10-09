@@ -4,14 +4,15 @@
       form.profile__form(@submit.prevent="validateBeforeSubmit")
         .company__top-block
           .company__left-block
-            CustomInput(dataId="companyName", dataTitle="Название Компании", dataName="companyName", disabled, :dataValue="profile.company.organization.name", message="Это поле нельзя изменить")
+            CustomInput(dataId="companyName", dataTitle="Название Компании", dataName="companyName", disabled, :dataValue="profile.company && profile.company.organization ? (profile.company.organization.name || null) : null", message="Это поле нельзя изменить")
             p.labelparagraph Город
             CitiesSelect(@setCityEmit="setCity", :cityName="cityName", :err="err", :placeholder="'Город отгрузки товара'")
             CustomInput(dataId="companyINN", dataTitle="ИНН", dataName="companyINN", :dataValue="form.inn", disabled, message="Это поле нельзя изменить")
-            CustomInput(dataId="companyKPP", dataTitle="КПП", dataName="companyKPP", disabled, :dataValue="profile.company.organization.kpp", message="Это поле нельзя изменить")
-            CustomInput(dataId="companyDirector", dataTitle="ФИО руководителя", dataName="companyDirector", disabled, :dataValue="profile.company.organization.director", message="Это поле нельзя изменить")
-            .custom-input-block
-              input#fullname(
+            CustomInput(dataId="companyKPP", dataTitle="КПП", dataName="companyKPP", disabled, :dataValue="profile.company && profile.company.organization ? (profile.company.organization.kpp || null) : null", message="Это поле нельзя изменить")
+            CustomInput(dataId="companyDirector", dataTitle="ФИО руководителя", dataName="companyDirector", disabled, :dataValue="profile.company && profile.company.organization ? (profile.company.organization.director || null) : null", message="Это поле нельзя изменить")
+            .custom-input-block(:class="{'is-invalid' : (errors.has('phone') || err['phone'])}")
+              input#phoneCompany(
+                :class="{'is-invalid' : (errors.has('phone') || err['phone'])}"
                 placeholder="Телефон",
                 data-vv-as="Телефон",
                 data-vv-name="phone",
@@ -19,7 +20,8 @@
                 v-validate=`'required|phoneFormat'`,
                 v-model="form.phone"
               ).custom-input-input
-              label.custom-input-label(for="fullname") Телефон организации
+              label.custom-input-label(for="phoneCompany") Телефон организации
+              div.invalid-feedback {{ ...errors.collect('phone'), ...err.phone}}
             p.labelparagraph Категория
             CategorySelect(@setCategoryEmit="setCategory", :category="category", :err="err")
           .company__right-block
@@ -29,11 +31,12 @@
               input#logo-img.company__logo-change-input(type="file", placeholder="Выберите фотографию", data-vv-as="Фото", data-vv-name="photo", name="image_field", v-validate=`'isImage'`)
               label(for="logo-img") ИЗМЕНИТЬ ЛОГОТИП
         .company__bottom-block
-          .custom-input-block
-            textarea#description.custom-textarea(rows=7, placeholder="Добавьте описание компании", solo, v-model="form.org_products", data-vv-as="Добавьте краткое описание компании", data-vv-name="org_products", v-validate=`'required'`)
+          .custom-input-block(:class="{'is-invalid' : (errors.has('org_products') || err['org_products'])}")
+            textarea#description.custom-textarea(rows=7, placeholder="Добавьте описание компании", solo, v-model="form.org_products", data-vv-as="Добавьте краткое описание компании", data-vv-name="org_products", v-validate=`'required'`, :class="{'is-invalid' : (errors.has('org_products') || err['org_products'])}")
             label.custom-input-label(for="description")
               | Описание Компании, которое будет появляться в
               | заголовках и поиске
+            div.invalid-feedback {{ ...errors.collect('org_products'), ...err.org_products}}
           .custom-btn-green
             button.custom-btn-green__btn.profile__btn(type="submit", :disabled="loading")
               | Сохранить
@@ -105,12 +108,12 @@ export default {
     });
   },
   mounted() {
-    window.addEventListener("resize", () => {
-      this.setWindowWidth()
-    })
     if (this.profile) {
       this.updateFields()
     }
+    window.addEventListener("resize", () => {
+      this.setWindowWidth()
+    })
   },
   computed: {
     windowSize() {
@@ -151,7 +154,9 @@ export default {
         backgroundSize: 'contain'
       };
 
-      let old = this.profile.company.organization.media.image_1
+      let old = this.profile.company && this.profile.company.organization
+          ? (this.profile.company.organization.media.image_1 || null)
+          : null;
 
       if (old && old.length > 0) {
         res.backgroundImage = `url('${old}')`;
@@ -178,15 +183,25 @@ export default {
       }
     },
     updateFields() {
-      this.form.inn = this.profile.company.organization.inn
-      this.form.org_products = this.profile.company.organization.products
+      this.form.inn = this.profile.company && this.profile.company.organization
+          ? (this.profile.company.organization.inn || "")
+          : "";
+      this.form.org_products = this.profile.company && this.profile.company.organization
+          ? (this.profile.company.organization.products || null)
+          : null;
 
       this.form.phone = this.profile.company.contact_phone
 
       // this.form.image_1 = this.profile.company.organization.media.image_1;
-      this.category = this.profile.company.categories[0]
-      this.cityName = this.profile.company.city.name
-      this.setCategory(this.profile.company.categories[0].id)
+
+      this.category = this.profile.company && this.profile.company.categories && this.profile.company.categories.length
+          ? this.profile.company.categories[0]
+          : null;
+
+      this.cityName = this.profile.company && this.profile.company.city
+          ? (this.profile.company.city.name || null)
+          : null;
+      if (this.category) this.setCategory(this.category.id);
     },
     setFields(result) {
       for (let key in result) {
@@ -219,7 +234,7 @@ export default {
         if (result) {
           this.err = {}
           // вызвать сборку
-          this.setFields(this.form)
+          this.setFields(this.form);
         }
       })
     },
@@ -262,6 +277,19 @@ export default {
 .company__logo {
   background: url("/images/form logo.png");
   background-repeat: no-repeat;
+}
+
+.custom-input-input.is-invalid:focus,
+.custom-textarea.is-invalid:focus {
+  outline: none;
+  border: 1px solid #ff564b;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 86, 75, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(255, 86, 75, 0.25);
+}
+
+.invalid-feedback {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
 }
 </style>
 

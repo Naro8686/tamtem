@@ -7,52 +7,53 @@
       <div class="row box-body" v-if="item.type_deal == 'buy'">
         <div class="deal-info sell-deal col-md-12">
           <form
-            @submit.prevent="validateBeforeSubmit"
-            action="javascript:void(0);"
+              @submit.prevent="validateBeforeSubmit"
+              action="javascript:void(0);"
           >
             <table class="table table-bordered table-striped">
               <thead>
-                <tr>
-                  <th class="col-md-4">Параметр</th>
-                  <th class="col-md-8">Значение</th>
-                </tr>
+              <tr>
+                <th class="col-md-4">Параметр</th>
+                <th class="col-md-8">Значение</th>
+              </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Номер сделки</td>
-                  <td>{{ item.id }}</td>
-                </tr>
-                <tr>
-                  <td>Тип сделки</td>
-                  <td>Покупка</td>
-                </tr>
-                <tr v-if="item.owner">
-                  <td>Пользователь, создавший сделку</td>
-                  <td>
-                    <router-link
+              <tr>
+                <td>Номер сделки</td>
+                <td>{{ item.id }}</td>
+              </tr>
+              <tr>
+                <td>Тип сделки</td>
+                <td>Покупка</td>
+              </tr>
+              <tr v-if="item.owner">
+                <td>Пользователь, создавший сделку</td>
+                <td>
+                  <router-link
                       :to="{
                         name: 'clients.edit',
                         params: { id: item.owner.id }
                       }"
-                      >{{ item.owner.name }} ({{
-                        item.owner.unique_id
-                      }})</router-link
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td>Описание от поставщика/закупщика</td>
-                  <td>
-                    <div class="editable-area">
-                      <textarea readonly v-model="item.description"></textarea>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Предмет сделки</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  >{{ item.owner.name }} ({{
+                      item.owner.unique_id
+                    }})
+                  </router-link
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Описание от поставщика/закупщика</td>
+                <td>
+                  <div class="editable-area">
+                    <textarea readonly v-model="item.description"></textarea>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Предмет сделки</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Наименование"
                         data-vv-name="dealname"
@@ -61,58 +62,58 @@
                         onfocus="this.select()"
                         v-model="item.name"
                         maxlength="52"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.name || errors.collect("dealname")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Спецификация</td>
-                  <td>
-                    <div class="editable-area">
-                      <wysiwyg
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Спецификация</td>
+                <td>
+                  <div class="editable-area">
+                    <wysiwyg
                         v-model="questions.dqh_specification"
                         v-validate="'required'"
                         data-vv-as="Спецификация"
                         data-vv-name="dqh_specification"
                         placeholder="Требуется продукт, физические параметры, упаковка/фасовка"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.dqh_specification ||
                         errors.collect("dqh_specification")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Файл</td>
-                  <td>
-                    <div
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Файл</td>
+                <td>
+                  <div
                       v-if="item.files && item.files.length > 0"
                       class="editable-area"
-                    >
-                      <div
+                  >
+                    <div
                         class="file"
                         :key="file.id"
                         v-for="file in item.files"
-                      >
-                        <div class="file__name">
-                          <a :href="file.path">{{ file.name }}</a>
-                        </div>
-                        <button
+                    >
+                      <div class="file__name">
+                        <a :href="file.path">{{ file.name }}</a>
+                      </div>
+                      <button
                           type="button"
                           @click.prevent="removeFile(file)"
                           class="file__remove"
-                        >
-                          Удалить
-                        </button>
-                      </div>
+                      >
+                        Удалить
+                      </button>
                     </div>
-                    <div v-else class="editable-area">
-                      <div class="file">
-                        <input
+                  </div>
+                  <div v-else class="editable-area">
+                    <div class="file">
+                      <input
                           v-validate="
                             `ext:doc,docx,xls,xlsx,pdf,rar,zip,7z|size:10240`
                           "
@@ -122,26 +123,26 @@
                           class="file__input"
                           @change="addFile($event.target.files)"
                           type="file"
-                        />
-                        <button
+                      />
+                      <button
                           class="file__remove"
                           @click="abortUploading"
                           type="button"
-                        >
-                          Удалить
-                        </button>
-                      </div>
-                      <span class="help-block">{{
+                      >
+                        Удалить
+                      </button>
+                    </div>
+                    <span class="help-block">{{
                         errorsServer.file || errors.collect("file")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Тип сделки</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Тип сделки</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Тип сделки"
                         data-vv-name="dqh_type_deal"
@@ -149,20 +150,20 @@
                         type="text"
                         onfocus="this.select()"
                         v-model="questions.dqh_type_deal"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.dqh_type_deal ||
                         errors.collect("dqh_type_deal")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Объём общий</td>
-                  <td>
-                    <div class="flex-wrapper">
-                      <div class="editable-area">
-                        <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Объём общий</td>
+                <td>
+                  <div class="flex-wrapper">
+                    <div class="editable-area">
+                      <input
                           v-validate="'required|decimal:6'"
                           data-vv-as="Объём общий"
                           data-vv-name="dqh_volume"
@@ -170,14 +171,14 @@
                           type="text"
                           onfocus="this.select()"
                           v-model="questions.dqh_volume"
-                        />
-                      </div>
-                      <select v-model="operand" name id class="operandtype">
-                        <option value="0">*</option>
-                        <option value="1">/</option>
-                      </select>
-                      <div class="editable-area">
-                        <input
+                      />
+                    </div>
+                    <select v-model="operand" name id class="operandtype">
+                      <option value="0">*</option>
+                      <option value="1">/</option>
+                    </select>
+                    <div class="editable-area">
+                      <input
                           v-validate="'required|decimal:6'"
                           data-vv-as="Единиц в объёме"
                           data-vv-name="count_unit_in_volume"
@@ -185,18 +186,18 @@
                           type="text"
                           onfocus="this.select()"
                           v-model="item.count_unit_in_volume"
-                        />
-                      </div>
-                      <div class="calculate-button-wrapper">
-                        <input
+                      />
+                    </div>
+                    <div class="calculate-button-wrapper">
+                      <input
                           type="button"
                           class="calculate-button"
                           v-on:click="calculateValforall()"
                           value="="
-                        />
-                      </div>
-                      <div class="editable-area">
-                        <input
+                      />
+                    </div>
+                    <div class="editable-area">
+                      <input
                           v-validate="'required|decimal:6'"
                           data-vv-as="Общее количество"
                           data-vv-name="val_for_all"
@@ -204,10 +205,10 @@
                           type="text"
                           onfocus="this.select()"
                           v-model="item.val_for_all"
-                        />
-                      </div>
-                      <div class="editable-area">
-                        <input
+                      />
+                    </div>
+                    <div class="editable-area">
+                      <input
                           v-validate="'required'"
                           data-vv-as="Ед. изм. в срок"
                           data-vv-name="unit_for_all"
@@ -215,34 +216,34 @@
                           type="text"
                           onfocus="this.select()"
                           v-model="item.unit_for_all"
-                        />
-                      </div>
+                      />
                     </div>
-                    <div class="errors-block">
+                  </div>
+                  <div class="errors-block">
                       <span class="help-block">{{
-                        errorsServer.dqh_volume ||
-                        errors.collect("dqh_volume")[0]
-                      }}</span>
-                      <span class="help-block">{{
+                          errorsServer.dqh_volume ||
+                          errors.collect("dqh_volume")[0]
+                        }}</span>
+                    <span class="help-block">{{
                         errorsServer.count_unit_in_volume ||
                         errors.collect("count_unit_in_volume")[0]
                       }}</span>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.val_for_all ||
                         errors.collect("val_for_all")[0]
                       }}</span>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.unit_for_all ||
                         errors.collect("unit_for_all")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Минимальная партия</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Минимальная партия</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Минимальная партия"
                         data-vv-name="dqh_min_party"
@@ -250,97 +251,97 @@
                         type="text"
                         onfocus="this.select()"
                         v-model="questions.dqh_min_party"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.dqh_min_party ||
                         errors.collect("dqh_min_party")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Логистика</td>
-                  <td>
-                    <div class="editable-area">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Логистика</td>
+                <td>
+                  <div class="editable-area">
                       <textarea
-                        v-validate="'required'"
-                        data-vv-as="Логистика"
-                        data-vv-name="dqh_logistics"
-                        v-model="questions.dqh_logistics"
-                        placeholder="(Доставка куда, самовывоз из каких областей)"
-                        onfocus="this.select()"
+                          v-validate="'required'"
+                          data-vv-as="Логистика"
+                          data-vv-name="dqh_logistics"
+                          v-model="questions.dqh_logistics"
+                          placeholder="(Доставка куда, самовывоз из каких областей)"
+                          onfocus="this.select()"
                       ></textarea>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.dqh_logistics ||
                         errors.collect("dqh_logistics")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Способ оплаты</td>
-                  <td>
-                    <div class="editable-area">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Способ оплаты</td>
+                <td>
+                  <div class="editable-area">
                       <textarea
-                        v-validate="'required'"
-                        data-vv-as="Способ оплаты"
-                        data-vv-name="dqh_payment_method"
-                        v-model="questions.dqh_payment_method"
-                        placeholder="(Наличный, безналичный расчет с НДС или без НДС)"
-                        onfocus="this.select()"
+                          v-validate="'required'"
+                          data-vv-as="Способ оплаты"
+                          data-vv-name="dqh_payment_method"
+                          v-model="questions.dqh_payment_method"
+                          placeholder="(Наличный, безналичный расчет с НДС или без НДС)"
+                          onfocus="this.select()"
                       ></textarea>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.dqh_payment_method ||
                         errors.collect("dqh_payment_method")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Условия оплаты</td>
-                  <td>
-                    <div class="editable-area">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Условия оплаты</td>
+                <td>
+                  <div class="editable-area">
                       <textarea
-                        v-validate="'required'"
-                        data-vv-as="Условия оплаты"
-                        data-vv-name="dqh_payment_term"
-                        v-model="questions.dqh_payment_term"
-                        placeholder="(Отсрочка дней, предоплата, по факту поступления продукции на складе покупателя/поставщика)"
-                        onfocus="this.select()"
+                          v-validate="'required'"
+                          data-vv-as="Условия оплаты"
+                          data-vv-name="dqh_payment_term"
+                          v-model="questions.dqh_payment_term"
+                          placeholder="(Отсрочка дней, предоплата, по факту поступления продукции на складе покупателя/поставщика)"
+                          onfocus="this.select()"
                       ></textarea>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.dqh_payment_term ||
                         errors.collect("dqh_payment_term")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Документы, подтверждающие качество</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Документы, подтверждающие качество</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Документы"
                         data-vv-name="dqh_doc_confirm_quality"
                         placeholder="Требуются/не требуются"
                         v-model="questions.dqh_doc_confirm_quality"
                         type="text"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.dqh_doc_confirm_quality ||
                         errors.collect("dqh_doc_confirm_quality")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Цена от заказчика</td>
-                  <td>
-                    <div class="flex-wrapper">
-                      <p>от</p>
-                      <div class="editable-area">
-                        <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Цена от заказчика</td>
+                <td>
+                  <div class="flex-wrapper">
+                    <p>от</p>
+                    <div class="editable-area">
+                      <input
                           ref="budget_from"
                           v-validate="'required|price|less:budget_to'"
                           data-vv-as="Цена от"
@@ -348,11 +349,11 @@
                           onfocus="this.select()"
                           v-model="item.budget_from"
                           type="text"
-                        />
-                      </div>
-                      <p>до</p>
-                      <div class="editable-area">
-                        <input
+                      />
+                    </div>
+                    <p>до</p>
+                    <div class="editable-area">
+                      <input
                           ref="budget_to"
                           v-validate="'required|price|more:budget_from'"
                           data-vv-as="Цена до"
@@ -360,171 +361,172 @@
                           onfocus="this.select()"
                           v-model="item.budget_to"
                           type="text"
-                        />
-                      </div>
-                      <p>за</p>
-                      <div class="editable-area">
-                        <input
+                      />
+                    </div>
+                    <p>за</p>
+                    <div class="editable-area">
+                      <input
                           v-validate="'required'"
                           data-vv-as="Единица измерения"
                           data-vv-name="unit_for_unit"
                           onfocus="this.select()"
                           v-model="item.unit_for_unit"
                           type="text"
-                        />
-                      </div>
+                      />
                     </div>
-                    <div style="padding: 5px 0" class="flex-wrapper">
-                      <label for="hasNDS">
-                        <input
+                  </div>
+                  <div style="padding: 5px 0" class="flex-wrapper">
+                    <label for="hasNDS">
+                      <input
                           id="hasNDS"
                           v-model="item.budget_with_nds"
                           type="checkbox"
-                        />
-                        <span>Цена с НДС</span>
-                      </label>
-                    </div>
-                    <div class="errors-block">
+                      />
+                      <span>Цена с НДС</span>
+                    </label>
+                  </div>
+                  <div class="errors-block">
                       <span class="help-block">{{
-                        errorsServer.budget_from ||
-                        errors.collect("budget_from")[0]
-                      }}</span>
-                      <span class="help-block">{{
+                          errorsServer.budget_from ||
+                          errors.collect("budget_from")[0]
+                        }}</span>
+                    <span class="help-block">{{
                         errorsServer.budget_to || errors.collect("budget_to")[0]
                       }}</span>
-                      <span class="help-block">{{
+                    <span class="help-block">{{
                         errorsServer.unit_for_unit ||
                         errors.collect("unit_for_unit")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Период поставки</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Период поставки</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Период поставки"
                         data-vv-name="date_of_event"
                         onfocus="this.select()"
                         v-model="item.date_of_event"
                         type="text"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.date_of_event ||
                         errors.collect("date_of_event")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Дата окончания</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Дата окончания</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Дата окончания"
                         data-vv-name="deadline_deal"
                         v-model="item.deadline_deal"
                         type="date"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.deadline_deal ||
                         errors.collect("deadline_deal")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Категории</td>
-                  <td>
-                    <div class="editable-area">
-                      <treeselect
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Категории</td>
+                <td>
+                  <div class="editable-area">
+                    <treeselect
                         v-model="item.categories[0]"
                         instanceId="categories"
                         :multiple="false"
                         valueFormat="object"
                         :options="categories"
                         :normalizer="getNode"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Город</td>
-                  <td v-on:click="addSelected(this.event.target)">
-                    <cityselect
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Город</td>
+                <td v-on:click="addSelected(this.event.target)">
+                  <cityselect
                       @setCityEmit="setCity"
                       :cityName="cityName"
-                    ></cityselect>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Наша комиссия с поставщика</td>
-                  <td>
-                    <div class="flex-wrapper">
-                      <input
+                  ></cityselect>
+                </td>
+              </tr>
+              <tr>
+                <td>Наша комиссия с поставщика</td>
+                <td>
+                  <div class="flex-wrapper">
+                    <input
                         type="button"
                         value="Рассчитать"
                         v-on:click="calculateComission()"
-                      />
-                      <div class="editable-area">
-                        <input
+                    />
+                    <div class="editable-area">
+                      <input
                           v-validate="'required'"
                           data-vv-as="Комиссия"
                           data-vv-name="commission"
                           onfocus="this.select()"
                           v-model="item.commission"
                           type="text"
-                        />
-                      </div>
-                      <p>рублей</p>
+                      />
                     </div>
-                    <span class="help-block">{{
+                    <p>рублей</p>
+                  </div>
+                  <span class="help-block">{{
                       errorsServer.commission || errors.collect("commission")[0]
                     }}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Средний бюджет</td>
-                  <td>
-                    <div class="flex-wrapper">
-                      <input
+                </td>
+              </tr>
+              <tr>
+                <td>Средний бюджет</td>
+                <td>
+                  <div class="flex-wrapper">
+                    <input
                         data-vv-as="Средний бюджет"
                         data-vv-name="budget_all"
                         v-model.number="item.budget_all"
                         type="text"
                         v-validate="'required'"
-                      />
-                      <p>рублей</p>
-                    </div>
-                    <span
+                    />
+                    <p>рублей</p>
+                  </div>
+                  <span
                       class="help-block"
                       v-if="errorsServer.budget_all || errors.has('budget_all')"
-                      >{{
-                        errorsServer.budget_all ||
-                        errors.collect("budget_all")[0]
-                      }}</span
-                    >
-                  </td>
-                </tr>
-                <!-- <tr>
-                  <td>Наш процент (автоподсчёт), %</td>
-                  <td>
-                    <div class="editable-area">
-                      <input readonly onfocus="this.select()" v-model="item.procent" type="text" />
-                    </div>
-                  </td>
-                </tr>-->
-                <tr>
-                  <td>Ссылка на сайте</td>
-                  <td>
-                    <router-link :to="addbidslink(item.id)">{{
+                  >{{
+                      errorsServer.budget_all ||
+                      errors.collect("budget_all")[0]
+                    }}</span
+                  >
+                </td>
+              </tr>
+              <!-- <tr>
+                <td>Наш процент (автоподсчёт), %</td>
+                <td>
+                  <div class="editable-area">
+                    <input readonly onfocus="this.select()" v-model="item.procent" type="text" />
+                  </div>
+                </td>
+              </tr>-->
+              <tr>
+                <td>Ссылка на сайте</td>
+                <td>
+                  <router-link :to="addbidslink(item.id)">{{
                       item.name
-                    }}</router-link>
-                  </td>
-                </tr>
+                    }}
+                  </router-link>
+                </td>
+              </tr>
               </tbody>
             </table>
           </form>
@@ -535,54 +537,55 @@
         <!-- {{item}} -->
         <div class="deal-info sell-deal col-md-12">
           <form
-            @submit.prevent="validateBeforeSubmit"
-            action="javascript:voiD(0)"
+              @submit.prevent="validateBeforeSubmit"
+              action="javascript:voiD(0)"
           >
             <table class="table table-bordered table-striped">
               <!-- заголовок таблицы -->
               <thead>
-                <tr>
-                  <th class="col-md-4">Параметр</th>
-                  <th class="col-md-8">Значение</th>
-                </tr>
+              <tr>
+                <th class="col-md-4">Параметр</th>
+                <th class="col-md-8">Значение</th>
+              </tr>
               </thead>
               <!-- тело таблицы -->
               <tbody>
-                <tr>
-                  <td>Номер сделки</td>
-                  <td>{{ item.id }}</td>
-                </tr>
-                <tr>
-                  <td>Тип сделки</td>
-                  <td>Продажа</td>
-                </tr>
-                <tr v-if="item.owner">
-                  <td>Пользователь, создавший сделку</td>
-                  <td>
-                    <router-link
+              <tr>
+                <td>Номер сделки</td>
+                <td>{{ item.id }}</td>
+              </tr>
+              <tr>
+                <td>Тип сделки</td>
+                <td>Продажа</td>
+              </tr>
+              <tr v-if="item.owner">
+                <td>Пользователь, создавший сделку</td>
+                <td>
+                  <router-link
                       :to="{
                         name: 'clients.edit',
                         params: { id: item.owner.id }
                       }"
-                      >{{ item.owner.name }} ({{
-                        item.owner.unique_id
-                      }})</router-link
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td>Описание от поставщика/закупщика</td>
-                  <td>
-                    <div class="editable-area">
-                      <textarea v-model="item.description"></textarea>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Предмет сделки (название объявления)</td>
-                  <td>
-                    <div class="editable-area">
-                      <input
+                  >{{ item.owner.name }} ({{
+                      item.owner.unique_id
+                    }})
+                  </router-link
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Описание от поставщика/закупщика</td>
+                <td>
+                  <div class="editable-area">
+                    <textarea v-model="item.description"></textarea>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Предмет сделки (название объявления)</td>
+                <td>
+                  <div class="editable-area">
+                    <input
                         v-validate="'required'"
                         data-vv-as="Наименование"
                         data-vv-name="dealname"
@@ -591,40 +594,40 @@
                         onfocus="this.select()"
                         v-model="item.name"
                         maxlength="52"
-                      />
-                      <span class="help-block">{{
+                    />
+                    <span class="help-block">{{
                         errorsServer.name || errors.collect("dealname")[0]
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Файл</td>
-                  <td>
-                    <div
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Файл</td>
+                <td>
+                  <div
                       v-if="item.files && item.files.length > 0"
                       class="editable-area"
-                    >
-                      <div
+                  >
+                    <div
                         class="file"
                         :key="file.id"
                         v-for="file in item.files"
-                      >
-                        <div class="file__name">
-                          <a :href="file.path">{{ file.name }}</a>
-                        </div>
-                        <button
+                    >
+                      <div class="file__name">
+                        <a :href="file.path">{{ file.name }}</a>
+                      </div>
+                      <button
                           type="button"
                           @click.prevent="removeFile(file)"
                           class="file__remove"
-                        >
-                          Удалить
-                        </button>
-                      </div>
+                      >
+                        Удалить
+                      </button>
                     </div>
-                    <div v-else class="editable-area">
-                      <div class="file">
-                        <input
+                  </div>
+                  <div v-else class="editable-area">
+                    <div class="file">
+                      <input
                           v-validate="
                             `ext:jpg,png,doc,docx,xls,xlsx,pdf,rar,zip,7z|size:10240`
                           "
@@ -635,8 +638,8 @@
                           multiple
                           @change="addFile($event.target.files)"
                           type="file"
-                        />
-                        <input
+                      />
+                      <input
                           data-vv-name="file"
                           data-vv-as="Файл"
                           type="text"
@@ -644,121 +647,122 @@
                           ref="filesGuard"
                           v-model="fileslength"
                           hidden
-                        />
-                        <button
+                      />
+                      <button
                           class="file__remove"
                           @click="abortUploading"
                           type="button"
-                        >
-                          Удалить
-                        </button>
-                      </div>
-                      <span class="help-block">{{
+                      >
+                        Удалить
+                      </button>
+                    </div>
+                    <span class="help-block">{{
                         errorsServer.file ||
                         errors.collect("file")[0] ||
                         overfilesString
                       }}</span>
-                    </div>
-                  </td>
-                </tr>
-                <tr v-if="files && files.length > 0">
-                  <td>Загруженные модератором файлы</td>
-                  <td>
-                    <div>
-                      <ul>
-                        <li v-for="file in files" :key="file.id">
-                          <a :href="file.path">{{ file.name }}</a>
-                        </li>
-                      </ul>
-                      <button @click.prevent="abortUploading">Очистить</button>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Категории</td>
-                  <td>
-                    <div class="editable-area">
-                      <treeselect
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="files && files.length > 0">
+                <td>Загруженные модератором файлы</td>
+                <td>
+                  <div>
+                    <ul>
+                      <li v-for="file in files" :key="file.id">
+                        <a :href="file.path">{{ file.name }}</a>
+                      </li>
+                    </ul>
+                    <button @click.prevent="abortUploading">Очистить</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Категории</td>
+                <td>
+                  <div class="editable-area">
+                    <treeselect
                         v-model="item.categories[0]"
                         instanceId="categories"
                         :multiple="false"
                         valueFormat="object"
                         :options="categories"
                         :normalizer="getNode"
-                      />
-                    </div>
-                  </td>
-                </tr>
+                    />
+                  </div>
+                </td>
+              </tr>
 
-                <tr>
-                  <td>Город</td>
-                  <td v-on:click="addSelected(this.event.target)">
-                    <cityselect
+              <tr>
+                <td>Город</td>
+                <td v-on:click="addSelected(this.event.target)">
+                  <cityselect
                       @setCityEmit="setCity"
                       :cityName="cityName"
-                    ></cityselect>
-                  </td>
-                </tr>
+                  ></cityselect>
+                </td>
+              </tr>
 
-                <!-- ключевые слова -->
-                <tr>
-                  <td>Ключевые слова от пользователя</td>
-                  <td>
-                    <div class="editable-area">
-                      <input v-model="item.tags" />
-                      <!--div class="keywords-old">{{item.tags}}</div-->
-                      <div>
-                        <button @click.prevent="sendTagsToApprove()">
-                          Отправить теги на подписку
-                        </button>
+              <!-- ключевые слова -->
+              <tr>
+                <td>Ключевые слова от пользователя</td>
+                <td>
+                  <div class="editable-area">
+                    <input v-model="item.tags"/>
+                    <!--div class="keywords-old">{{item.tags}}</div-->
+                    <div>
+                      <button @click.prevent="sendTagsToApprove()">
+                        Отправить теги на подписку
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- <tr>
+                <td>Новые теги</td>
+                <td>
+                  <div class="keywords-new">
+                      <div class="keywords-new__row">
+                        <div class="keywords-new__wrapper">
+                          <input type="text" class="keywords-new__input" v-model="newTagCurrent">
+                        </div>
+                        <button class="keywords-new__btn" @click.prevent="addNewTag()">Добавить</button>
+                      </div>
+                      <div class="keywords-new__box">
+                        <ul class="keywords-new__tags">
+                          <li :key="tag.id" v-for="tag in newtags">
+                            <span>{{tag}}</span>
+                            <button @click.prevent="removeFromNewTags(tag)">&times;</button>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-                  </td>
-                </tr>
 
-                <!-- <tr>
-                  <td>Новые теги</td>
-                  <td>
-                    <div class="keywords-new">
-                        <div class="keywords-new__row">
-                          <div class="keywords-new__wrapper">
-                            <input type="text" class="keywords-new__input" v-model="newTagCurrent">
-                          </div>
-                          <button class="keywords-new__btn" @click.prevent="addNewTag()">Добавить</button>
-                        </div>
-                        <div class="keywords-new__box">
-                          <ul class="keywords-new__tags">
-                            <li :key="tag.id" v-for="tag in newtags">
-                              <span>{{tag}}</span>
-                              <button @click.prevent="removeFromNewTags(tag)">&times;</button>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      
-                  </td>
-                </tr> -->
-                <tr v-if="tagsResponse">
-                  <td>Ответ от бэка</td>
-                  <td>
-                    <input v-model="tagsResponse" />
-                    <button
+                </td>
+              </tr> -->
+              <tr v-if="tagsResponse">
+                <td>Ответ от бэка</td>
+                <td>
+                  <input v-model="tagsResponse"/>
+                  <button
                       @click.prevent="
                         sendTagsTocreateandsubscribe(tagsResponse)
                       "
-                    >
-                      Создать теги
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ссылка на сайте</td>
-                  <td>
-                    <router-link :to="addbidslink(item.id)">{{
+                  >
+                    Создать теги
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>Ссылка на сайте</td>
+                <td>
+                  <router-link :to="addbidslink(item.id)">{{
                       item.name
-                    }}</router-link>
-                  </td>
-                </tr>
+                    }}
+                  </router-link>
+                </td>
+              </tr>
               </tbody>
             </table>
           </form>
@@ -768,10 +772,10 @@
         <div class="col-md-12 frm-buttons">
           <div class="btn-group">
             <input
-              class="btn btn-success"
-              type="button"
-              @click="validateBeforeSubmit()"
-              value="Сохранить изменения"
+                class="btn btn-success"
+                type="button"
+                @click="validateBeforeSubmit()"
+                value="Сохранить изменения"
             />
           </div>
         </div>
@@ -780,21 +784,21 @@
         <div class="col-md-12 frm-buttons">
           <div class="btn-group">
             <input
-              class="btn btn-success"
-              type="button"
-              @click="successModeration()"
-              value="Принять"
+                class="btn btn-success"
+                type="button"
+                @click="successModeration()"
+                value="Принять"
             />
             <div class="items pull-right">
               <label for="fake">
-                <input id="fake" type="checkbox" v-model="item.is_fake" />
+                <input id="fake" type="checkbox" v-model="item.is_fake"/>
                 FAKE
               </label>
               <input
-                class="btn btn-danger pull-right"
-                type="button"
-                @click="failModeration()"
-                value="Отклонить"
+                  class="btn btn-danger pull-right"
+                  type="button"
+                  @click="failModeration()"
+                  value="Отклонить"
               />
             </div>
           </div>
@@ -806,20 +810,21 @@
 </template>
 
 <script>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import {Component, Prop, Vue} from "vue-property-decorator";
 import ViewMixins from "../../mixins/view";
 import Treeselect from "@riophae/vue-treeselect";
 import cityselect from "../Components/citySelect/citySelect";
 import BootstrapVue from "bootstrap-vue";
 
-import VeeValidate, { Validator } from "vee-validate";
+import VeeValidate, {Validator} from "vee-validate";
 import VeeValidateRu from "vee-validate/dist/locale/ru";
 import Cookies from "js-cookie";
+
 VeeValidateRu.messages.decimal = (field) => {
   return (
-    "Поле " +
-    field +
-    " должно быть числовым и может содержать 2 знака после точки."
+      "Поле " +
+      field +
+      " должно быть числовым и может содержать 2 знака после точки."
   );
 };
 Validator.localize({
@@ -897,7 +902,7 @@ export default {
 
     Validator.extend("price", {
       getMessage: (field) =>
-        `Поле ${field} должно быть числом и может содержать 2 знака после запятой`,
+          `Поле ${field} должно быть числом и может содержать 2 знака после запятой`,
       validate: (value) => {
         return /^\d*[,.]?\d{0,2}$/.test(value);
       }
@@ -906,43 +911,43 @@ export default {
       custom: {
         file: {
           ext: (field, rule) =>
-            `Разрешено только 3 файла в следующих форматах: ${[...rule]} `,
+              `Разрешено только 3 файла в следующих форматах: ${[...rule]} `,
           max_value: (field, rule) => `Можно загрузить не более трех файлов`
         }
       }
     };
     this.$validator.localize("ru", locale);
     Validator.extend(
-      "less",
-      {
-        getMessage: (field) =>
-          "Минимальная цена должна быть меньше максимальной.",
-        validate: (value, [args]) => {
-          return (
-            parseFloat(value.replace(",", ".")) <
-            parseFloat(args.replace(",", "."))
-          );
+        "less",
+        {
+          getMessage: (field) =>
+              "Минимальная цена должна быть меньше максимальной.",
+          validate: (value, [args]) => {
+            return (
+                parseFloat(value.replace(",", ".")) <
+                parseFloat(args.replace(",", "."))
+            );
+          }
+        },
+        {
+          hasTarget: true
         }
-      },
-      {
-        hasTarget: true
-      }
     );
     Validator.extend(
-      "more",
-      {
-        getMessage: (field) =>
-          "Максимальная цена должна быть больше минимальной.",
-        validate: (value, [args]) => {
-          return (
-            parseFloat(value.replace(",", ".")) >
-            parseFloat(args.replace(",", "."))
-          );
+        "more",
+        {
+          getMessage: (field) =>
+              "Максимальная цена должна быть больше минимальной.",
+          validate: (value, [args]) => {
+            return (
+                parseFloat(value.replace(",", ".")) >
+                parseFloat(args.replace(",", "."))
+            );
+          }
+        },
+        {
+          hasTarget: true
         }
-      },
-      {
-        hasTarget: true
-      }
     );
   },
   methods: {
@@ -955,8 +960,8 @@ export default {
     // осуществляет добавление в набор
     selectValue(item) {
       !this.newtags.has(item)
-        ? (this.newtags = new Set(this.newtags.add(item)))
-        : "";
+          ? (this.newtags = new Set(this.newtags.add(item)))
+          : "";
       this.newTagCurrent = "";
     },
     // исключает тег из набора
@@ -986,13 +991,13 @@ export default {
       tagsDData.set("tags", tags);
       tagsDData.set("organization_id", org);
       axios
-        .post("/admin/api/deals/tags/createandsubscribe", tagsDData)
-        .then((resp) => {
-          this.saveItem();
-        })
-        .catch((err) => {
-          this.handeErrorResponse(err);
-        });
+          .post("/admin/api/deals/tags/createandsubscribe", tagsDData)
+          .then((resp) => {
+            this.saveItem();
+          })
+          .catch((err) => {
+            this.handeErrorResponse(err);
+          });
     },
 
     // отправка тегов на проверку
@@ -1014,29 +1019,29 @@ export default {
       //   console.log(`${key}: ${fd.getAll(key)}`);
       // }
       axios
-        .post("/admin/api/deals/tags/subscribe", tagsData)
-        .then((resp) => {
-          this.tagsResponse = resp.data.data;
-        })
-        .catch((err) => {
-          this.handeErrorResponse(err);
-        });
+          .post("/admin/api/deals/tags/subscribe", tagsData)
+          .then((resp) => {
+            this.tagsResponse = resp.data.data;
+          })
+          .catch((err) => {
+            this.handeErrorResponse(err);
+          });
     },
     setDateVal(newVal) {
       this.item.deadline_deal = newVal;
     },
     calculateBudgetAll() {
       this.item.budget_all =
-        this.item.val_for_all *
-        ((parseFloat(this.item.budget_from) + parseFloat(this.item.budget_to)) /
-          2);
+          this.item.val_for_all *
+          ((parseFloat(this.item.budget_from) + parseFloat(this.item.budget_to)) /
+              2);
     },
     calculateComission() {
       this.calculateBudgetAll();
       const middlebudget =
-        (parseFloat(this.item.budget_from.replace(",", ".")) +
-          parseFloat(this.item.budget_to.replace(",", "."))) /
-        2;
+          (parseFloat(this.item.budget_from.replace(",", ".")) +
+              parseFloat(this.item.budget_to.replace(",", "."))) /
+          2;
       const middlePrice = middlebudget * this.item.val_for_all;
       if (middlePrice < 100000) {
         this.item.commission = 200;
@@ -1044,7 +1049,7 @@ export default {
       } else {
         this.item.commission = Math.floor(middlePrice * 0.002);
         this.item.procent = Math.floor(
-          (this.item.commission * 200) / middlePrice
+            (this.item.commission * 200) / middlePrice
         );
       }
     },
@@ -1110,28 +1115,28 @@ export default {
     },
     successModeration() {
       axios
-        .post("/admin/api/deals/moderation/success/" + this.$route.params.id)
-        .then((resp) => {
-          this.item = resp.data;
-          this.messageSuccessModeration();
-          this.$router.push({
-            name: "deals.moderation"
+          .post("/admin/api/deals/moderation/success/" + this.$route.params.id)
+          .then((resp) => {
+            this.item = resp.data;
+            this.messageSuccessModeration();
+            this.$router.push({
+              name: "deals.moderation"
+            });
+          })
+          .catch((err) => {
+            this.handleErrorResponse(err);
           });
-        })
-        .catch((err) => {
-          this.handleErrorResponse(err);
-        });
     },
 
     failModeration() {
       axios
-        .post("/admin/api/deals/moderation/fails/" + this.$route.params.id)
-        .then((resp) => {
-          this.messageFailsModeration();
-          this.$router.push({
-            name: "deals.moderation"
+          .post("/admin/api/deals/moderation/fails/" + this.$route.params.id)
+          .then((resp) => {
+            this.messageFailsModeration();
+            this.$router.push({
+              name: "deals.moderation"
+            });
           });
-        });
     },
 
     addbidslink(id) {
@@ -1139,18 +1144,18 @@ export default {
     },
     loadProcentes() {
       axios
-        .get("/admin/api/deals-procent")
-        .then((result) => {
-          if (result.data.result) {
-            this.procentesArray = result.data.data;
-          } else {
-            this.showError("Произошла ошибка загрузки, попробуйте позднее");
-          }
-        })
-        .catch((err) => {
-          console.log(error);
-          this.messageLoadError();
-        });
+          .get("/admin/api/deals-procent")
+          .then((result) => {
+            if (result.data.result) {
+              this.procentesArray = result.data.data;
+            } else {
+              this.showError("Произошла ошибка загрузки, попробуйте позднее");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            this.messageLoadError();
+          });
     },
     getCategories() {
       axios.get("/admin/api/categories").then((resp) => {
@@ -1168,10 +1173,14 @@ export default {
     loadItem() {
       axios.get("/admin/api/deals/" + this.$route.params.id).then((resp) => {
         this.item = resp.data.data;
-
+        if (this.item && this.item.tags && this.item.tags === "null") {
+          this.item.tags = null;
+        }
         this.processedSomething();
-
         //this.getAddresses();
+      }).catch((err) => {
+        console.log(err);
+        this.messageLoadError();
       });
     },
     processedSomething() {
@@ -1180,7 +1189,7 @@ export default {
         const end = curr.setDate(curr.getDate() + 30);
         const endStr = new Date(end);
         const res = `${endStr.getFullYear()}-${
-          (endStr.getMonth() + 1 < 10 ? "0" : "") + (endStr.getMonth() + 1)
+            (endStr.getMonth() + 1 < 10 ? "0" : "") + (endStr.getMonth() + 1)
         }-${(endStr.getDate() < 10 ? "0" : "") + endStr.getDate()}`;
         this.item.deadline_deal = res;
       }
@@ -1190,14 +1199,16 @@ export default {
           this.questions[el] = this.item.questions[el].question;
         }
       }
-
-      this.cityName = this.item.cities[0].name;
-
+      try {
+        this.cityName = this.item.cities[0].name;
+      } catch (e) {
+        this.cityName = null;
+        console.error(e);
+      }
       this.images = this.item.imagesDeals;
       this.$delete(this.item, "imagesDeals");
     },
     setFormData(data) {
-      console.log(data.files);
       for (let key in data) {
         switch (key) {
           case "budget_from":
@@ -1212,8 +1223,8 @@ export default {
             break;
           case "cities":
             this.formData.set(
-              "cities[]",
-              data["city"] ? data["city"] : data["cities"][0].id
+                "cities[]",
+                data["city"] ? data["city"] : data["cities"][0].id
             );
             break;
           case "categories":
@@ -1233,7 +1244,6 @@ export default {
               });
             }
             break;
-            break;
           default:
             this.formData.set(key, data[key]);
             break;
@@ -1251,29 +1261,29 @@ export default {
       }
       // почистить поле загруженных модером файлов, а то они там и останутся
       this.files = [];
-      let fd = this.formData;
-      for (let key of fd.keys()) {
-        console.log(`${key}: ${fd.getAll(key)}`);
-      }
+      // let fd = this.formData;
+      // for (let key of fd.keys()) {
+      //   console.log(`${key}: ${fd.getAll(key)}`);
+      // }
       axios
-        .post("/admin/api/deals/" + this.item.id, this.formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then((resp) => {
-          if (resp.data.result == true) {
-            this.messageSaved();
-            this.loadItem();
-          } else {
-            this.showError("Произошла ошибка, попробуйте позднеее");
-          }
+          .post("/admin/api/deals/" + this.item.id, this.formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          .then((resp) => {
+            if (resp.data.result == true) {
+              this.messageSaved();
+              this.loadItem();
+            } else {
+              this.showError("Произошла ошибка, попробуйте позднеее");
+            }
 
-          //this.$router.push({ name: "deals" });
-        })
-        .catch((err) => {
-          this.handleErrorResponse(err);
-        });
+            //this.$router.push({ name: "deals" });
+          })
+          .catch((err) => {
+            this.handleErrorResponse(err);
+          });
     },
     addFile(fileList) {
       if (this.item.type_deal == "buy") {
@@ -1296,27 +1306,27 @@ export default {
     },
     removeFile(file) {
       axios
-        .delete("/api/v1/deals-file/" + file.id, {
-          headers: {
-            Authorization: `Bearer ${Cookies.get("api_token")}`
-          }
-        })
-        .then((response) => {
-          console.log(response);
-          if (response.data.result == true) {
-            this.messageDeleted();
-            // let filtered = this.item.files.filter(item => {
-            // 	item.id !== file.id;
-            // });
-            // this.item.files = [...filtered];
-            this.loadItem();
-          } else {
+          .delete("/api/v1/deals-file/" + file.id, {
+            headers: {
+              Authorization: `Bearer ${Cookies.get("api_token")}`
+            }
+          })
+          .then((response) => {
+            if (response.data.result == true) {
+              this.messageDeleted();
+              // let filtered = this.item.files.filter(item => {
+              // 	item.id !== file.id;
+              // });
+              // this.item.files = [...filtered];
+              this.loadItem();
+            } else {
+              this.showError("Произошла ошибка, попробуйте позднеее");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
             this.showError("Произошла ошибка, попробуйте позднеее");
-          }
-        })
-        .catch((err) => {
-          this.showError("Произошла ошибка, попробуйте позднеее");
-        });
+          });
     },
     deleteItem() {
       console.log("deleted");
@@ -1347,9 +1357,11 @@ export default {
   &__row {
     display: flex;
   }
+
   &__wrapper {
     margin-right: 30px;
   }
+
   &__push {
     display: flex;
     justify-content: center;
@@ -1357,15 +1369,18 @@ export default {
     border-radius: 32px;
     color: #fff;
   }
+
   &__text {
     display: none;
   }
+
   &__tags {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
     margin: 0;
     margin-top: 10px;
+
     li {
       list-style: none;
       font-size: 14px;
@@ -1373,9 +1388,11 @@ export default {
       border-bottom: 1px dashed #000;
       position: relative;
       margin-bottom: 14px;
+
       &:not(:last-child) {
         margin-right: 27px;
       }
+
       button {
         background: none;
         border: none;
@@ -1388,18 +1405,22 @@ export default {
     }
   }
 }
+
 .file {
   display: flex;
+
   &__name,
   &__input {
     margin-right: 10px;
     max-width: 200px;
   }
 }
+
 .items.pull-right {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
   label {
     color: #ec4025;
   }
@@ -1417,23 +1438,28 @@ export default {
   margin: 0 5px;
   align-self: center;
 }
+
 .flex-wrapper > *:first-child {
   margin-left: 0;
 }
+
 .btn-group {
   width: 100%;
 }
+
 .editable-area textarea {
   width: 100%;
   min-height: 80px;
   resize: vertical;
   padding: 0 5px;
 }
+
 .editable-area input {
   width: 100%;
   padding: 0 5px;
   min-height: 30px;
 }
+
 .btn-group >>> .shadow {
   position: fixed;
   left: 0;
@@ -1445,6 +1471,7 @@ export default {
   height: 100%;
   z-index: 2;
 }
+
 .btn-group >>> .confirmDelete-wrapper {
   position: absolute;
   z-index: 3;
@@ -1462,22 +1489,26 @@ export default {
   position: relative;
   margin-bottom: 10px;
 }
+
 .img img {
   width: 100%;
   height: 200px;
   display: flex;
 }
+
 .drop-img {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
+
 .images-title {
   margin-bottom: 10px;
   font-size: 16px;
   font-weight: 600;
 }
+
 .help-block {
   color: red;
 }

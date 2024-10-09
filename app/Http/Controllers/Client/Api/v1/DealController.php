@@ -259,12 +259,12 @@ class DealController extends Controller
             //< ==============================END Платность услуги ============================================================
 
             // организация юзера
-            $organization = $user->organization();
+            $organization = $user->organization;
 
             // сделка
             $deal = new OrganizationDeal();
             if ($organization) {
-                $deal->organization_id = $organization->first()->id;
+                $deal->organization_id = $organization->id;
             }
 
             $deal->user_id = $user->id;
@@ -277,7 +277,10 @@ class DealController extends Controller
             $deal->description
                 = $this->getNullIsStringNullLetters($request->get('description',
                 null));  // описание заявки
-            $deal->tags = $request->get('tags'); // теги
+            $deal->tags = (mb_strtolower($request->get('tags', "null"))
+                === "null")
+                ? null
+                : $request->get('tags'); // теги
 
             $deal->payment_status = OrganizationDeal::DEAL_STATUS_PAYMENT_PAID;
             // если объявление о покупке, то это пока всегда 'na'
@@ -1589,7 +1592,6 @@ class DealController extends Controller
 
             return $this->successResponse(DealsResponsesCurrentUserItemFormatter::formatPaginator($paginateCollection,
                 true));
-
         } catch (Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }

@@ -12,7 +12,7 @@
     <div v-if="this.$root.profile">
       <main-header></main-header>
       <main-sidebar></main-sidebar>
-      <control-sidebar></control-sidebar>
+<!--      <control-sidebar></control-sidebar>-->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -20,17 +20,19 @@
           <ol class="breadcrumb">
             <li>
               <router-link :to="{ name: 'home' }"
-                ><i class="fa"></i> Главная</router-link
+              ><i class="fa"></i> Главная
+              </router-link
               >
             </li>
             <li
-              v-for="crumb in breadcrumbs"
-              :class="[crumb.path ? '' : 'active']"
+                v-for="crumb in breadcrumbs"
+                :class="[crumb.path ? '' : 'active']"
             >
               <router-link
-                v-if="crumb.path"
-                :to="{ name: crumb.path, params: crumb.params }"
-                >{{ crumb.name }}</router-link
+                  v-if="crumb.path"
+                  :to="{ name: crumb.path, params: crumb.params }"
+              >{{ crumb.name }}
+              </router-link
               >
               <span v-else>{{ crumb.name }}</span>
             </li>
@@ -43,11 +45,15 @@
 </template>
 <script>
 import MainHeader from "./Components/MainHeader";
-import ControlSidebar from "./Components/ControlSidebar";
+// import ControlSidebar from "./Components/ControlSidebar";
 import MainSidebar from "./Components/MainSidebar";
 
 export default {
-  components: { MainSidebar, ControlSidebar, MainHeader },
+  components: {
+    MainSidebar,
+    //ControlSidebar,
+    MainHeader
+  },
   data() {
     return {
       pageTitle: "test",

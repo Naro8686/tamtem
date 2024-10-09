@@ -157,7 +157,6 @@ export default {
   mounted() {
     axios.post("/api/v1/finance-operations").then((resp) => {
       this.paymentsList = resp.data.data.data
-      console.log(this.paymentsList)
     })
 
     if (this.$route.query.error) {
@@ -214,7 +213,6 @@ export default {
         })
         .then((resp) => {
           this.paymentsList = resp.data.data.data
-          console.log(this.paymentsList)
         })
     },
     loadingSet(val) {
@@ -292,7 +290,7 @@ export default {
           }
         })
         .catch((err) => {
-          this.printErrorOnConsole(error)
+          this.printErrorOnConsole(err)
           this.$store.dispatch("setSnackbar", {
             color: "error",
             text: "Произошла ошибка, попробуйте позднее",

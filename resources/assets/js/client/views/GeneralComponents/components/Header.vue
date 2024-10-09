@@ -140,7 +140,6 @@ export default {
       if (unReadMsg > 0 || notifications) {
         this.countNot = unReadMsg + unReadOwnerDeal + unReadOwnerResponse
       }
-      console.log(this.countNot, unReadMsg, notifications);
       return this.countNot > 0;
     }
   },
