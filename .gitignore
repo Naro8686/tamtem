@@ -27,9 +27,8 @@ public/*.webmanifest
 public/*.png
 public/*.svg
 public/*.xml
-#public/mix-manifest.json
+public/mix-manifest.json
 .phpunit.result.cache
-npm-debug.log
 yarn-error.log
 .DS_Store
 .idea
