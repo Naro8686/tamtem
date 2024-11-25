@@ -195,26 +195,30 @@ export default {
 			this.$refs.modalNewbidCategories.hide();
 			this.stepData.category = selectedCategory;
 		},
-		addFileSize(file){
-			if(!file || file.size==0) {
-				return '0 b';
-			}else{
-				const sizesChar = ["","K", "M", "G", "T", "P", "E", "Z", "Y"];
-				let fileSize = file.size;
+    addFileSize(file) {
+      if (!file || file.size == 0) {
+        return '0 b';
+      } else {
+        try {
+          const sizesChar = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
+          let fileSize = file.size;
 
-				let char = '';
+          let char = '';
 
-				for (let i = 0; i<sizesChar.length; i++ ){
-					if (fileSize<1024) {
-						char=sizesChar[i];
-						break;
-					}
-					 fileSize /= 1024;
-				}				
-				return `${fileSize.toFixed(2)} ${char}b`;
-			}
-			return '0 b'
-		},
+          for (let i = 0; i < sizesChar.length; i++) {
+            if (fileSize < 1024) {
+              char = sizesChar[i];
+              break;
+            }
+            fileSize /= 1024;
+          }
+          return `${fileSize.toFixed(2)} ${char}b`;
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      return '0 b'
+    },
 		deleteFile(){
 			this.stepData.uploadedFile = null;
 			// даже не спрашивать
