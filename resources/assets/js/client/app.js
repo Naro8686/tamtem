@@ -130,7 +130,8 @@ const router = new VueRouter({
 });
 router.beforeEach(async (to, from, next) => {
     if (to.name == "success.reset") {
-        next("/?reset-password=true")
+        next("/?reset-password=true");
+        return;
     }
     let token = Cookies.get("api_auth")
 

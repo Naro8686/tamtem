@@ -70,11 +70,15 @@ mix
     postCss: [],
     uglify: {
       uglifyOptions: {
-        compress: true,
-        mangle: true,
+        compress: {
+          drop_console: true, // Удалить console.log, но сохранить работоспособность кода.
+          unused: false, // Отключить удаление неиспользуемых переменных.
+          dead_code: false, // Отключить удаление "мертвого" кода.
+        },
+        mangle: false, // Сохранить имена переменных.
         output: {
-          comments: false,
-          beautify: false
+          comments: false, // Удалить комментарии.
+          beautify: false // Минимизация без сильного изменения структуры.
         }
       }
     }
