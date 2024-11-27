@@ -363,7 +363,6 @@ class DealsController extends Controller
     public function moderateSuccess(Request $request)
     {
         $input = $request->all();
-        // dd($input);
         $validator = Validator::make($input, [
             'tags' => 'sometimes|string|min:1|max:500',
         ]);
@@ -736,7 +735,6 @@ class DealsController extends Controller
 
     private function getDeals($id)
     {
-        dd($id);
         return OrganizationDeal::where('id', $id)->first();
     }
 
